@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import ClarifyTitle from './ClarifyTitle'
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0)
@@ -62,7 +63,7 @@ export default function FAQ() {
             </div>
 
             <div className="faq__right">
-              <h2 className="section-title">Have any questions? Here are some answers for you</h2>
+              <ClarifyTitle text="Have any questions? Here are some answers for you" />
               <div className="faq__list">
                 {faqs.map((faq, i) => (
                   <div

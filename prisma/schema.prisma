@@ -1,0 +1,346 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String
+  phone         String?
+  role          Role      @default(USER)
+  
+  // KYC Fields
+  kycStatus     KycStatus @default(PENDING)
+  panNumber     String?
+  aadhaarNumber String?
+  kycVerifiedAt DateTime?
+  
+  // Bank Details (for payouts)
+  bankAccountNumber String?
+  bankIfsc          String?
+  bankAccountName   String?
+  bankVerified      Boolean   @default(false)
+  
+  // Wallet
+  walletBalance Decimal   @default(0) @db.Decimal(12, 2)
+  
+  // 2FA
+  twoFactorEnabled  Boolean @default(false)
+  twoFactorSecret   String?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  investments   Investment[]
+  transactions  Transaction[]
+  payouts       Payout[]
+  auditLogs     AuditLog[]
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+  CORPORATE
+}
+
+enum KycStatus {
+  PENDING
+  SUBMITTED
+  VERIFIED
+  REJECTED
+}
+
+// ============================================
+// PROJECTS
+// ============================================
+
+model Project {
+  id                String        @id @default(cuid())
+  slug              String        @unique
+  title             String
+  excerpt           String
+  description       String        @db.Text
+  imageUrl          String?
+  location          String?
+  
+  // Panel & Pricing
+  panels            Int
+  costPerPanel      Decimal       @db.Decimal(10, 2)
+  microsharePrice   Decimal       @db.Decimal(10, 2)
+  totalMicroshares  Int
+  soldMicroshares   Int           @default(0)
+  
+  // Financial
+  expectedIRR       String
+  ppaRate           Decimal       @db.Decimal(6, 4)  // Rate per kWh
+  maintenanceFee    Decimal       @default(0) @db.Decimal(10, 2)
+  platformFee       Decimal       @default(0) @db.Decimal(5, 2) // Percentage
+  
+  // Environmental
+  co2PerShareKg     Decimal       @db.Decimal(6, 2)
+  
+  // IoT Integration
+  iotDeviceId       String?
+  
+  // State Management
+  state             ProjectState  @default(DRAFT)
+  fundingStartDate  DateTime?
+  fundingEndDate    DateTime?
+  constructionDate  DateTime?
+  activeDate        DateTime?
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  
+  // Relations
+  investments       Investment[]
+  generations       Generation[]
+  maintenanceLogs   MaintenanceLog[]
+
+  @@map("projects")
+}
+
+enum ProjectState {
+  DRAFT
+  FUNDING_OPEN
+  SOLD_OUT
+  UNDER_CONSTRUCTION
+  ACTIVE
+  DECOMMISSIONED
+}
+
+// ============================================
+// INVESTMENTS (LEDGER)
+// ============================================
+
+model Investment {
+  id              String    @id @default(cuid())
+  userId          String
+  projectId       String
+  
+  shareCount      Int
+  pricePerShare   Decimal   @db.Decimal(10, 2)
+  totalAmount     Decimal   @db.Decimal(12, 2)
+  
+  // Status
+  status          InvestmentStatus @default(PENDING)
+  
+  // Agreement
+  agreementUrl    String?
+  agreementSignedAt DateTime?
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  // Relations
+  user            User      @relation(fields: [userId], references: [id])
+  project         Project   @relation(fields: [projectId], references: [id])
+  transaction     Transaction?
+
+  @@map("investments")
+}
+
+enum InvestmentStatus {
+  PENDING
+  PAYMENT_PENDING
+  COMPLETED
+  CANCELLED
+  REFUNDED
+}
+
+// ============================================
+// TRANSACTIONS
+// ============================================
+
+model Transaction {
+  id              String    @id @default(cuid())
+  userId          String
+  investmentId    String?   @unique
+  
+  type            TransactionType
+  amount          Decimal   @db.Decimal(12, 2)
+  
+  // Payment Gateway
+  gatewayOrderId  String?
+  gatewayPaymentId String?
+  gatewaySignature String?
+  
+  status          TransactionStatus @default(PENDING)
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  // Relations
+  user            User       @relation(fields: [userId], references: [id])
+  investment      Investment? @relation(fields: [investmentId], references: [id])
+
+  @@map("transactions")
+}
+
+enum TransactionType {
+  INVESTMENT
+  PAYOUT
+  REFUND
+  WALLET_CREDIT
+  WALLET_DEBIT
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+// ============================================
+// ENERGY GENERATION
+// ============================================
+
+model Generation {
+  id            String    @id @default(cuid())
+  projectId     String
+  
+  kwhProduced   Decimal   @db.Decimal(12, 4)
+  revenue       Decimal   @db.Decimal(12, 2)
+  
+  dateRecorded  DateTime
+  
+  // IoT metadata
+  rawData       Json?
+  
+  createdAt     DateTime  @default(now())
+  
+  // Relations
+  project       Project   @relation(fields: [projectId], references: [id])
+
+  @@unique([projectId, dateRecorded])
+  @@map("generations")
+}
+
+// ============================================
+// PAYOUTS
+// ============================================
+
+model Payout {
+  id              String    @id @default(cuid())
+  userId          String
+  
+  amount          Decimal   @db.Decimal(12, 2)
+  tdsDeducted     Decimal   @db.Decimal(10, 2)
+  netAmount       Decimal   @db.Decimal(12, 2)
+  
+  // Bank transfer details
+  bankTransferId  String?
+  
+  status          PayoutStatus @default(PENDING)
+  
+  periodStart     DateTime
+  periodEnd       DateTime
+  
+  createdAt       DateTime  @default(now())
+  processedAt     DateTime?
+  
+  // Relations
+  user            User      @relation(fields: [userId], references: [id])
+
+  @@map("payouts")
+}
+
+enum PayoutStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// ============================================
+// MAINTENANCE LOGS
+// ============================================
+
+model MaintenanceLog {
+  id          String    @id @default(cuid())
+  projectId   String
+  
+  type        String    // cleaning, repair, inspection
+  description String    @db.Text
+  proofUrl    String?   // S3 URL for photos/documents
+  cost        Decimal?  @db.Decimal(10, 2)
+  
+  performedAt DateTime
+  createdAt   DateTime  @default(now())
+  
+  // Relations
+  project     Project   @relation(fields: [projectId], references: [id])
+
+  @@map("maintenance_logs")
+}
+
+// ============================================
+// AUDIT LOGS (Immutable)
+// ============================================
+
+model AuditLog {
+  id          String    @id @default(cuid())
+  userId      String?
+  
+  action      String
+  entity      String
+  entityId    String
+  oldValue    Json?
+  newValue    Json?
+  
+  ipAddress   String?
+  userAgent   String?
+  
+  createdAt   DateTime  @default(now())
+  
+  // Relations
+  user        User?     @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
+
+// ============================================
+// CORPORATE CLIENTS (Future)
+// ============================================
+
+model CorporateClient {
+  id              String    @id @default(cuid())
+  companyName     String
+  email           String    @unique
+  password        String
+  
+  // Contact
+  contactPerson   String
+  contactPhone    String
+  
+  // Documents
+  electricityBills Json?    // Array of bill data
+  
+  // PPA Details
+  ppaRate         Decimal?  @db.Decimal(6, 4)
+  contractStart   DateTime?
+  contractEnd     DateTime?
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("corporate_clients")
+}
+

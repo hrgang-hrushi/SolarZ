@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ClarifyTitle from './ClarifyTitle'
 
 export default function Team() {
   const members = [
@@ -24,7 +25,7 @@ export default function Team() {
                   <path d="M12 40c0-6.627 5.373-12 12-12s12 5.373 12 12" />
                 </svg>
               </div>
-              <h2 className="team__intro-title">Our awarded speakers & mentors</h2>
+              <ClarifyTitle text="Our awarded speakers & mentors" className="team__intro-title" />
               <Link href="/about" className="btn btn-lime btn-arrow btn-sm">
                 View all member
                 <span className="arrow-circle" style={{ background: 'var(--color-dark)' }}>
@@ -70,7 +71,7 @@ export default function Team() {
         }
         .team__intro-title {
           font-size: var(--font-size-2xl);
-          font-weight: 800;
+          font-weight: 500;
           color: var(--color-white);
           line-height: 1.2;
           margin-bottom: 24px;

@@ -173,11 +173,38 @@ h6,
 /* ---------- Section Title ---------- */
 .section-title {
   font-size: var(--font-size-5xl);
-  font-weight: 800;
+  font-weight: 400;
   line-height: 1.1;
   margin-bottom: 20px;
   color: var(--color-dark);
   letter-spacing: -0.02em;
+}
+
+/* ---------- Clarify word-by-word animation (global) ---------- */
+@keyframes clarifyWord {
+  0% {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(14px);
+  }
+  50% {
+    opacity: 0.7;
+    filter: blur(4px);
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0);
+  }
+}
+.clarify-word {
+  display: inline-block;
+  opacity: 0;
+  margin-right: 0.27em;
+}
+.clarify-word--visible {
+  animation: clarifyWord 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .section-subtitle {

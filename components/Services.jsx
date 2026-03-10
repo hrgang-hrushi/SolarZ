@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ClarifyTitle from './ClarifyTitle'
 
 export default function Services() {
   const services = [
@@ -64,9 +65,10 @@ export default function Services() {
         <div className="container">
           <div className="services-intro__header">
             <span className="section-label">Our Services</span>
-            <h2 className="section-title" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 16px' }}>
-              Customized solar energy systems that fit your needs
-            </h2>
+            <ClarifyTitle
+              text="Customized solar energy systems that fit your needs"
+              style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 16px' }}
+            />
             <p className="section-subtitle" style={{ textAlign: 'center', margin: '0 auto 56px' }}>
               Our team designs and installs tailored solar energy systems based on your unique energy usage, property layout, and budget—ensuring maximum efficiency, long-term savings, and energy independence.
             </p>
@@ -112,7 +114,7 @@ export default function Services() {
         <div className="container">
           <div className="services-detail__header">
             <span className="section-label">Excellent Services</span>
-            <h2 className="section-title">10+ years of experience in the solar industry</h2>
+            <ClarifyTitle text="10+ years of experience in the solar industry" />
           </div>
           <div className="services-detail__grid">
             {serviceDetails.map((s, i) => (

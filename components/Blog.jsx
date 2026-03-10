@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ClarifyTitle from './ClarifyTitle'
 
 export default function Blog() {
   const posts = [
@@ -26,7 +27,7 @@ export default function Blog() {
           <div className="blog__header">
             <div>
               <span className="section-label">Latest News</span>
-              <h2 className="section-title">Insights and innovations in green technology</h2>
+              <ClarifyTitle text="Insights and innovations in green technology" />
             </div>
             <Link href="/blog" className="btn btn-outline btn-sm blog__more">
               More news

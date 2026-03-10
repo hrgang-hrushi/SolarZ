@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
+import ClarifyTitle from './ClarifyTitle'
 
 export default function Pricing() {
   const [activePlan, setActivePlan] = useState(1)
@@ -54,9 +55,7 @@ export default function Pricing() {
           <div className="pricing__layout">
             <div className="pricing__left">
               <span className="section-label">Best Pricing Plans</span>
-              <h2 className="section-title">
-                Flexible best pricing plans for you
-              </h2>
+              <ClarifyTitle text="Flexible best pricing plans for you" />
               <div className="pricing__buttons">
                 <Link href="/contact" className="btn btn-lime btn-arrow">
                   Get in touch

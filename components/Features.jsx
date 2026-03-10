@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ClarifyTitle from './ClarifyTitle'
 
 export default function Features() {
   const features = [
@@ -51,9 +52,7 @@ export default function Features() {
           <div className="features__grid">
             <div className="features__left">
               <span className="section-label">Excellent Services</span>
-              <h2 className="features__title">
-                Innovations in green technology and environmental solutions
-              </h2>
+              <ClarifyTitle text="Innovations in green technology and environmental solutions" className="section-title" />
               <Link href="/contact" className="btn btn-dark btn-arrow">
                 Get started now
                 <span className="arrow-circle" style={{ background: 'var(--color-white)' }}>
@@ -98,7 +97,7 @@ export default function Features() {
         }
         .features__title {
           font-size: var(--font-size-5xl);
-          font-weight: 800;
+          font-weight: 500;
           line-height: 1.08;
           color: var(--color-dark);
           margin-bottom: 36px;

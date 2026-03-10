@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ClarifyTitle from './ClarifyTitle'
 
 export default function About() {
   const solutions = [
@@ -17,9 +18,7 @@ export default function About() {
           <div className="about__grid">
             <div className="about__left">
               <span className="section-label">About Company</span>
-              <h2 className="section-title">
-                Innovative solar energy solutions for sustainable living
-              </h2>
+              <ClarifyTitle text="Innovative solar energy solutions for sustainable living" />
               <p className="about__desc">
                 At Solar Z, we help homes and businesses switch to clean, reliable solar energy—reducing costs, increasing energy independence, and supporting a more sustainable future.
               </p>
