@@ -1,4 +1,4 @@
-import prisma from '../../../lib/db'
+import { getPrisma } from '../../../lib/db'
 import { verifyPassword, generateToken } from '../../../lib/auth'
 
 export default async function handler(req, res) {
@@ -13,6 +13,8 @@ export default async function handler(req, res) {
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' })
     }
+
+    const prisma = getPrisma()
 
     // Find user
     const user = await prisma.user.findUnique({
