@@ -12,11 +12,11 @@ function ClarifyWord({ children, delay, accent }) {
 }
 
 export default function Hero() {
-  const titleLine1 = ['Solar', 'energy']
-  const titleLine2 = ['that', 'moves', 'the']
-  const titleLine3 = [{ text: 'world', accent: true }, { text: 'forward', accent: true }]
+  const titleLine1 = ['Invest', 'in']
+  const titleLine2 = ['fractional', 'solar']
+  const titleLine3 = [{ text: 'assets', accent: true }, { text: 'with', accent: false }, { text: 'Solar', accent: true }, { text: 'Z', accent: true }]
 
-  const subtitleWords = 'At Solar Z, we design and deliver solar systems that maximize efficiency and long-term value. Join the shift toward renewable energy and take control of your power—today and for the future.'.split(' ')
+  const subtitleWords = 'Own a slice of revenue-generating solar projects with transparent payouts, live performance dashboards, and bank-grade compliance built in.'.split(' ')
 
   const baseDelay = 0.1
   const gap = 0.07
@@ -102,11 +102,11 @@ export default function Hero() {
           <div className="marquee-track" style={{ animationDuration: '20s' }}>
             {[...Array(6)].map((_, i) => (
               <span key={i} className="hero__marquee-item">
-                <span className="hero__marquee-dot">●</span> Renewable Energy
-                <span className="hero__marquee-dot">●</span> Clean Energy
-                <span className="hero__marquee-dot">●</span> Smart Energy Starts
-                <span className="hero__marquee-dot">●</span> Smart energy
-                <span className="hero__marquee-dot">●</span> Green Future
+                <span className="hero__marquee-dot">●</span> Fractional ownership
+                <span className="hero__marquee-dot">●</span> Targeted 14–18% IRR
+                <span className="hero__marquee-dot">●</span> Bank-verified payouts
+                <span className="hero__marquee-dot">●</span> Live generation data
+                <span className="hero__marquee-dot">●</span> ESG-aligned returns
               </span>
             ))}
           </div>

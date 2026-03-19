@@ -1,10 +1,10 @@
 export default function FunFact() {
-    const stats = [
-        { number: '10+', label: 'years of experience' },
-        { number: '500+', label: 'solar systems installed' },
-        { number: '200+', label: 'satisfied clients' },
-        { number: '50MW+', label: 'clean energy generated' },
-    ]
+  const stats = [
+    { number: '14-18%', label: 'target IRR range*' },
+    { number: '₹25Cr+', label: 'payouts processed' },
+    { number: '8,200+', label: 'investor accounts' },
+    { number: '62MWp', label: 'curated solar capacity' },
+  ]
 
     return (
         <>

@@ -1,13 +1,18 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useAuth } from '../context/AuthContext'
 
 export default function Header() {
+  const router = useRouter()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [hoveredNav, setHoveredNav] = useState(null)
   const [pillStyle, setPillStyle] = useState({ opacity: 0, left: 0, width: 0, height: 0 })
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
   const navRef = useRef(null)
   const linkRefs = useRef({})
+  const { user, logout, isAuthenticated } = useAuth()
 
   const handleNavHover = useCallback((label, el) => {
     if (!el || !navRef.current) return
@@ -42,6 +47,9 @@ export default function Header() {
     { label: 'Services', href: '/service', hasDropdown: true },
   ]
 
+  const isHome = router.pathname === '/'
+  const useDarkText = !isHome || scrolled
+
   return (
     <>
       <header className={`header${scrolled ? ' header--scrolled' : ''}`}>
@@ -71,36 +79,37 @@ export default function Header() {
               pointerEvents: 'none',
               zIndex: 0,
             }} />
-            {navLinks.map((link, i) => (
-              <Link key={link.label} href={link.href}
-                onMouseEnter={(e) => handleNavHover(link.label, e.currentTarget)}
-                style={{
-                  position: 'relative',
-                  zIndex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  padding: '8px 18px',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  color: hoveredNav === link.label ? '#1a1a1a' : (scrolled ? '#1a1a1a' : '#ffffff'),
-                  textDecoration: 'none',
-                  borderRadius: '8px',
-                  transition: `color 0.2s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1) ${i * 0.08}s`,
-                  transform: scrolled ? 'scale(1.15)' : 'scale(1)',
-                }}>
-                {link.label}
-                {link.hasDropdown && (
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
-                )}
-              </Link>
-            ))}
+            {navLinks.map((link, i) => {
+              const isActive = router.pathname === link.href
+              return (
+                <Link key={link.label} href={link.href}
+                  onMouseEnter={(e) => handleNavHover(link.label, e.currentTarget)}
+                  style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: '8px 18px',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: isActive ? (useDarkText ? '#1a1a1a' : '#ffffff') : (useDarkText ? '#1a1a1a' : '#ffffff'),
+                    textDecoration: 'none',
+                    borderRadius: '10px',
+                    transition: `color 0.2s ease, background 0.25s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1) ${i * 0.08}s`,
+                    transform: scrolled ? 'scale(1.15)' : 'scale(1)',
+                    background: isActive ? 'transparent' : 'transparent',
+                  }}>
+                  {link.label}
+                  {link.hasDropdown && (
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                  )}
+                </Link>
+              )
+            })}
           </nav>
 
           <div className="header__right">
-            <button className="header__search-btn" aria-label="Search">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
-            </button>
             <button
               className={`header__hamburger${menuOpen ? ' open' : ''}`}
               onClick={() => setMenuOpen(!menuOpen)}
@@ -108,12 +117,54 @@ export default function Header() {
             >
               <span /><span />
             </button>
-            <Link href="/contact" className="btn btn-lime header__cta btn-arrow">
-              Get in touch
-              <span className="arrow-circle" style={{ background: 'var(--color-dark)' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-              </span>
-            </Link>
+            
+            {isAuthenticated ? (
+              <div className="header__user-menu">
+                <button 
+                  className="header__user-btn"
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                >
+                  <span className="header__user-avatar">
+                    {user?.name?.charAt(0).toUpperCase() || 'U'}
+                  </span>
+                  <span className="header__user-name">{user?.name?.split(' ')[0]}</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6" /></svg>
+                </button>
+                {userMenuOpen && (
+                  <div className="header__dropdown">
+                    <Link href="/dashboard" className="header__dropdown-item" onClick={() => setUserMenuOpen(false)}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                      Dashboard
+                    </Link>
+                    <Link href="/dashboard/portfolio" className="header__dropdown-item" onClick={() => setUserMenuOpen(false)}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+                      Portfolio
+                    </Link>
+                    <Link href="/dashboard/settings" className="header__dropdown-item" onClick={() => setUserMenuOpen(false)}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                      Settings
+                    </Link>
+                    <div className="header__dropdown-divider" />
+                    <button className="header__dropdown-item header__dropdown-item--danger" onClick={() => { logout(); setUserMenuOpen(false); }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                      Sign out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <Link href="/login" className="header__login-btn">
+                  Sign in
+                </Link>
+                <Link href="/register" className="btn btn-lime header__cta btn-arrow">
+                  Get started
+                  <span className="arrow-circle" style={{ background: 'var(--color-dark)' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+                  </span>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -244,26 +295,7 @@ export default function Header() {
           opacity: 0.8;
           transition: opacity var(--transition-fast);
         }
-        .header__search-btn:hover {
-          opacity: 1;
-        }
-        .header--scrolled .header__search-btn {
-          color: var(--color-dark);
-        }
-        .header__hamburger {
-          display: none;
-          flex-direction: column;
-          gap: 6px;
-          width: 32px;
-          padding: 8px 0;
-          background: none;
-          border: none;
-          cursor: pointer;
-          z-index: 1001;
-        }
-        @media (max-width: 1200px) {
-          .header__hamburger {
-            display: flex;
+        /* search button removed */
           }
         }
         .header__hamburger span {
@@ -339,9 +371,130 @@ export default function Header() {
           }
         }
         @media (max-width: 768px) {
-          .header__cta, .header__search-btn {
+          .header__cta {
             display: none;
           }
+        }
+
+        /* User Menu Styles */
+        .header__login-btn {
+          padding: 8px 16px;
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--color-white);
+          text-decoration: none;
+          border-radius: 8px;
+          transition: all 0.2s;
+        }
+        .header__login-btn:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        .header--scrolled .header__login-btn {
+          color: var(--color-dark);
+        }
+        .header--scrolled .header__login-btn:hover {
+          background: rgba(0, 0, 0, 0.05);
+        }
+
+        .header__user-menu {
+          position: relative;
+        }
+
+        .header__user-btn {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 12px 6px 6px;
+          background: rgba(255, 255, 255, 0.1);
+          border: none;
+          border-radius: 50px;
+          cursor: pointer;
+          transition: all 0.2s;
+          color: var(--color-white);
+        }
+        .header__user-btn:hover {
+          background: rgba(255, 255, 255, 0.2);
+        }
+        .header--scrolled .header__user-btn {
+          background: rgba(0, 0, 0, 0.05);
+          color: var(--color-dark);
+        }
+        .header--scrolled .header__user-btn:hover {
+          background: rgba(0, 0, 0, 0.1);
+        }
+
+        .header__user-avatar {
+          width: 32px;
+          height: 32px;
+          background: var(--color-lime);
+          color: var(--color-dark);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 14px;
+        }
+
+        .header__user-name {
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        .header__dropdown {
+          position: absolute;
+          top: calc(100% + 8px);
+          right: 0;
+          min-width: 200px;
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+          padding: 8px;
+          z-index: 1001;
+          animation: dropdownFade 0.2s ease;
+        }
+
+        @keyframes dropdownFade {
+          from {
+            opacity: 0;
+            transform: translateY(-8px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .header__dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          width: 100%;
+          padding: 10px 12px;
+          background: none;
+          border: none;
+          border-radius: 8px;
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--color-dark);
+          text-decoration: none;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+        .header__dropdown-item:hover {
+          background: #f5f5f5;
+        }
+        .header__dropdown-item--danger {
+          color: #dc2626;
+        }
+        .header__dropdown-item--danger:hover {
+          background: #fef2f2;
+        }
+
+        .header__dropdown-divider {
+          height: 1px;
+          background: #e5e5e5;
+          margin: 8px 0;
         }
       `}</style>
     </>

@@ -32,20 +32,24 @@ export default function FAQ() {
 
   const faqs = [
     {
-      question: 'How long does a solar installation usually take?',
-      answer: 'Most residential solar installations are completed within 1–3 days, depending on system size. Commercial projects may take longer based on complexity and scale.',
+      question: 'How do returns work on Solar Z?',
+      answer: 'You buy fractional units in vetted solar projects. Each project has an expected IRR and payout schedule. Revenue from PPAs/energy sales is reconciled and disbursed to investors per the schedule.',
     },
     {
-      question: 'Do solar panels work on cloudy days?',
-      answer: 'Yes! Solar panels still generate electricity on cloudy days, though at reduced efficiency. Modern panels are designed to capture diffused sunlight effectively.',
+      question: 'Is my investment secured or insured?',
+      answer: 'Projects are backed by PPAs/off-taker agreements and operational warranties. Funds flow through bank-verified escrow and come with compliance/audit trails. Insurance varies by project and is detailed in the docs.',
     },
     {
-      question: 'What maintenance do solar systems require?',
-      answer: 'Solar systems require minimal maintenance—typically just periodic cleaning and annual inspections. Most systems come with monitoring tools to track performance in real-time.',
+      question: 'What are the minimum ticket sizes?',
+      answer: 'Starter tickets typically begin around ₹10k and vary per project. Larger allocations (₹50k–₹5L+) are available for Growth and Institutional mandates.',
     },
     {
-      question: 'What is grid tie solar solution?',
-      answer: 'A grid-tie solar system connects your solar panels to the electrical grid, allowing excess energy to be fed back for credits while drawing power when solar output is low.',
+      question: 'How do KYC and payouts work?',
+      answer: 'Complete KYC/AML once. When payouts are due, we reconcile revenues, deduct platform/ops fees if applicable, and send net amounts to your verified bank account. You can download payout statements anytime.',
+    },
+    {
+      question: 'Can I track performance in real time?',
+      answer: 'Yes. Dashboards show generation, downtime, and revenue. We also share reports and notifications for maintenance events or schedule changes.',
     },
   ]
 

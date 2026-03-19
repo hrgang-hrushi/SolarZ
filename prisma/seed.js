@@ -22,6 +22,28 @@ async function main() {
   })
   console.log('✅ Admin user created:', admin.email)
 
+  // Create requested admin account
+  const requestedAdminPassword = await bcrypt.hash('Hrushi@22', 12)
+  const requestedAdmin = await prisma.user.upsert({
+    where: { email: 'bussiwhrushi@gmail.com' },
+    update: {
+      password: requestedAdminPassword,
+      name: 'Hrushikesh G',
+      phone: '+1 9846876669',
+      role: 'ADMIN',
+      kycStatus: 'VERIFIED'
+    },
+    create: {
+      email: 'bussiwhrushi@gmail.com',
+      password: requestedAdminPassword,
+      name: 'Hrushikesh G',
+      phone: '+1 9846876669',
+      role: 'ADMIN',
+      kycStatus: 'VERIFIED'
+    }
+  })
+  console.log('✅ Admin user created:', requestedAdmin.email)
+
   // Create test user
   const userPassword = await bcrypt.hash('user1234', 12)
   const testUser = await prisma.user.upsert({

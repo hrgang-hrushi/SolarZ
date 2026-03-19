@@ -4,42 +4,38 @@ import ClarifyTitle from './ClarifyTitle'
 export default function Features() {
   const features = [
     {
-      title: 'Five year warranty',
-      description: 'Enjoy peace of mind with our comprehensive five-year warranty covering performance, durability, and system reliability—so your investment stays protected long after installation.',
+      title: 'Curated solar pipeline',
+      description: 'Institutional-grade diligence on each plant, with PPAs, off-takers, and engineering vetted before it goes live for investors.',
       icon: (
         <svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="var(--color-dark)" strokeWidth="1.5">
-          <rect x="12" y="18" width="22" height="18" rx="2" />
-          <path d="M12 24h22" />
-          <line x1="16" y1="30" x2="24" y2="30" />
-          <circle cx="40" cy="18" r="6" />
-          <path d="M40 15v6" /><path d="M37 18h6" />
-          <path d="M18 36v6l4-2 4 2v-6" />
+          <rect x="10" y="12" width="30" height="18" rx="2" />
+          <path d="M10 20h30" />
+          <path d="M18 30v10" /><path d="M32 30v10" />
+          <path d="M44 12v14" />
         </svg>
       ),
     },
     {
-      title: 'Parts and maintenance',
-      description: 'We provide ongoing maintenance and high-quality replacement parts to ensure your energy system operates efficiently, safely, and at peak performance year after year.',
+      title: 'Transparent cashflows',
+      description: 'Bank-verified escrow, scheduled payouts, and dashboards that track generation, revenue, and your share of distributions.',
       icon: (
         <svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="var(--color-dark)" strokeWidth="1.5">
-          <circle cx="28" cy="12" r="5" />
-          <path d="M28 7v-2" /><path d="M28 17v2" />
-          <path d="M23 12h-2" /><path d="M35 12h-2" />
-          <rect x="14" y="24" width="28" height="20" rx="2" />
-          <path d="M22 30l4 4 8-8" />
+          <circle cx="20" cy="20" r="8" />
+          <path d="M16 20h8M20 16v8" />
+          <rect x="12" y="32" width="32" height="12" rx="3" />
+          <path d="M24 32v12M32 32v12" />
         </svg>
       ),
     },
     {
-      title: 'Sustainable energy',
-      description: 'Our solutions are built around clean, renewable energy technologies that help reduce carbon footprints while delivering long-term savings and energy independence.',
+      title: 'Compliance-first custody',
+      description: 'KYC/AML, audit logs, and secure tokenization rails so you can invest with confidence and clear documentation.',
       icon: (
         <svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="var(--color-dark)" strokeWidth="1.5">
-          <circle cx="24" cy="12" r="5" />
-          <path d="M24 7v-2" /><path d="M24 17v2" />
-          <rect x="14" y="24" width="16" height="10" rx="1" />
-          <path d="M18 34v8" /><path d="M26 34v8" />
-          <path d="M36 20l-4 8h6l-4 8" strokeWidth="2" />
+          <path d="M18 18a10 10 0 0 1 20 0v4h-20v-4Z" />
+          <rect x="14" y="22" width="28" height="18" rx="3" />
+          <path d="M22 30h12" />
+          <circle cx="28" cy="30" r="2" />
         </svg>
       ),
     },
@@ -51,8 +47,8 @@ export default function Features() {
         <div className="container">
           <div className="features__grid">
             <div className="features__left">
-              <span className="section-label">Excellent Services</span>
-              <ClarifyTitle text="Innovations in green technology and environmental solutions" className="section-title" />
+              <span className="section-label">Why Solar Z</span>
+              <ClarifyTitle text="Invest in solar, without building a plant yourself" className="section-title" />
               <Link href="/contact" className="btn btn-dark btn-arrow">
                 Get started now
                 <span className="arrow-circle" style={{ background: 'var(--color-white)' }}>

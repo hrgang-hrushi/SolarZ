@@ -3,58 +3,58 @@ import ClarifyTitle from './ClarifyTitle'
 
 export default function Services() {
   const services = [
-    { title: 'Rooftop solar panel installation', slug: 'rooftop-solar-panel-installation' },
-    { title: 'Solar system maintenance', slug: 'solar-system-maintenance' },
-    { title: 'Off grid solar installation', slug: 'off-grid-solar-installation' },
-    { title: 'Solar panel cleaning services', slug: 'solar-panel-cleaning-services' },
-    { title: 'Wind turbine repair services', slug: 'wind-turbine-repair-services' },
+    { title: 'Curated solar projects', slug: 'curated-solar-projects' },
+    { title: 'Fractional investment units', slug: 'fractional-investment-units' },
+    { title: 'Bank-verified payouts', slug: 'bank-verified-payouts' },
+    { title: 'Live performance dashboards', slug: 'live-performance-dashboards' },
+    { title: 'Compliance-first KYC/AML', slug: 'compliance-first-kyc-aml' },
   ]
 
   const serviceCards = [
     {
-      title: 'Rooftop solar\npanel installation',
+      title: 'Diligence-backed\nsolar pipeline',
       image: '/images/service-rooftop.png',
     },
     {
-      title: 'Solar system\nmaintenance',
+      title: 'Transparent\ncashflow rails',
       image: '/images/service-wind.png',
     },
     {
-      title: 'Off grid\nsolar installation',
+      title: 'Monitoring &\nreporting suite',
       image: '/images/service-worker.png',
     },
   ]
 
   const serviceDetails = [
     {
-      title: 'Solar panel cleaning services',
-      desc: 'Keep your panels performing at peak efficiency with professional, safe, and thorough cleaning.',
-      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 13L13 3l8 8-10 10zM14 6l4 4" /><path d="M3 21v-4l4-4" /></svg>,
+      title: 'Sourcing & diligence',
+      desc: 'We underwrite each plant—PPAs, off-takers, EPC partners, warranties, and generation history—before it goes live on Solar Z.',
+      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16v12H4z" /><path d="M9 8h6" /><path d="M9 12h6" /><path d="M4 20h16" /></svg>,
     },
     {
-      title: 'Off-grid solar installation',
-      desc: 'Reliable off-grid solar systems designed for energy independence in remote or rural locations.',
-      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>,
+      title: 'Fractional issuance',
+      desc: 'Projects are broken into microshares with clear terms, expected IRR, and payout cadence—so you can size your ticket precisely.',
+      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="8" cy="12" r="3" /><circle cx="16" cy="12" r="3" /><path d="M11 12h2" /></svg>,
     },
     {
-      title: 'Solar inverter repair services',
-      desc: 'Fast and reliable inverter repairs to restore performance and minimize downtime.',
-      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 6V5A2 2 0 0 0 17 3H7a2 2 0 0 0-2 2v1" /><path d="M4 11h16A1 1 0 0 1 21 12v3a1 1 0 0 1-1 1h-2v4a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-4H4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z" /><rect x="8" y="15" width="8" height="2" /></svg>,
+      title: 'Cashflow operations',
+      desc: 'Bank-verified escrow, automated reconciliations, and scheduled disbursals keep payouts timely and auditable.',
+      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 10h18v10H3z" /><path d="M7 10V6a5 5 0 0 1 10 0v4" /><path d="M12 14v2" /><path d="M9 14h6" /></svg>,
     },
     {
-      title: 'Solar maintenance services',
-      desc: 'Ongoing maintenance to ensure long-term efficiency, safety, and system reliability.',
-      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></svg>,
+      title: 'Live performance data',
+      desc: 'Generation, downtime, and revenue dashboards give you real-time confidence in asset performance.',
+      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3h18v12H3z" /><path d="M7 9l2.5 2.5L13 8l4 4" /><path d="M3 19h18" /></svg>,
     },
     {
-      title: 'Wind turbine repair services',
-      desc: 'Expert diagnostics and repairs to keep your wind energy systems running smoothly.',
-      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21.54 15H17M21 12a1.5 1.5 0 0 0-1.5-1.5H16M21 9a2 2 0 0 0-2-2H13.6a3 3 0 0 0-2 2c0 1.6 1.3 3 3 3h4.4A1.5 1.5 0 0 1 20 13v1a2 2 0 0 1-2 2h-4a2 2 0 0 0-2 2 1.5 1.5 0 0 0 1.5 1.5H18M5 12h8" /><circle cx="5" cy="12" r="3" /></svg>,
+      title: 'Compliance & KYC/AML',
+      desc: 'Integrated KYC/AML, audit logs, and role-based access keep investors and regulators aligned.',
+      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 3a4 4 0 0 0-4 4v2h8V7a4 4 0 0 0-4-4Z" /><path d="M6 9h12v9a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3Z" /><path d="M10 14h4" /></svg>,
     },
     {
-      title: 'Rooftop solar panel installation',
-      desc: 'Professional installation of rooftop solar panels for maximum energy generation.',
-      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>,
+      title: 'Investor success',
+      desc: 'White-glove support for onboarding, payouts, statements, and tax-ready reports.',
+      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z" /><path d="M3 21a9 9 0 0 1 18 0" /></svg>,
     },
   ]
 
@@ -64,13 +64,13 @@ export default function Services() {
       <section className="services-intro section">
         <div className="container">
           <div className="services-intro__header">
-            <span className="section-label">Our Services</span>
+            <span className="section-label">How Solar Z works</span>
             <ClarifyTitle
-              text="Customized solar energy systems that fit your needs"
+              text="Invest in solar without building or operating a plant"
               style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 16px' }}
             />
             <p className="section-subtitle" style={{ textAlign: 'center', margin: '0 auto 56px' }}>
-              Our team designs and installs tailored solar energy systems based on your unique energy usage, property layout, and budget—ensuring maximum efficiency, long-term savings, and energy independence.
+              We source, diligence, and operate revenue-generating solar projects—then open them up as fractional, compliance-ready investments with transparent payouts and live performance data.
             </p>
           </div>
 
@@ -113,8 +113,8 @@ export default function Services() {
       <section className="services-detail section">
         <div className="container">
           <div className="services-detail__header">
-            <span className="section-label">Excellent Services</span>
-            <ClarifyTitle text="10+ years of experience in the solar industry" />
+            <span className="section-label">Built for investors</span>
+            <ClarifyTitle text="From sourcing to payouts, all in one platform" />
           </div>
           <div className="services-detail__grid">
             {serviceDetails.map((s, i) => (

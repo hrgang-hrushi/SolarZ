@@ -8,17 +8,23 @@ export default async function handler(req, res) {
 
   try {
     const { email, password } = req.body
+    const normalizedEmail = (email || '').trim().toLowerCase()
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
     // Validation
-    if (!email || !password) {
+    if (!normalizedEmail || !password) {
       return res.status(400).json({ error: 'Email and password are required' })
+    }
+
+    if (!emailRegex.test(normalizedEmail)) {
+      return res.status(400).json({ error: 'Please provide a valid email address' })
     }
 
     const prisma = getPrisma()
 
     // Find user
     const user = await prisma.user.findUnique({
-      where: { email }
+      where: { email: normalizedEmail }
     })
 
     if (!user) {
@@ -53,6 +59,12 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Login error:', error)
+    if (error?.message?.includes('DATABASE_URL')) {
+      return res.status(500).json({ error: 'Database is not configured. Set DATABASE_URL in .env.local.' })
+    }
+    if (error?.code === 'P1001') {
+      return res.status(500).json({ error: 'Cannot reach the database. Is Postgres running and DATABASE_URL correct?' })
+    }
     res.status(500).json({ error: 'Internal server error' })
   }
 }

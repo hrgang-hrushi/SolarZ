@@ -20,7 +20,7 @@ export default function Team() {
             {/* Intro card */}
             <div className="team__intro-card">
               <div className="team__intro-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="var(--color-lime)" strokeWidth="1.5">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#ffffff" strokeWidth="1.5">
                   <circle cx="24" cy="16" r="8" />
                   <path d="M12 40c0-6.627 5.373-12 12-12s12 5.373 12 12" />
                 </svg>
@@ -28,8 +28,8 @@ export default function Team() {
               <ClarifyTitle text="Our awarded speakers & mentors" className="team__intro-title" />
               <Link href="/about" className="btn btn-lime btn-arrow btn-sm">
                 View all member
-                <span className="arrow-circle" style={{ background: 'var(--color-dark)' }}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+                <span className="arrow-circle" style={{ background: '#f8fefb' }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f5132" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
                 </span>
               </Link>
             </div>
@@ -65,14 +65,17 @@ export default function Team() {
           flex-direction: column;
           justify-content: flex-end;
           min-height: 380px;
+          color: #ffffff;
+          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
         }
         .team__intro-icon {
           margin-bottom: 24px;
+          color: #ffffff;
         }
         .team__intro-title {
           font-size: var(--font-size-2xl);
-          font-weight: 500;
-          color: var(--color-white);
+          font-weight: 600;
+          color: #ffffff;
           line-height: 1.2;
           margin-bottom: 24px;
         }

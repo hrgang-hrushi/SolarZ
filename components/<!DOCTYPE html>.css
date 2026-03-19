@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Quit.Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Syne+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --g0: #111612;
+  --g1: #1c251d;
+  --g2: #2d3a2e;
+  --g3: #3e5040;
+  --g4: #4A5643;
+  --g5: #697D5E;
+  --g6: #8fa882;
+  --g7: #b8cdb0;
+  --white: #FFFFFF;
+  --cream: #EEF0EA;
+  --glass: rgba(255,255,255,0.09);
+  --glass2: rgba(255,255,255,0.15);
+  --glass-border: rgba(255,255,255,0.14);
+  --glass-border2: rgba(255,255,255,0.25);
+  --tm: rgba(255,255,255,0.55);
+  --td: rgba(255,255,255,0.3);
+  --pill: 100px;
+  --rc: 22px;
+  --rs: 14px;
+  --gold: #ffd166;
+  --red: #ff6b6b;
+  --blue: #74b3ce;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; overflow:hidden; }
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--g0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── APP SHELL ── */
+#app {
+  width: 390px;
+  height: 844px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 48px;
+  box-shadow: 0 60px 120px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08);
+  background: var(--g1);
+}
+
+/* ── SCREENS ── */
+.screen {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  display: none;
+  flex-direction: column;
+}
+.screen::-webkit-scrollbar { display:none; }
+.screen.active { display: flex; }
+
+/* ── STATUS BAR ── */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 28px 0;
+  flex-shrink: 0;
+}
+.status-time { font-size: 15px; font-weight: 600; color: white; letter-spacing: 0.3px; }
+.status-icons { display: flex; gap: 6px; align-items: center; }
+
+/* ── NOTCH ── */
+.notch {
+  width: 120px; height: 34px;
+  background: var(--g0);
+  border-radius: 0 0 18px 18px;
+  margin: 0 auto 4px;
+}
+
+/* ── BOTTOM NAV ── */
+.bnav {
+  flex-shrink: 0;
+  display: flex;
+  padding: 10px 8px 28px;
+  background: rgba(17,22,18,0.97);
+  backdrop-filter: blur(24px);
+  border-top: 1px solid var(--glass-border);
+  gap: 0;
+  margin-top: auto;
+}
+.bni {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px 0 0;
+  transition: opacity 0.2s;
+}
+.bni svg { transition: all 0.25s; }
+.bni-label { font-size: 10px; color: var(--td); letter-spacing: 0.5px; font-weight: 500; transition: color 0.25s; }
+.bni.active .bni-label { color: white; }
+.bni.active svg path, .bni.active svg rect, .bni.active svg circle { stroke: white; }
+.bni.active svg .fill-icon { fill: white; stroke: none; }
+.bni svg path { stroke: rgba(255,255,255,0.3); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.bni svg .fill-icon { fill: rgba(255,255,255,0.3); stroke: none; }
+
+/* ── SCROLL CONTENT ── */
+.scroll-body { flex: 1; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: 8px; }
+.scroll-body::-webkit-scrollbar { display:none; }
+
+/* ══════════════════════════════
+   SCREEN 1 — LANDING
+══════════════════════════════ */
+#s-landing {
+  background: linear-gradient(160deg, #3e5240 0%, #243027 50%, var(--g1) 100%);
+}
+.land-hero { padding: 20px 32px 0; flex: 1; display: flex; flex-direction: column; }
+.land-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--pill); padding: 8px 16px; width: fit-content;
+  margin-bottom: 28px;
+}
+.land-badge span { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--g6); font-weight: 600; }
+.land-h1 {
+  font-size: 58px; font-weight: 800; color: white;
+  line-height: 0.92; letter-spacing: -3px; margin-bottom: 20px;
+}
+.land-h1 em { font-style: italic; color: var(--g6); font-weight: 400; }
+.land-p { font-size: 15px; color: var(--tm); line-height: 1.6; font-weight: 400; margin-bottom: 36px; }
+.btn-primary {
+  width: 100%; background: white; color: var(--g2);
+  border: none; border-radius: var(--pill); padding: 18px 24px;
+  font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px; transition: transform 0.15s, box-shadow 0.15s;
+  letter-spacing: 0.2px;
+}
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary .arr {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--g2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.btn-ghost {
+  width: 100%; background: var(--glass); color: white;
+  border: 1px solid var(--glass-border); border-radius: var(--pill);
+  padding: 18px 24px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.2s; letter-spacing: 0.2px;
+}
+.btn-ghost:active { background: var(--glass2); }
+.btn-ghost .arr { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; }
+.land-stats {
+  display: flex; margin: 28px -32px 0; padding: 24px 32px;
+  border-top: 1px solid var(--glass-border);
+}
+.land-stat { flex: 1; text-align: center; }
+.land-stat-n { font-size: 26px; font-weight: 800; color: white; letter-spacing: -1px; }
+.land-stat-l { font-size: 10px; color: var(--td); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 3px; font-weight: 500; }
+.land-div { width: 1px; background: var(--glass-border); margin: 0 8px; }
+.land-social {
+  margin: 20px 32px 32px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rc); padding: 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+.av-stack { display: flex; }
+.av {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--g3); border: 2px solid var(--g2);
+  margin-right: -10px; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: white; font-weight: 700; font-size: 14px;
+}
+.land-social-text { font-size: 13px; color: var(--tm); line-height: 1.4; }
+.land-social-text strong { color: white; font-weight: 700; }
+
+/* ══════════════════════════════
+   SCREEN 2 — LOGIN
+══════════════════════════════ */
+#s-login {
+  background: linear-gradient(170deg, #405440 0%, #293529 50%, var(--g1) 100%);
+}
+.login-body { padding: 12px 32px 48px; flex: 1; display: flex; flex-direction: column; }
+.back-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; margin-bottom: 36px; transition: background 0.2s;
+}
+.back-btn:active { background: var(--glass2); }
+.login-h { font-size: 38px; font-weight: 800; color: white; letter-spacing: -2px; line-height: 1.0; margin-bottom: 6px; }
+.login-sub { font-size: 14px; color: var(--tm); margin-bottom: 36px; font-weight: 400; }
+.field-wrap { margin-bottom: 14px; }
+.field-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--td); display: block; margin-bottom: 8px; font-weight: 600; }
+.field-input {
+  width: 100%; background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rs); padding: 16px 18px;
+  color: white; font-family: 'Syne', sans-serif; font-size: 15px;
+  outline: none; transition: border-color 0.2s; font-weight: 400;
+}
+.field-input::placeholder { color: var(--td); }
+.field-input:focus { border-color: var(--g6); }
+.login-forgot { text-align: right; font-size: 12px; color: var(--td); margin-top: 6px; margin-bottom: 20px; cursor: pointer; }
+.divider { display: flex; align-items: center; gap: 12px; margin: 22px 0; }
+.div-line { flex: 1; height: 1px; background: var(--glass-border); }
+.div-txt { font-size: 11px; color: var(--td); font-weight: 500; }
+.social-btn {
+  width: 100%; background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--pill); padding: 15px;
+  color: white; font-family: 'Syne', sans-serif; font-size: 14px;
+  cursor: pointer; margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-weight: 500; transition: background 0.2s;
+}
+.social-btn:active { background: var(--glass2); }
+.login-signup { text-align: center; margin-top: 24px; font-size: 13px; color: var(--td); }
+.login-signup span { color: rgba(255,255,255,0.75); font-weight: 600; cursor: pointer; }
+
+/* ══════════════════════════════
+   SCREEN 3 — SURVEY
+══════════════════════════════ */
+#s-survey {
+  background: linear-gradient(158deg, #3b5040 0%, #243027 100%);
+}
+.survey-top { padding: 12px 32px 28px; flex-shrink: 0; }
+.prog-wrap { height: 3px; background: var(--glass); border-radius: 2px; margin-bottom: 36px; overflow: hidden; }
+.prog-fill { height: 100%; background: white; border-radius: 2px; transition: width 0.4s ease; }
+.survey-step { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--g6); margin-bottom: 10px; font-weight: 600; }
+.survey-h { font-size: 30px; font-weight: 800; color: white; letter-spacing: -1px; line-height: 1.1; margin-bottom: 6px; }
+.survey-sub { font-size: 14px; color: var(--tm); font-weight: 400; }
+.survey-options { padding: 0 24px; flex: 1; }
+.opt {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rs); padding: 16px 18px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 14px; cursor: pointer;
+  transition: all 0.2s;
+}
+.opt:active { transform: scale(0.99); }
+.opt.sel { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.45); }
+.opt-ico {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.opt-ico svg path { stroke: white; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.opt-txt { font-size: 15px; color: white; font-weight: 600; }
+.opt-sub { font-size: 11px; color: var(--td); margin-top: 2px; font-weight: 400; }
+.opt-chk {
+  margin-left: auto; width: 24px; height: 24px; border-radius: 50%;
+  border: 2px solid var(--glass-border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.opt.sel .opt-chk { background: white; border-color: white; }
+.opt.sel .opt-chk svg path { stroke: var(--g2); }
+.survey-footer { padding: 16px 24px 36px; flex-shrink: 0; }
+
+/* ══════════════════════════════
+   SCREEN 4 — PERSONALIZATION
+══════════════════════════════ */
+#s-personal {
+  background: linear-gradient(158deg, #3a4e3b 0%, #222d23 100%);
+}
+.personal-top { padding: 12px 28px 24px; flex-shrink: 0; }
+.personal-h { font-size: 30px; font-weight: 800; color: white; letter-spacing: -1px; line-height: 1.1; margin-bottom: 6px; }
+.personal-sub { font-size: 14px; color: var(--tm); margin-bottom: 28px; font-weight: 400; }
+.personal-cards { padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pcard {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rc); padding: 20px 16px;
+  display: flex; flex-direction: column; gap: 10px; cursor: pointer;
+  transition: all 0.2s;
+}
+.pcard:active { transform: scale(0.97); }
+.pcard.sel { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.4); }
+.pcard-ico { width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; }
+.pcard-ico svg path { stroke: white; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.pcard-n { font-size: 14px; font-weight: 700; color: white; }
+.pcard-s { font-size: 11px; color: var(--td); font-weight: 400; }
+.personal-footer { padding: 20px 24px 36px; flex-shrink: 0; }
+
+/* ══════════════════════════════
+   SCREEN 5 — GROUP FINDER
+══════════════════════════════ */
+#s-groups {
+  background: linear-gradient(160deg, #3d5040 0%, #243027 100%);
+}
+.groups-top { padding: 12px 24px 16px; flex-shrink: 0; }
+.groups-h { font-size: 32px; font-weight: 800; color: white; letter-spacing: -1.5px; margin-bottom: 4px; }
+.groups-sub { font-size: 13px; color: var(--tm); margin-bottom: 18px; font-weight: 400; }
+.search-bar {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--pill); padding: 13px 18px;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+}
+.search-bar input {
+  background: none; border: none; outline: none;
+  font-family: 'Syne', sans-serif; font-size: 14px; color: white; flex: 1; font-weight: 400;
+}
+.search-bar input::placeholder { color: var(--td); }
+.chips { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 16px; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--pill); padding: 8px 16px;
+  font-size: 12px; color: var(--tm); white-space: nowrap; cursor: pointer;
+  font-family: 'Syne', sans-serif; font-weight: 600;
+  transition: all 0.2s; flex-shrink: 0;
+}
+.chip.active { background: white; color: var(--g2); border-color: white; }
+.groups-scroll { flex: 1; overflow-y: auto; padding: 0 24px 8px; scrollbar-width: none; }
+.groups-scroll::-webkit-scrollbar { display: none; }
+.gcard {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rc); padding: 18px; margin-bottom: 12px;
+  transition: all 0.2s;
+}
+.gcard-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.gcard-n { font-size: 16px; font-weight: 700; color: white; margin-bottom: 3px; }
+.gcard-m { font-size: 11px; color: var(--tm); font-weight: 400; }
+.join-btn {
+  background: white; color: var(--g2); border: none;
+  border-radius: var(--pill); padding: 9px 18px;
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+}
+.join-btn:active { transform: scale(0.95); }
+.join-btn.joined { background: var(--g5); color: white; }
+.mavs { display: flex; margin-bottom: 12px; }
+.mav {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--g4); border: 2px solid var(--g2);
+  margin-right: -7px; font-size: 12px; display: flex;
+  align-items: center; justify-content: center; color: white; font-weight: 700;
+}
+.streak-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,209,102,0.13); border: 1px solid rgba(255,209,102,0.28);
+  border-radius: var(--pill); padding: 5px 12px; font-size: 11px; color: var(--gold); font-weight: 600;
+}
+
+/* ══════════════════════════════
+   SCREEN 6 — HOME
+══════════════════════════════ */
+#s-home {
+  background: linear-gradient(155deg, #3a4e3b 0%, #1c241d 100%);
+}
+.home-top { padding: 12px 24px 0; flex-shrink: 0; }
+.home-greet { font-size: 13px; color: var(--tm); margin-bottom: 2px; font-weight: 500; }
+.home-h { font-size: 28px; font-weight: 800; color: white; letter-spacing: -1px; margin-bottom: 20px; }
+.streak-card {
+  background: white; border-radius: var(--rc); padding: 22px; margin-bottom: 14px;
+  position: relative; overflow: hidden; cursor: pointer; transition: transform 0.15s;
+}
+.streak-card:active { transform: scale(0.99); }
+.streak-watermark {
+  position: absolute; right: -12px; top: -18px;
+  font-size: 110px; opacity: 0.06; line-height: 1;
+  font-family: 'Syne', sans-serif; font-weight: 800; color: var(--g2);
+  pointer-events: none; user-select: none;
+}
+.streak-lbl { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: #999; margin-bottom: 6px; font-weight: 600; }
+.streak-n { font-size: 64px; font-weight: 800; color: var(--g2); line-height: 1; letter-spacing: -4px; }
+.streak-unit { font-size: 20px; color: var(--g5); font-weight: 400; letter-spacing: -1px; }
+.streak-sub { font-size: 12px; color: #888; margin-top: 6px; font-weight: 500; }
+.ring-wrap { position: absolute; right: 22px; top: 50%; transform: translateY(-50%); }
+.qa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.qa {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rc); padding: 18px 16px;
+  cursor: pointer; transition: all 0.2s;
+}
+.qa:active { transform: scale(0.97); background: var(--glass2); }
+.qa.sos { background: rgba(255,107,107,0.13); border-color: rgba(255,107,107,0.28); }
+.qa-ico { margin-bottom: 10px; }
+.qa-n { font-size: 13px; font-weight: 700; color: white; }
+.qa-s { font-size: 11px; color: var(--td); margin-top: 2px; font-weight: 400; }
+.home-scroll { flex: 1; overflow-y: auto; padding: 0 24px 8px; scrollbar-width: none; }
+.home-scroll::-webkit-scrollbar { display: none; }
+.sec-lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--td); margin-bottom: 12px; font-weight: 700; }
+.checkin-card {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rc); padding: 18px; margin-bottom: 14px;
+}
+.checkin-q { font-size: 15px; color: white; font-weight: 600; margin-bottom: 14px; }
+.mood-row { display: flex; gap: 8px; }
+.mood {
+  flex: 1; background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rs); padding: 12px 0;
+  font-size: 22px; text-align: center; cursor: pointer; transition: all 0.2s;
+}
+.mood:active { transform: scale(0.92); }
+.mood.sel { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+.squad-strip { display: flex; gap: 10px; margin-bottom: 14px; overflow-x: auto; scrollbar-width: none; }
+.squad-strip::-webkit-scrollbar { display: none; }
+.squad-mem {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0;
+}
+.squad-av {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--g3); border: 2px solid var(--g2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; position: relative;
+}
+.squad-dot {
+  position: absolute; bottom: 1px; right: 1px;
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--g1);
+}
+.squad-dot.online { background: #4caf7d; }
+.squad-dot.away { background: var(--gold); }
+.squad-n { font-size: 10px; color: var(--td); font-weight: 600; }
+
+/* ══════════════════════════════
+   SCREEN 7 — SOS
+══════════════════════════════ */
+#s-sos {
+  background: radial-gradient(ellipse at 50% 25%, #4a1f1f 0%, #2a1010 40%, #160c0c 100%);
+}
+.sos-ring-wrap { padding: 28px 0 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sos-ring-outer {
+  width: 190px; height: 190px; border-radius: 50%;
+  border: 1px solid rgba(255,107,107,0.15);
+  display: flex; align-items: center; justify-content: center;
+  animation: sos-pulse 2.4s ease-in-out infinite;
+}
+.sos-ring-mid {
+  width: 155px; height: 155px; border-radius: 50%;
+  border: 1px solid rgba(255,107,107,0.25);
+  display: flex; align-items: center; justify-content: center;
+  animation: sos-pulse 2.4s ease-in-out 0.4s infinite;
+}
+.sos-ring-inner {
+  width: 120px; height: 120px; border-radius: 50%;
+  background: rgba(255,107,107,0.12);
+  border: 2px solid rgba(255,107,107,0.45);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
+}
+.sos-ring-inner:active { background: rgba(255,107,107,0.2); transform: scale(0.96); }
+@keyframes sos-pulse { 0%,100%{opacity:1; transform:scale(1)} 50%{opacity:0.5; transform:scale(1.04)} }
+.sos-lbl { font-size: 28px; font-weight: 800; color: #ff9090; letter-spacing: 3px; }
+.sos-hold { font-size: 9px; color: rgba(255,150,150,0.6); letter-spacing: 1.5px; font-weight: 600; }
+.sos-top { text-align: center; padding: 0 32px 28px; flex-shrink: 0; }
+.sos-h { font-size: 28px; font-weight: 800; color: white; letter-spacing: -1px; margin-bottom: 6px; }
+.sos-sub { font-size: 13px; color: rgba(255,255,255,0.4); font-weight: 400; }
+.sos-body { flex: 1; overflow-y: auto; padding: 0 24px 36px; scrollbar-width: none; }
+.sos-body::-webkit-scrollbar { display: none; }
+.sos-sec { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,150,150,0.5); margin-bottom: 12px; font-weight: 700; }
+.contact-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--rc); padding: 14px 16px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 13px;
+}
+.contact-av {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); display: flex; align-items: center;
+  justify-content: center; font-size: 20px; flex-shrink: 0; position: relative;
+}
+.contact-n { font-size: 14px; font-weight: 700; color: white; }
+.contact-s { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; font-weight: 400; }
+.call-btn {
+  margin-left: auto; width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(76,175,125,0.2); border: 1px solid rgba(76,175,125,0.4);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+}
+.call-btn:active { background: rgba(76,175,125,0.35); transform: scale(0.93); }
+.call-btn svg path { stroke: #4caf7d; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.breathe-btn-big {
+  width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--pill); padding: 16px;
+  color: white; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600;
+  cursor: pointer; margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background 0.2s;
+}
+.breathe-btn-big:active { background: rgba(255,255,255,0.15); }
+
+/* ══════════════════════════════
+   SCREEN 8 — BREATHE
+══════════════════════════════ */
+#s-breathe {
+  background: radial-gradient(ellipse at 50% 40%, #1e3a28 0%, #0f1f14 60%, #080e09 100%);
+}
+.breathe-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 32px; }
+.breathe-orb-outer {
+  width: 220px; height: 220px; border-radius: 50%;
+  border: 1px solid rgba(143,168,130,0.15);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 40px;
+}
+.breathe-orb-mid {
+  width: 175px; height: 175px; border-radius: 50%;
+  border: 1px solid rgba(143,168,130,0.25);
+  display: flex; align-items: center; justify-content: center;
+}
+.breathe-orb {
+  width: 130px; height: 130px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(143,168,130,0.3) 0%, rgba(74,86,67,0.2) 100%);
+  border: 2px solid rgba(143,168,130,0.5);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
+}
+.breathe-phase { font-size: 16px; font-weight: 700; color: white; letter-spacing: 1px; }
+.breathe-count { font-size: 48px; font-weight: 800; color: white; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
+.breathe-instruction { font-size: 28px; font-weight: 800; color: var(--g6); letter-spacing: -1px; margin-bottom: 8px; }
+.breathe-sub { font-size: 14px; color: var(--tm); font-weight: 400; text-align: center; margin-bottom: 32px; }
+.breathe-progress { width: 100%; height: 3px; background: var(--glass); border-radius: 2px; margin-bottom: 32px; overflow: hidden; }
+.breathe-progress-fill { height: 100%; background: var(--g6); border-radius: 2px; transition: width 0.5s linear; }
+.btn-outline {
+  background: transparent; border: 1px solid var(--glass-border2);
+  border-radius: var(--pill); padding: 15px 32px;
+  color: white; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-outline:active { background: var(--glass); }
+
+/* ══════════════════════════════
+   SCREEN 9 — PROGRESS
+══════════════════════════════ */
+#s-progress {
+  background: linear-gradient(155deg, #3e5141 0%, #222d23 100%);
+}
+.prog-top { padding: 12px 24px 16px; flex-shrink: 0; }
+.prog-h { font-size: 32px; font-weight: 800; color: white; letter-spacing: -1.5px; margin-bottom: 16px; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.scard {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rc); padding: 18px;
+}
+.scard.white { background: white; }
+.scard-l { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--td); margin-bottom: 8px; font-weight: 700; }
+.scard.white .scard-l { color: #aaa; }
+.scard-v { font-size: 36px; font-weight: 800; color: white; letter-spacing: -2px; line-height: 1; }
+.scard.white .scard-v { color: var(--g2); }
+.scard-u { font-size: 15px; font-weight: 400; letter-spacing: 0; }
+.scard-ch { font-size: 11px; color: var(--g6); margin-top: 5px; font-weight: 600; }
+.scard.white .scard-ch { color: var(--g5); }
+.prog-scroll { flex: 1; overflow-y: auto; padding: 0 24px 8px; scrollbar-width: none; }
+.prog-scroll::-webkit-scrollbar { display: none; }
+.chart-card {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rc); padding: 18px; margin-bottom: 12px;
+}
+.chart-l { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--td); margin-bottom: 14px; font-weight: 700; }
+.bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 72px; }
+.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; height: 100%; justify-content: flex-end; }
+.bar-fill { width: 100%; border-radius: 4px 4px 0 0; background: rgba(255,255,255,0.14); transition: height 0.5s ease; }
+.bar-fill.hi { background: white; }
+.bar-d { font-size: 9px; color: var(--td); font-weight: 600; }
+.milestones { background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--rc); padding: 18px; }
+.ms-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.ms-row:last-child { margin-bottom: 0; }
+.ms-ico {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ms-ico.earned { background: rgba(255,209,102,0.15); }
+.ms-n { font-size: 13px; font-weight: 700; color: white; }
+.ms-d { font-size: 11px; color: var(--td); margin-top: 1px; font-weight: 400; }
+.ms-ico svg path { stroke: var(--gold); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ms-ico.locked svg path { stroke: rgba(255,255,255,0.25); }
+
+/* ══════════════════════════════
+   SCREEN 10 — REWARDS
+══════════════════════════════ */
+#s-rewards {
+  background: linear-gradient(155deg, #3c5040 0%, #222e24 100%);
+}
+.rew-top { padding: 12px 24px 20px; flex-shrink: 0; }
+.rew-h { font-size: 32px; font-weight: 800; color: white; letter-spacing: -1.5px; margin-bottom: 4px; }
+.rew-sub { font-size: 13px; color: var(--tm); margin-bottom: 20px; font-weight: 400; }
+.coins-card {
+  background: linear-gradient(135deg, rgba(255,209,102,0.18) 0%, rgba(255,180,50,0.08) 100%);
+  border: 1px solid rgba(255,209,102,0.28);
+  border-radius: var(--rc); padding: 20px;
+  display: flex; align-items: center; gap: 16px;
+}
+.coin-ico { font-size: 44px; }
+.coins-n { font-size: 44px; font-weight: 800; color: var(--gold); line-height: 1; letter-spacing: -2px; }
+.coins-l { font-size: 11px; color: rgba(255,209,102,0.6); margin-top: 3px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.rew-scroll { flex: 1; overflow-y: auto; padding: 0 24px 8px; scrollbar-width: none; }
+.rew-scroll::-webkit-scrollbar { display: none; }
+.rcard {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rc); padding: 16px 18px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s;
+}
+.rcard:active { transform: scale(0.98); background: var(--glass2); }
+.rcard-ico {
+  width: 52px; height: 52px; border-radius: var(--rs);
+  background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.rcard-ico svg path { stroke: white; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.rcard-n { font-size: 15px; font-weight: 700; color: white; }
+.rcard-b { font-size: 12px; color: var(--tm); margin-top: 2px; font-weight: 400; }
+.rcard-cost { margin-left: auto; text-align: right; }
+.rcard-cn { font-size: 16px; color: var(--gold); font-weight: 800; white-space: nowrap; }
+.rcard-cl { font-size: 10px; color: var(--td); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+/* ══════════════════════════════
+   SCREEN 11 — CHAT
+══════════════════════════════ */
+#s-chat {
+  background: linear-gradient(155deg, #3b4f3c 0%, #1c231d 100%);
+}
+.chat-topbar {
+  padding: 12px 20px 14px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0;
+  display: flex; align-items: center; gap: 12px;
+}
+.chat-grav {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--g3); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.chat-grav svg path { stroke: white; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.chat-gn { font-size: 15px; font-weight: 700; color: white; }
+.chat-gs { font-size: 11px; color: var(--tm); margin-top: 1px; font-weight: 400; }
+.chat-msgs { flex: 1; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; scrollbar-width: none; }
+.chat-msgs::-webkit-scrollbar { display: none; }
+.msg { max-width: 80%; }
+.msg.mine { align-self: flex-end; }
+.msg-sender { font-size: 10px; color: var(--td); margin-bottom: 5px; font-weight: 700; letter-spacing: 0.5px; }
+.msg-bub {
+  padding: 12px 16px; border-radius: 18px;
+  font-size: 14px; color: white; line-height: 1.45; font-weight: 400;
+}
+.msg.theirs .msg-bub { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 4px 18px 18px 18px; }
+.msg.mine .msg-bub { background: white; color: var(--g2); font-weight: 500; border-radius: 18px 18px 4px 18px; }
+.msg-time { font-size: 9px; color: var(--td); margin-top: 4px; }
+.msg.mine .msg-time { text-align: right; }
+.sos-banner {
+  margin: 0 18px 8px; background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.22);
+  border-radius: var(--rs); padding: 12px 14px;
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+}
+.sos-banner-txt { font-size: 12px; color: rgba(255,180,180,0.9); flex: 1; font-weight: 500; line-height: 1.4; }
+.sos-banner-txt strong { color: white; font-weight: 700; }
+.sos-resp {
+  background: rgba(255,107,107,0.25); border: 1px solid rgba(255,107,107,0.45);
+  border-radius: var(--pill); padding: 8px 14px; color: #ff9090;
+  font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'Syne', sans-serif;
+  white-space: nowrap; flex-shrink: 0; transition: all 0.2s;
+}
+.sos-resp:active { background: rgba(255,107,107,0.4); }
+.chat-input-bar {
+  padding: 10px 16px 28px; flex-shrink: 0;
+  display: flex; align-items: center; gap: 10px;
+}
+.chat-input-wrap {
+  flex: 1; background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--pill); padding: 13px 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.chat-input-wrap input {
+  flex: 1; background: none; border: none; outline: none;
+  font-family: 'Syne', sans-serif; font-size: 14px; color: white; font-weight: 400;
+}
+.chat-input-wrap input::placeholder { color: var(--td); }
+.send-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: white; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.send-btn:active { transform: scale(0.92); }
+.send-btn svg path { stroke: var(--g2); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ══════════════════════════════
+   SCREEN 12 — TASKS
+══════════════════════════════ */
+#s-tasks {
+  background: linear-gradient(155deg, #3d5040 0%, #222d23 100%);
+}
+.tasks-top { padding: 12px 24px 16px; flex-shrink: 0; }
+.tasks-h { font-size: 32px; font-weight: 800; color: white; letter-spacing: -1.5px; margin-bottom: 4px; }
+.tasks-sub { font-size: 13px; color: var(--tm); font-weight: 400; margin-bottom: 18px; }
+.breathe-promo {
+  background: linear-gradient(135deg, rgba(100,200,150,0.14) 0%, rgba(74,86,67,0.12) 100%);
+  border: 1px solid rgba(100,200,150,0.22);
+  border-radius: var(--rc); padding: 18px;
+  display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s;
+}
+.breathe-promo:active { transform: scale(0.98); }
+.breathe-ball {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: rgba(100,200,150,0.18); border: 2px solid rgba(100,200,150,0.38);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  animation: breathe-anim 4s ease-in-out infinite;
+}
+@keyframes breathe-anim { 0%,100%{transform:scale(1)} 50%{transform:scale(1.18)} }
+.breathe-ball svg path { stroke: #64c896; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.breathe-promo-n { font-size: 14px; font-weight: 700; color: white; }
+.breathe-promo-s { font-size: 11px; color: var(--td); margin-top: 2px; font-weight: 400; }
+.play-ico { margin-left: auto; color: rgba(255,255,255,0.4); flex-shrink: 0; }
+.tasks-scroll { flex: 1; overflow-y: auto; padding: 0 24px 8px; scrollbar-width: none; }
+.tasks-scroll::-webkit-scrollbar { display: none; }
+.tcard {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: var(--rs); padding: 16px 18px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 13px; cursor: pointer; transition: all 0.2s;
+}
+.tcard:active { transform: scale(0.99); }
+.tcard.done { opacity: 0.55; }
+.task-check-box {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid var(--glass-border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.tcard.done .task-check-box { background: white; border-color: white; }
+.task-check-box svg path { stroke: var(--g2); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity 0.2s; }
+.tcard.done .task-check-box svg path { opacity: 1; }
+.tcard-n { font-size: 14px; font-weight: 600; color: white; }
+.tcard-s { font-size: 11px; color: var(--td); margin-top: 2px; font-weight: 400; }
+.tcard-pts { margin-left: auto; font-size: 13px; color: var(--gold); font-weight: 800; white-space: nowrap; }
+.meetup-card {
+  background: white; border-radius: var(--rc); padding: 18px; margin-bottom: 10px;
+}
+.meetup-d { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--g5); margin-bottom: 6px; font-weight: 700; }
+.meetup-n { font-size: 16px; font-weight: 800; color: var(--g2); margin-bottom: 4px; }
+.meetup-l { font-size: 12px; color: #777; margin-bottom: 14px; font-weight: 400; display: flex; align-items: center; gap: 5px; }
+.meetup-l svg path { stroke: #999; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.meetup-row { display: flex; align-items: center; gap: 10px; }
+.rsvp-avs { display: flex; }
+.rsvp-av {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--g5); border: 2px solid white;
+  margin-right: -6px; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: white; font-weight: 700;
+}
+.rsvp-cnt { font-size: 11px; color: #999; margin-left: 12px; font-weight: 500; }
+.rsvp-btn {
+  margin-left: auto; background: var(--g2); color: white; border: none;
+  border-radius: var(--pill); padding: 10px 18px;
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+}
+.rsvp-btn:active { transform: scale(0.95); }
+.rsvp-btn.going { background: var(--g5); }
+
+/* ── TOAST ── */
+#toast {
+  position: absolute; bottom: 110px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: white; color: var(--g2); border-radius: var(--pill);
+  padding: 12px 22px; font-size: 13px; font-weight: 700;
+  opacity: 0; transition: all 0.3s; pointer-events: none; white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3); z-index: 100;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── TRANSITIONS ── */
+.screen { animation: none; }
+.screen.slide-in { animation: slideIn 0.32s cubic-bezier(0.32,0,0.2,1) forwards; }
+.screen.slide-out { animation: slideOut 0.32s cubic-bezier(0.32,0,0.2,1) forwards; }
+@keyframes slideIn { from{transform:translateX(100%); opacity:0.6} to{transform:translateX(0); opacity:1} }
+@keyframes slideOut { from{transform:translateX(0); opacity:1} to{transform:translateX(-100%); opacity:0.6} }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+<!-- ══ SCREEN 1: LANDING ══ -->
+<div class="screen active" id="s-landing">
+  <div class="notch"></div>
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="3" width="3" height="9" rx="1" fill="rgba(255,255,255,0.5)"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="rgba(255,255,255,0.7)"/><rect x="9" y="0" width="3" height="12" rx="1" fill="white"/><rect x="13.5" y="1" width="2.5" height="10" rx="1" fill="white"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 6.5C3 3 6 1 8 1s5 2 7 5.5M3.5 9C5 7 6.5 6 8 6s3 1 4.5 3M6.5 11.5C7 10.5 7.5 10 8 10s1 .5 1.5 1.5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="21" height="10" rx="3" stroke="white" stroke-width="1.3" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/><path d="M22.5 4.5v3a1.5 1.5 0 000-3z" fill="rgba(255,255,255,0.5)"/></svg>
+    </div>
+  </div>
+  <div class="land-hero">
+    <div class="land-badge">
+      <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1l1.5 4.5H13l-3.75 2.75L10.7 13 7 10.25 3.3 13l1.45-4.75L1 5.5h4.5z" fill="var(--g6)"/></svg>
+      <span>Backed by behavioral science</span>
+    </div>
+    <div class="land-h1">Quit<br><em>together.</em><br>Stay free.</div>
+    <div class="land-p">Join thousands quitting smoking, drinking & substances — powered by real community, not just an app.</div>
+    <button class="btn-primary" onclick="goTo('s-survey')">
+      Start your journey
+      <div class="arr"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+    </button>
+    <button class="btn-ghost" onclick="goTo('s-login')">
+      I'm already a member
+      <div class="arr"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+    </button>
+  </div>
+  <div class="land-stats">
+    <div class="land-stat"><div class="land-stat-n">47k</div><div class="land-stat-l">Members</div></div>
+    <div class="land-div"></div>
+    <div class="land-stat"><div class="land-stat-n">89%</div><div class="land-stat-l">Success rate</div></div>
+    <div class="land-div"></div>
+    <div class="land-stat"><div class="land-stat-n">2.1M</div><div class="land-stat-l">Days clean</div></div>
+  </div>
+  <div class="land-social">
+    <div class="av-stack">
+      <div class="av" style="background:#4a6b4e">M</div>
+      <div class="av" style="background:#3d5a44">J</div>
+      <div class="av" style="background:#527358">P</div>
+    </div>
+    <div class="land-social-text"><strong>Marcus, Jay & Priya</strong> just hit their 42-day streak 🔥</div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 2: LOGIN ══ -->
+<div class="screen" id="s-login">
+  <div class="notch"></div>
+  <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><rect x="9" y="0" width="3" height="12" rx="1" fill="white"/><rect x="13.5" y="1" width="2.5" height="10" rx="1" fill="white"/></svg></div></div>
+  <div class="login-body">
+    <div class="back-btn" onclick="goTo('s-landing')"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M11 4L6 9l5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+    <div class="login-h">Welcome<br>back.</div>
+    <div class="login-sub">Sign in to your squad</div>
+    <div class="field-wrap">
+      <label class="field-label">Email</label>
+      <input class="field-input" type="email" placeholder="you@email.com" id="login-email">
+    </div>
+    <div class="field-wrap">
+      <label class="field-label">Password</label>
+      <input class="field-input" type="password" placeholder="••••••••" id="login-pw">
+    </div>
+    <div class="login-forgot">Forgot password?</div>
+    <button class="btn-primary" onclick="handleLogin()">
+      Sign in
+      <div class="arr"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M4 8h8M9 5l3 3-3 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+    </button>
+    <div class="divider"><div class="div-line"></div><div class="div-txt">or continue with</div><div class="div-line"></div></div>
+    <button class="social-btn" onclick="handleLogin()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 1.5C5 1.5 1.5 5 1.5 9S5 16.5 9 16.5c2.3 0 4.3-.9 5.8-2.3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M9 1.5c1.7 0 3.2.6 4.4 1.6L16.5 9h-7.5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Continue with Google
+    </button>
+    <button class="social-btn" onclick="handleLogin()">
+      <svg width="16" height="18" viewBox="0 0 16 18"><path d="M12.5 1c-1.5 0-2.8 1-3.5 1.8C8.3 2 7 1 5.5 1 3 1 1 3.3 1 6c0 4.5 7 11 7 11s7-6.5 7-11c0-2.7-2-5-2.5-5z" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Continue with Apple
+    </button>
+    <div class="login-signup">New here? <span onclick="goTo('s-survey')">Create account</span></div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 3: SURVEY ══ -->
+<div class="screen" id="s-survey">
+  <div class="notch"></div>
+  <div class="status-bar"><span class="status-time">9:41</span></div>
+  <div class="survey-top">
+    <div class="back-btn" onclick="goTo('s-landing')" style="margin-bottom:24px"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M11 4L6 9l5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+    <div class="prog-wrap"><div class="prog-fill" id="survey-prog" style="width:33%"></div></div>
+    <div class="survey-step" id="survey-step-lbl">Question 1 of 3</div>
+    <div class="survey-h" id="survey-q">What are you<br>trying to quit?</div>
+    <div class="survey-sub" id="survey-qs">We'll match you with the right squad</div>
+  </div>
+  <div class="survey-options" id="survey-opts">
+    <div class="opt" data-val="smoking" onclick="toggleOpt(this)">
+      <div class="opt-ico"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 14h12M16 14h2M14 11v6M17 10c0-2-1.5-3.5-3.5-3.5" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="14" cy="7" r="1" fill="white"/></svg></div>
+      <div><div class="opt-txt">Smoking / Vaping</div><div class="opt-sub">Nicotine addiction</div></div>
+      <div class="opt-chk"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="var(--g2)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+    <div class="opt" data-val="alcohol" onclick="toggleOpt(this)">
+      <div class="opt-ico"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M7 2h6l-1 7H8L7 2zM8 9c0 3-1 6-1 8h6c0-2-1-5-1-8M6 17h8" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div class="opt-txt">Alcohol</div><div class="opt-sub">Drinking dependency</div></div>
+      <div class="opt-chk"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="var(--g2)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+    <div class="opt" data-val="substances" onclick="toggleOpt(this)">
+      <div class="opt-ico"><svg width="20" height="20" viewBox="0 0 20 20"><rect x="6" y="3" width="8" height="14" rx="3" stroke="white" stroke-width="1.8" fill="none"/><path d="M9 10h2M10 8v4" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+      <div><div class="opt-txt">Substances</div><div class="opt-sub">Drug dependency</div></div>
+      <div class="opt-chk"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="var(--g2)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+    <div class="opt" data-val="gambling" onclick="toggleOpt(this)">
+      <div class="opt-ico"><svg width="20" height="20" viewBox="0 0 20 20"><rect x="2" y="4" width="16" height="12" rx="3" stroke="white" stroke-width="1.8" fill="none"/><circle cx="7" cy="10" r="1.5" fill="white"/><circle cx="13" cy="10" r="1.5" fill="white"/><circle cx="10" cy="7" r="1" fill="white"/><circle cx="10" cy="13" r="1" fill="white"/></svg></div>
+      <div><div class="opt-txt">Gambling</div><div class="opt-sub">Betting addiction</div></div>
+      <div class="opt-chk"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="var(--g2)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+    <div class="opt" data-val="other" onclick="toggleOpt(this)">
+      <div class="opt-ico"><svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" stroke="white" stroke-width="1.8" fill="none"/><path d="M10 7v3l2 2" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></div>
+      <div><div class="opt-txt">Something else</div><div class="opt-sub">Social media, food, etc.</div></div>
+      <div class="opt-chk"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="var(--g2)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+  </div>
+  <div class="survey-footer">
+    <button class="btn-primary" onclick="nextSurvey()">
+      Continue
+      <div class="arr"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+    </button>
+  </div>
+</div>
+
+<!-- ══ SCREEN 4: PERSONALIZATION ══ -->
+<div class="screen" id="s-personal">
+  <div class="notch"></div>
+  <div class="status-bar"><span class="status-time">9:41</span></div>
+  <div class="personal-top">
+    <div class="back-btn" onclick="goTo('s-survey')" style="margin-bottom:24px"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M11 4L6 9l5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+    <div class="prog-wrap"><div class="prog-fill" style="width:66%"></div></div>
+    <div class="survey-step">Question 2 of 3</div>
+    <div class="personal-h">What motivates<br>you most?</div>
+    <div class="personal-sub">We personalize your journey around this</div>
+  </div>
+  <div class="personal-cards">
+    <div class="pcard" onclick="selPcard(this)">
+      <div class="pcard-ico"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 2l2 6h6l-5 3.5 2 6L11 14l-5 3.5 2-6L3 8h6z" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="pcard-n">Health</div>
+      <div class="pcard-s">Feel better every day</div>
+    </div>
+    <div class="pcard" onclick="selPcard(this)">
+      <div class="pcard-ico"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 3C6.6 3 3 6.6 3 11s3.6 8 8 8 8-3.6 8-8" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M15 3l2 2-6 6" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="pcard-n">Family</div>
+      <div class="pcard-s">For the ones I love</div>
+    </div>
+    <div class="pcard" onclick="selPcard(this)">
+      <div class="pcard-ico"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="8" r="4" stroke="white" stroke-width="1.8" fill="none"/><path d="M3 19c0-4 3.6-7 8-7s8 3 8 7" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></div>
+      <div class="pcard-n">Community</div>
+      <div class="pcard-s">Quit with others</div>
+    </div>
+    <div class="pcard" onclick="selPcard(this)">
+      <div class="pcard-ico"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 11l5 5L18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="pcard-n">Discipline</div>
+      <div class="pcard-s">Prove it to myself</div>
+    </div>
+    <div class="pcard" onclick="selPcard(this)">
+      <div class="pcard-ico"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M3 11s2-6 8-6 8 6 8 6-2 6-8 6-8-6-8-6z" stroke="white" stroke-width="1.8" fill="none"/><circle cx="11" cy="11" r="3" stroke="white" stroke-width="1.8" fill="none"/></svg></div>
+      <div class="pcard-n">Clarity</div>
+      <div class="pcard-s">Mental sharpness</div>
+    </div>
+    <div class="pcard" onclick="selPcard(this)">
+      <div class="pcard-ico"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 3v16M3 11h16" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/><circle cx="11" cy="11" r="3" stroke="white" stroke-width="1.8" fill="none"/></svg></div>
+      <div class="pcard-n">Finance</div>
+      <div class="pcard-s">Save more money</div>
+    </div>
+  </div>
+  <div class="personal-footer">
+    <button class="btn-primary" onclick="goTo('s-groups')">
+      Find my squad
+      <div class="arr"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+    </button>
+  </div>
+</div>
+
+<!-- ══ SCREEN 5: GROUP FINDER ══ -->
+<div class="screen" id="s-groups">
+  <div class="notch"></div>
+  <div class="status-bar"><span class="status-time">9:41</span></div>
+  <div class="groups-top">
+    <div class="groups-h">Find your squad.</div>
+    <div class="groups-sub">Matched to your goal & location</div>
+    <div class="search-bar">
+      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5" stroke="rgba(255,255,255,0.3)" stroke-width="1.8" fill="none"/><path d="M11 11l3 3" stroke="rgba(255,255,255,0.3)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+      <input placeholder="Search groups..." oninput="filterGroups(this.value)">
+    </div>
+    <div class="chips">
+      <div class="chip active" onclick="filterChip(this,'All')">All</div>
+      <div class="chip" onclick="filterChip(this,'Smoking')">Smoking</div>
+      <div class="chip" onclick="filterChip(this,'Alcohol')">Alcohol</div>
+      <div class="chip" onclick="filterChip(this,'Near me')">Near me</div>
+      <div class="chip" onclick="filterChip(this,'Online')">Online</div>
+    </div>
+  </div>
+  <div class="groups-scroll" id="groups-list">
+    <div class="gcard">
+      <div class="gcard-top">
+        <div><div class="gcard-n">Morning Warriors</div><div class="gcard-m">Smoking · 6 members · Raleigh, NC</div></div>
+        <button class="join-btn" onclick="joinGroup(this)">Join</button>
+      </div>
+      <div class="mavs"><div class="mav">M</div><div class="mav">J</div><div class="mav">P</div><div class="mav">S</div><div class="mav" style="background:rgba(255,255,255,0.1);font-size:10px;color:var(--td)">+2</div></div>
+      <div class="streak-pill"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1c0 3-3 4-3 7a3 3 0 006 0c0-3-3-4-3-7z" stroke="var(--gold)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>Group streak: 42 days</div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top">
+        <div><div class="gcard-n">Sober Sundays</div><div class="gcard-m">Alcohol · 8 members · Online</div></div>
+        <button class="join-btn" onclick="joinGroup(this)">Join</button>
+      </div>
+      <div class="mavs"><div class="mav">A</div><div class="mav">K</div><div class="mav">R</div><div class="mav" style="background:rgba(255,255,255,0.1);font-size:10px;color:var(--td)">+5</div></div>
+      <div class="streak-pill"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1c0 3-3 4-3 7a3 3 0 006 0c0-3-3-4-3-7z" stroke="var(--gold)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>Group streak: 18 days</div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top">
+        <div><div class="gcard-n">The Clean Club</div><div class="gcard-m">Mixed · 5 members · Durham, NC</div></div>
+        <button class="join-btn" onclick="joinGroup(this)">Join</button>
+      </div>
+      <div class="mavs"><div class="mav">T</div><div class="mav">N</div><div class="mav">D</div></div>
+      <div class="streak-pill"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1c0 3-3 4-3 7a3 3 0 006 0c0-3-3-4-3-7z" stroke="var(--gold)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>Group streak: 7 days</div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top">
+        <div><div class="gcard-n">Nicotine-Free NC</div><div class="gcard-m">Smoking · 12 members · Chapel Hill</div></div>
+        <button class="join-btn" onclick="joinGroup(this)">Join</button>
+      </div>
+      <div class="mavs"><div class="mav">B</div><div class="mav">C</div><div class="mav">E</div><div class="mav" style="background:rgba(255,255,255,0.1);font-size:10px;color:var(--td)">+9</div></div>
+      <div class="streak-pill"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1c0 3-3 4-3 7a3 3 0 006 0c0-3-3-4-3-7z" stroke="var(--gold)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>Group streak: 91 days</div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bni active" onclick="navTo('s-home',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M3 10l8-7 8 7v9a1 1 0 01-1 1H14v-5H8v5H4a1 1 0 01-1-1z"/></svg><span class="bni-label">Home</span></div>
+    <div class="bni active" onclick="navTo('s-groups',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M16 11c1.7 0 3 1.3 3 3v1h-3M6 11c-1.7 0-3 1.3-3 3v1h3M11 11c2.2 0 4 1.8 4 4v1H7v-1c0-2.2 1.8-4 4-4zM14 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 100-4 2 2 0 000 4zM4 8a2 2 0 100-4 2 2 0 000 4z"/></svg><span class="bni-label">Squad</span></div>
+    <div class="bni" onclick="navTo('s-chat',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 4h14a1 1 0 011 1v9a1 1 0 01-1 1H7l-4 3V5a1 1 0 011-1z"/></svg><span class="bni-label">Chat</span></div>
+    <div class="bni" onclick="navTo('s-progress',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 16l4-5 4 3 4-7 4 2"/></svg><span class="bni-label">Progress</span></div>
+    <div class="bni" onclick="navTo('s-rewards',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 2l1.8 5.5H19l-4.9 3.5 1.9 5.8L11 13.5l-5 3.3 1.9-5.8L3 7.5h6.2z"/></svg><span class="bni-label">Rewards</span></div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 6: HOME ══ -->
+<div class="screen" id="s-home">
+  <div class="notch"></div>
+  <div class="status-bar"><span class="status-time" id="home-time">9:41</span><div class="status-icons"><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="21" height="10" rx="3" stroke="white" stroke-width="1.3" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+  <div class="home-top">
+    <div class="home-greet">Good morning,</div>
+    <div class="home-h">Marcus 👋</div>
+    <div class="streak-card" onclick="navTo('s-progress', null)">
+      <div class="streak-watermark">42</div>
+      <div class="streak-lbl">Current Streak</div>
+      <div class="streak-n">42 <span class="streak-unit">days</span></div>
+      <div class="streak-sub">Personal best · +3 from last week</div>
+      <div class="ring-wrap">
+        <svg width="66" height="66" viewBox="0 0 66 66">
+          <circle cx="33" cy="33" r="27" fill="none" stroke="rgba(74,86,67,0.15)" stroke-width="5"/>
+          <circle cx="33" cy="33" r="27" fill="none" stroke="var(--g4)" stroke-width="5"
+            stroke-dasharray="169.6" stroke-dashoffset="42" stroke-linecap="round"
+            transform="rotate(-90 33 33)"/>
+          <text x="33" y="38" text-anchor="middle" fill="var(--g4)" font-size="13" font-weight="700" font-family="Syne, sans-serif">85%</text>
+        </svg>
+      </div>
+    </div>
+    <div class="qa-grid">
+      <div class="qa sos" onclick="navTo('s-sos',null)">
+        <div class="qa-ico"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="10" stroke="#ff6b6b" stroke-width="1.8" fill="none"/><path d="M13 8v5M13 17v1" stroke="#ff6b6b" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+        <div class="qa-n">SOS</div><div class="qa-s">Alert your squad</div>
+      </div>
+      <div class="qa" onclick="navTo('s-breathe',null)">
+        <div class="qa-ico"><svg width="26" height="26" viewBox="0 0 26 26"><path d="M13 4c0 5-5 7-5 12a5 5 0 0010 0c0-5-5-7-5-12z" stroke="var(--g6)" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M9 14c-2 0-4-1-4-3" stroke="var(--g6)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M17 14c2 0 4-1 4-3" stroke="var(--g6)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+        <div class="qa-n">Breathe</div><div class="qa-s">2 min exercise</div>
+      </div>
+      <div class="qa" onclick="navTo('s-tasks',null)">
+        <div class="qa-ico"><svg width="26" height="26" viewBox="0 0 26 26"><rect x="5" y="5" width="16" height="16" rx="4" stroke="var(--g6)" stroke-width="1.8" fill="none"/><path d="M9 13l3 3 5-5" stroke="var(--g6)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="qa-n">Check-in</div><div class="qa-s">Daily log</div>
+      </div>
+      <div class="qa" onclick="navTo('s-tasks',null)">
+        <div class="qa-ico"><svg width="26" height="26" viewBox="0 0 26 26"><rect x="4" y="6" width="18" height="16" rx="3" stroke="var(--g6)" stroke-width="1.8" fill="none"/><path d="M16 4v4M10 4v4M4 12h18" stroke="var(--g6)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></div>
+        <div class="qa-n">Meetup</div><div class="qa-s">Sat · 3 going</div>
+      </div>
+    </div>
+  </div>
+  <div class="home-scroll">
+    <div class="sec-lbl">Your Squad</div>
+    <div class="squad-strip">
+      <div class="squad-mem"><div class="squad-av" style="background:#4a6b4e">M<div class="squad-dot online"></div></div><div class="squad-n">Jay</div></div>
+      <div class="squad-mem"><div class="squad-av" style="background:#3d5a44">P<div class="squad-dot online"></div></div><div class="squad-n">Priya</div></div>
+      <div class="squad-mem"><div class="squad-av" style="background:#527358">S<div class="squad-dot away"></div></div><div class="squad-n">Sam</div></div>
+      <div class="squad-mem"><div class="squad-av" style="background:#405548">R<div class="squad-dot" style="background:rgba(255,255,255,0.25)"></div></div><div class="squad-n">Raj</div></div>
+      <div class="squad-mem"><div class="squad-av" style="background:#4e6952">T<div class="squad-dot" style="background:rgba(255,255,255,0.25)"></div></div><div class="squad-n">Tara</div></div>
+    </div>
+    <div class="sec-lbl" style="margin-top:4px">Today's Check-in</div>
+    <div class="checkin-card">
+      <div class="checkin-q">How are you feeling right now?</div>
+      <div class="mood-row">
+        <div class="mood" onclick="pickMood(this)">😔</div>
+        <div class="mood" onclick="pickMood(this)">😐</div>
+        <div class="mood sel" onclick="pickMood(this)">😊</div>
+        <div class="mood" onclick="pickMood(this)">😄</div>
+        <div class="mood" onclick="pickMood(this)">🤩</div>
+      </div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bni active" onclick="navTo('s-home',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M3 10l8-7 8 7v9a1 1 0 01-1 1H14v-5H8v5H4a1 1 0 01-1-1z" class="fill-icon"/></svg><span class="bni-label">Home</span></div>
+    <div class="bni" onclick="navTo('s-groups',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M16 11c1.7 0 3 1.3 3 3v1h-3M6 11c-1.7 0-3 1.3-3 3v1h3M11 11c2.2 0 4 1.8 4 4v1H7v-1c0-2.2 1.8-4 4-4zM14 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 100-4 2 2 0 000 4zM4 8a2 2 0 100-4 2 2 0 000 4z"/></svg><span class="bni-label">Squad</span></div>
+    <div class="bni" onclick="navTo('s-chat',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 4h14a1 1 0 011 1v9a1 1 0 01-1 1H7l-4 3V5a1 1 0 011-1z"/></svg><span class="bni-label">Chat</span></div>
+    <div class="bni" onclick="navTo('s-progress',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 16l4-5 4 3 4-7 4 2"/></svg><span class="bni-label">Progress</span></div>
+    <div class="bni" onclick="navTo('s-rewards',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 2l1.8 5.5H19l-4.9 3.5 1.9 5.8L11 13.5l-5 3.3 1.9-5.8L3 7.5h6.2z"/></svg><span class="bni-label">Rewards</span></div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 7: SOS ══ -->
+<div class="screen" id="s-sos">
+  <div class="notch"></div>
+  <div class="status-bar"><span class="status-time">9:41</span></div>
+  <div style="padding:12px 24px 0; flex-shrink:0;">
+    <div class="back-btn" onclick="goBack()"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M11 4L6 9l5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+  </div>
+  <div class="sos-ring-wrap">
+    <div class="sos-ring-outer"><div class="sos-ring-mid">
+      <div class="sos-ring-inner" onclick="triggerSOS()">
+        <div class="sos-lbl">SOS</div>
+        <div class="sos-hold">HOLD TO ALERT</div>
+      </div>
+    </div></div>
+  </div>
+  <div class="sos-top">
+    <div class="sos-h">Need help right now?</div>
+    <div class="sos-sub">Your squad is notified immediately</div>
+  </div>
+  <div class="sos-body">
+    <div class="sos-sec">Your squad members</div>
+    <div class="contact-card">
+      <div class="contact-av">J<div class="squad-dot online" style="position:absolute;bottom:1px;right:1px"></div></div>
+      <div><div class="contact-n">Jay K.</div><div class="contact-s">🟢 Online now</div></div>
+      <div class="call-btn" onclick="showToast('📞 Calling Jay...')"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 3h4l2 4-2.5 1.5c1 2 2.5 3.5 4.5 4.5L13 11l4 2v4a1 1 0 01-1 1C6 18 0 12 0 4a1 1 0 011-1z"/></svg></div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-av">P</div>
+      <div><div class="contact-n">Priya M.</div><div class="contact-s">🟡 Responds in ~5 min</div></div>
+      <div class="call-btn" onclick="showToast('📞 Calling Priya...')"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 3h4l2 4-2.5 1.5c1 2 2.5 3.5 4.5 4.5L13 11l4 2v4a1 1 0 01-1 1C6 18 0 12 0 4a1 1 0 011-1z"/></svg></div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-av">S</div>
+      <div><div class="contact-n">Sam R.</div><div class="contact-s">⚪ Last seen 2h ago</div></div>
+      <div class="call-btn" onclick="showToast('📞 Calling Sam...')"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 3h4l2 4-2.5 1.5c1 2 2.5 3.5 4.5 4.5L13 11l4 2v4a1 1 0 01-1 1C6 18 0 12 0 4a1 1 0 011-1z"/></svg></div>
+    </div>
+    <button class="breathe-btn-big" onclick="navTo('s-breathe',null)">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 1c0 4-4 5.5-4 9a4 4 0 008 0c0-3.5-4-5-4-9z" stroke="var(--g6)" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+      Start breathing exercise instead
+    </button>
+  </div>
+</div>
+
+<!-- ══ SCREEN 8: BREATHE ══ -->
+<div class="screen" id="s-breathe">
+  <div class="notch"></div>
+  <div class="status-bar"><span class="status-time">9:41</span></div>
+  <div style="padding:12px 24px 0; flex-shrink:0;">
+    <div class="back-btn" onclick="stopBreathe(); goBack()"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M11 4L6 9l5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+  </div>
+  <div class="breathe-wrap">
+    <div class="breathe-orb-outer"><div class="breathe-orb-mid">
+      <div class="breathe-orb" id="breathe-orb">
+        <div class="breathe-phase" id="breathe-phase">Ready</div>
+      </div>
+    </div></div>
+    <div class="breathe-count" id="breathe-count">4</div>
+    <div class="breathe-instruction" id="breathe-instr">Take a breath</div>
+    <div class="breathe-sub">4-7-8 technique · Reduces cravings instantly</div>
+    <div class="breathe-progress"><div class="breathe-progress-fill" id="breathe-prog" style="width:0%"></div></div>
+    <button class="btn-primary" id="breathe-btn" onclick="toggleBreathe()" style="max-width:280px">
+      Start Exercise
+      <div class="arr"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M6 4l6 4-6 4z" fill="white"/></svg></div>
+    </button>
+  </div>
+</div>
+
+<!-- ══ SCREEN 9: PROGRESS ══ -->
+<div class="screen" id="s-progress">
+  <div class="notch"></div>
+  <div class="status-bar"><span class="status-time">9:41</span></div>
+  <div class="prog-top">
+    <div class="prog-h">Your progress.</div>
+    <div class="stat-grid">
+      <div class="scard white"><div class="scard-l">Days clean</div><div class="scard-v">42</div><div class="scard-ch">↑ Personal best</div></div>
+      <div class="scard"><div class="scard-l">Saved</div><div class="scard-v">$<span class="scard-u">312</span></div><div class="scard-ch">↑ $84 this month</div></div>
+      <div class="scard"><div class="scard-l">SOS calls</div><div class="scard-v">3</div><div class="scard-ch">↓ Down from 7</div></div>
+      <div class="scard"><div class="scard-l">Squad rank</div><div class="scard-v">#<span class="scard-u">2</span></div><div class="scard-ch">↑ Up 3 spots</div></div>
+    </div>
+  </div>
+  <div class="prog-scroll">
+    <div class="chart-card">
+      <div class="chart-l">Weekly check-ins</div>
+      <div class="bar-chart">
+        <div class="bar-col"><div class="bar-fill" style="height:45%"></div><div class="bar-d">M</div></div>
+        <div class="bar-col"><div class="bar-fill" style="height:65%"></div><div class="bar-d">T</div></div>
+        <div class="bar-col"><div class="bar-fill" style="height:40%"></div><div class="bar-d">W</div></div>
+        <div class="bar-col"><div class="bar-fill hi" style="height:85%"></div><div class="bar-d">T</div></div>
+        <div class="bar-col"><div class="bar-fill hi" style="height:90%"></div><div class="bar-d">F</div></div>
+        <div class="bar-col"><div class="bar-fill" style="height:60%"></div><div class="bar-d">S</div></div>
+        <div class="bar-col"><div class="bar-fill hi" style="height:75%"></div><div class="bar-d">S</div></div>
+      </div>
+    </div>
+    <div class="milestones">
+      <div class="sec-lbl" style="margin-bottom:16px">Milestones</div>
+      <div class="ms-row">
+        <div class="ms-ico earned"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 1l2 5h5l-4 3 1.5 5L9 11l-4.5 3L6 9 2 6h5z" stroke="var(--gold)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="ms-n">First Week</div><div class="ms-d">Earned Jan 12</div></div>
+        <div style="margin-left:auto"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 9l5 5 7-7" stroke="var(--g6)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="ms-row">
+        <div class="ms-ico earned"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 1l2 5h5l-4 3 1.5 5L9 11l-4.5 3L6 9 2 6h5z" stroke="var(--gold)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="ms-n">30 Days Strong</div><div class="ms-d">Earned Feb 4</div></div>
+        <div style="margin-left:auto"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 9l5 5 7-7" stroke="var(--g6)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="ms-row" style="opacity:0.4">
+        <div class="ms-ico locked"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="4" y="8" width="10" height="8" rx="2" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none"/><path d="M6 8V6a3 3 0 016 0v2" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+        <div><div class="ms-n">60 Days</div><div class="ms-d">18 days to go</div></div>
+        <div style="margin-left:auto;font-size:12px;color:var(--td);font-weight:600">18d</div>
+      </div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bni" onclick="navTo('s-home',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M3 10l8-7 8 7v9a1 1 0 01-1 1H14v-5H8v5H4a1 1 0 01-1-1z"/></svg><span class="bni-label">Home</span></div>
+    <div class="bni" onclick="navTo('s-groups',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M16 11c1.7 0 3 1.3 3 3v1h-3M6 11c-1.7 0-3 1.3-3 3v1h3M11 11c2.2 0 4 1.8 4 4v1H7v-1c0-2.2 1.8-4 4-4zM14 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 100-4 2 2 0 000 4zM4 8a2 2 0 100-4 2 2 0 000 4z"/></svg><span class="bni-label">Squad</span></div>
+    <div class="bni" onclick="navTo('s-chat',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 4h14a1 1 0 011 1v9a1 1 0 01-1 1H7l-4 3V5a1 1 0 011-1z"/></svg><span class="bni-label">Chat</span></div>
+    <div class="bni active" onclick="navTo('s-progress',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 16l4-5 4 3 4-7 4 2" class="fill-icon" style="fill:none!important; stroke:white!important"/></svg><span class="bni-label">Progress</span></div>
+    <div class="bni" onclick="navTo('s-rewards',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 2l1.8 5.5H19l-4.9 3.5 1.9 5.8L11 13.5l-5 3.3 1.9-5.8L3 7.5h6.2z"/></svg><span class="bni-label">Rewards</span></div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 10: REWARDS ══ -->
+<div class="screen" id="s-rewards">
+  <div class="notch"></div>
+  <div class="status-bar"><span class="status-time">9:41</span></div>
+  <div class="rew-top">
+    <div class="rew-h">Rewards.</div>
+    <div class="rew-sub">Redeem your clean-time coins</div>
+    <div class="coins-card">
+      <div class="coin-ico">🪙</div>
+      <div><div class="coins-n" id="coin-count">840</div><div class="coins-l">Clean Coins available</div></div>
+    </div>
+  </div>
+  <div class="rew-scroll">
+    <div class="sec-lbl">Available rewards</div>
+    <div class="rcard" onclick="redeemReward(this, 200, 'Free Coffee')">
+      <div class="rcard-ico"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M5 8h14l-1 9a2 2 0 01-2 2H8a2 2 0 01-2-2L5 8z" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 8V6a2 2 0 00-2-2H9a2 2 0 00-2 2v2M19 8c2 0 3 1 3 2.5S21 13 19 13" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></div>
+      <div><div class="rcard-n">Free Coffee</div><div class="rcard-b">Starbucks · Nearby</div></div>
+      <div class="rcard-cost"><div class="rcard-cn">200 🪙</div><div class="rcard-cl">Redeem</div></div>
+    </div>
+    <div class="rcard" onclick="redeemReward(this, 750, '1 Month Gym')">
+      <div class="rcard-ico"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 12h12M4 8l4 4-4 4M20 8l-4 4 4 4M2 10v4M22 10v4" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div class="rcard-n">1 Month Gym</div><div class="rcard-b">Planet Fitness · 0.8mi</div></div>
+      <div class="rcard-cost"><div class="rcard-cn">750 🪙</div><div class="rcard-cl">Redeem</div></div>
+    </div>
+    <div class="rcard" onclick="redeemReward(this, 400, 'Movie Ticket')">
+      <div class="rcard-ico"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3" stroke="white" stroke-width="1.8" fill="none"/><path d="M8 5v14M16 5v14M2 12h3M19 12h3" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></div>
+      <div><div class="rcard-n">Movie Ticket</div><div class="rcard-b">AMC Theaters</div></div>
+      <div class="rcard-cost"><div class="rcard-cn">400 🪙</div><div class="rcard-cl">Redeem</div></div>
+    </div>
+    <div class="rcard" onclick="redeemReward(this, 350, '$10 Food Credit')">
+      <div class="rcard-ico"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10M16 8l-4 4-2-2" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div class="rcard-n">$10 Food Credit</div><div class="rcard-b">DoorDash · Any restaurant</div></div>
+      <div class="rcard-cost"><div class="rcard-cn">350 🪙</div><div class="rcard-cl">Redeem</div></div>
+    </div>
+    <div class="rcard" onclick="redeemReward(this, 600, 'Spa Session')">
+      <div class="rcard-ico"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c-3 4-6 6-6 10a6 6 0 0012 0c0-4-3-6-6-10z" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M8 14c1 1.5 2.5 2 4 2s3-.5 4-2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+      <div><div class="rcard-n">Spa Session</div><div class="rcard-b">Serenity Spa · 1.2mi</div></div>
+      <div class="rcard-cost"><div class="rcard-cn">600 🪙</div><div class="rcard-cl">Redeem</div></div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bni" onclick="navTo('s-home',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M3 10l8-7 8 7v9a1 1 0 01-1 1H14v-5H8v5H4a1 1 0 01-1-1z"/></svg><span class="bni-label">Home</span></div>
+    <div class="bni" onclick="navTo('s-groups',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M16 11c1.7 0 3 1.3 3 3v1h-3M6 11c-1.7 0-3 1.3-3 3v1h3M11 11c2.2 0 4 1.8 4 4v1H7v-1c0-2.2 1.8-4 4-4zM14 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 100-4 2 2 0 000 4zM4 8a2 2 0 100-4 2 2 0 000 4z"/></svg><span class="bni-label">Squad</span></div>
+    <div class="bni" onclick="navTo('s-chat',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 4h14a1 1 0 011 1v9a1 1 0 01-1 1H7l-4 3V5a1 1 0 011-1z"/></svg><span class="bni-label">Chat</span></div>
+    <div class="bni" onclick="navTo('s-progress',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 16l4-5 4 3 4-7 4 2"/></svg><span class="bni-label">Progress</span></div>
+    <div class="bni active" onclick="navTo('s-rewards',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 2l1.8 5.5H19l-4.9 3.5 1.9 5.8L11 13.5l-5 3.3 1.9-5.8L3 7.5h6.2z" class="fill-icon"/></svg><span class="bni-label">Rewards</span></div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 11: CHAT ══ -->
+<div class="screen" id="s-chat">
+  <div class="notch"></div>
+  <div class="status-bar"><span class="status-time">9:41</span></div>
+  <div class="chat-topbar">
+    <div class="back-btn" onclick="navTo('s-home',null)" style="margin:0;width:36px;height:36px"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+    <div class="chat-grav"><svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="6" r="3.5" stroke="white" stroke-width="1.8" fill="none"/><path d="M3 17c0-3.5 3.1-6 7-6s7 2.5 7 6" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></div>
+    <div><div class="chat-gn">Morning Warriors</div><div class="chat-gs">6 members · 🔥 42 day streak</div></div>
+    <div style="margin-left:auto; color:var(--td); font-size:20px; cursor:pointer; line-height:1">⋯</div>
+  </div>
+  <div class="chat-msgs" id="chat-msgs">
+    <div class="msg theirs"><div class="msg-sender">JAY K.</div><div class="msg-bub">Day 42! How's everyone holding up? 💪</div><div class="msg-time">9:02 AM</div></div>
+    <div class="msg theirs"><div class="msg-sender">PRIYA M.</div><div class="msg-bub">Feeling strong! Had a craving after lunch but did the breathing exercise and it passed 🙏</div><div class="msg-time">9:08 AM</div></div>
+    <div class="msg mine"><div class="msg-bub">Same! The 4-7-8 breathing actually works. Went for a run instead 🏃</div><div class="msg-time">9:15 AM</div></div>
+    <div class="msg theirs"><div class="msg-sender">SAM R.</div><div class="msg-bub">struggling a bit today ngl... office stress</div><div class="msg-time">9:20 AM</div></div>
+  </div>
+  <div class="sos-banner" id="sos-banner">
+    <svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" stroke="#ff6b6b" stroke-width="1.5" fill="none"/><path d="M9 5v4M9 13v1" stroke="#ff6b6b" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    <div class="sos-banner-txt"><strong>Sam needs help</strong> — craving is hitting hard right now</div>
+    <button class="sos-resp" onclick="respondSOS()">Respond</button>
+  </div>
+  <div class="chat-input-bar">
+    <div class="chat-input-wrap">
+      <input placeholder="Message your squad..." id="chat-input" onkeydown="if(event.key==='Enter')sendMsg()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 2v14M4 7l5-5 5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    </div>
+    <button class="send-btn" onclick="sendMsg()"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M2 9h14M11 4l5 5-5 5" stroke="var(--g2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button>
+  </div>
+  <div class="bnav">
+    <div class="bni" onclick="navTo('s-home',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M3 10l8-7 8 7v9a1 1 0 01-1 1H14v-5H8v5H4a1 1 0 01-1-1z"/></svg><span class="bni-label">Home</span></div>
+    <div class="bni" onclick="navTo('s-groups',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M16 11c1.7 0 3 1.3 3 3v1h-3M6 11c-1.7 0-3 1.3-3 3v1h3M11 11c2.2 0 4 1.8 4 4v1H7v-1c0-2.2 1.8-4 4-4zM14 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 100-4 2 2 0 000 4zM4 8a2 2 0 000 4z"/></svg><span class="bni-label">Squad</span></div>
+    <div class="bni active" onclick="navTo('s-chat',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 4h14a1 1 0 011 1v9a1 1 0 01-1 1H7l-4 3V5a1 1 0 011-1z" class="fill-icon"/></svg><span class="bni-label">Chat</span></div>
+    <div class="bni" onclick="navTo('s-progress',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 16l4-5 4 3 4-7 4 2"/></svg><span class="bni-label">Progress</span></div>
+    <div class="bni" onclick="navTo('s-rewards',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 2l1.8 5.5H19l-4.9 3.5 1.9 5.8L11 13.5l-5 3.3 1.9-5.8L3 7.5h6.2z"/></svg><span class="bni-label">Rewards</span></div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 12: TASKS ══ -->
+<div class="screen" id="s-tasks">
+  <div class="notch"></div>
+  <div class="status-bar"><span class="status-time">9:41</span></div>
+  <div class="tasks-top">
+    <div class="tasks-h">Stay busy.<br>Stay free.</div>
+    <div class="tasks-sub">Tasks that replace the urge</div>
+    <div class="breathe-promo" onclick="navTo('s-breathe',null)">
+      <div class="breathe-ball"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 2c0 4.5-5 6-5 11a5 5 0 0010 0c0-5-5-6.5-5-11z" stroke="#64c896" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M7.5 12c-2 0-4-.8-4-2.5" stroke="#64c896" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M14.5 12c2 0 4-.8 4-2.5" stroke="#64c896" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+      <div><div class="breathe-promo-n">4-7-8 Breathing</div><div class="breathe-promo-s">2 min · Reduces cravings by 60%</div></div>
+      <div class="play-ico"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M5 3l11 6-11 6V3z" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
+    </div>
+  </div>
+  <div class="tasks-scroll">
+    <div class="sec-lbl">Today's tasks</div>
+    <div class="tcard done" onclick="toggleTask(this)">
+      <div class="task-check-box"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M1.5 5l2.5 2.5 4.5-4.5"/></svg></div>
+      <div><div class="tcard-n">Morning check-in</div><div class="tcard-s">Log your mood and intention</div></div>
+      <div class="tcard-pts">+10 🪙</div>
+    </div>
+    <div class="tcard done" onclick="toggleTask(this)">
+      <div class="task-check-box"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M1.5 5l2.5 2.5 4.5-4.5"/></svg></div>
+      <div><div class="tcard-n">5-min meditation</div><div class="tcard-s">Headspace or breathwork</div></div>
+      <div class="tcard-pts">+20 🪙</div>
+    </div>
+    <div class="tcard" onclick="toggleTask(this)">
+      <div class="task-check-box"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M1.5 5l2.5 2.5 4.5-4.5"/></svg></div>
+      <div><div class="tcard-n">15-min walk outside</div><div class="tcard-s">Physical activity fights cravings</div></div>
+      <div class="tcard-pts">+25 🪙</div>
+    </div>
+    <div class="tcard" onclick="toggleTask(this)">
+      <div class="task-check-box"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M1.5 5l2.5 2.5 4.5-4.5"/></svg></div>
+      <div><div class="tcard-n">Call a squad member</div><div class="tcard-s">Connection beats cravings</div></div>
+      <div class="tcard-pts">+30 🪙</div>
+    </div>
+    <div class="tcard" onclick="toggleTask(this)">
+      <div class="task-check-box"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M1.5 5l2.5 2.5 4.5-4.5"/></svg></div>
+      <div><div class="tcard-n">Journal something you're proud of</div><div class="tcard-s">Gratitude practice</div></div>
+      <div class="tcard-pts">+15 🪙</div>
+    </div>
+    <div class="sec-lbl" style="margin-top:8px">Upcoming meetup</div>
+    <div class="meetup-card">
+      <div class="meetup-d">Saturday · March 8 · 3:00 PM</div>
+      <div class="meetup-n">Coffee & Connection ☕</div>
+      <div class="meetup-l">
+        <svg width="13" height="13" viewBox="0 0 13 13"><path d="M6.5 1C4 1 2 3 2 5.5c0 3.5 4.5 7.5 4.5 7.5S11 9 11 5.5C11 3 9 1 6.5 1z" stroke="#999" stroke-width="1.3" fill="none"/><circle cx="6.5" cy="5.5" r="1.5" stroke="#999" stroke-width="1.3" fill="none"/></svg>
+        Jubala Coffee, Raleigh
+      </div>
+      <div class="meetup-row">
+        <div class="rsvp-avs"><div class="rsvp-av">M</div><div class="rsvp-av">J</div><div class="rsvp-av">P</div></div>
+        <div class="rsvp-cnt">3 going</div>
+        <button class="rsvp-btn" id="rsvp-btn" onclick="rsvp(this)">RSVP</button>
+      </div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bni" onclick="navTo('s-home',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M3 10l8-7 8 7v9a1 1 0 01-1 1H14v-5H8v5H4a1 1 0 01-1-1z"/></svg><span class="bni-label">Home</span></div>
+    <div class="bni" onclick="navTo('s-groups',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M16 11c1.7 0 3 1.3 3 3v1h-3M6 11c-1.7 0-3 1.3-3 3v1h3M11 11c2.2 0 4 1.8 4 4v1H7v-1c0-2.2 1.8-4 4-4zM14 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 100-4 2 2 0 000 4zM4 8a2 2 0 100-4 2 2 0 000 4z"/></svg><span class="bni-label">Squad</span></div>
+    <div class="bni" onclick="navTo('s-chat',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 4h14a1 1 0 011 1v9a1 1 0 01-1 1H7l-4 3V5a1 1 0 011-1z"/></svg><span class="bni-label">Chat</span></div>
+    <div class="bni" onclick="navTo('s-progress',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 16l4-5 4 3 4-7 4 2"/></svg><span class="bni-label">Progress</span></div>
+    <div class="bni" onclick="navTo('s-rewards',this)"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 2l1.8 5.5H19l-4.9 3.5 1.9 5.8L11 13.5l-5 3.3 1.9-5.8L3 7.5h6.2z"/></svg><span class="bni-label">Rewards</span></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+</div><!-- #app -->
+
+<script>
+// ── STATE ──
+let prevScreen = 's-landing';
+let coins = 840;
+let breatheTimer = null;
+let breatheRunning = false;
+let breatheStep = 0;
+let breatheCount = 0;
+const breatheSteps = [{phase:'Inhale',dur:4,instr:'Breathe in'},{phase:'Hold',dur:7,instr:'Hold'},{phase:'Exhale',dur:8,instr:'Breathe out'}];
+let breatheTotalRounds = 3;
+let breatheCurrentRound = 0;
+let breatheSecLeft = 4;
+
+// ── NAVIGATION ──
+function goTo(id) {
+  const cur = document.querySelector('.screen.active');
+  if (cur) { prevScreen = cur.id; cur.classList.remove('active'); }
+  const next = document.getElementById(id);
+  next.classList.add('active');
+  next.scrollTop = 0;
+}
+
+function goBack() { goTo(prevScreen); }
+
+function navTo(id, navItem) {
+  goTo(id);
+  if (navItem) {
+    const bnav = navItem.closest('.bnav');
+    if (bnav) { bnav.querySelectorAll('.bni').forEach(b => b.classList.remove('active')); navItem.classList.add('active'); }
+  }
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── LOGIN ──
+function handleLogin() { goTo('s-home'); showToast('✓ Signed in'); }
+
+// ── SURVEY ──
+let surveyPage = 1;
+function toggleOpt(el) {
+  el.classList.toggle('sel');
+}
+function nextSurvey() {
+  if (surveyPage === 1) { surveyPage = 2; goTo('s-personal'); }
+  else { goTo('s-groups'); }
+}
+
+// ── PERSONALIZATION ──
+function selPcard(el) {
+  el.classList.toggle('sel');
+}
+
+// ── GROUP FINDER ──
+function joinGroup(btn) {
+  if (btn.classList.contains('joined')) { btn.textContent = 'Join'; btn.classList.remove('joined'); showToast('Left group'); }
+  else { btn.textContent = '✓ Joined'; btn.classList.add('joined'); showToast('🎉 Joined! Squad notification sent'); setTimeout(() => goTo('s-home'), 1200); }
+}
+function filterChip(el, val) {
+  el.closest('.chips').querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  filterGroups(val === 'All' ? '' : val);
+}
+function filterGroups(q) {
+  document.querySelectorAll('#groups-list .gcard').forEach(c => {
+    const txt = c.textContent.toLowerCase();
+    c.style.display = (!q || q === 'All' || txt.includes(q.toLowerCase())) ? '' : 'none';
+  });
+}
+
+// ── MOOD ──
+function pickMood(el) {
+  el.closest('.mood-row').querySelectorAll('.mood').forEach(m => m.classList.remove('sel'));
+  el.classList.add('sel');
+  showToast('Mood logged ✓ +5 🪙');
+  coins += 5;
+  updateCoins();
+}
+
+// ── SOS ──
+function triggerSOS() {
+  document.querySelector('.sos-ring-inner').style.background = 'rgba(255,107,107,0.3)';
+  showToast('🆘 Squad alerted! Jay is responding...');
+  setTimeout(() => document.querySelector('.sos-ring-inner').style.background = '', 2000);
+}
+
+// ── BREATHING EXERCISE ──
+function toggleBreathe() {
+  if (breatheRunning) { stopBreathe(); }
+  else { startBreathe(); }
+}
+function startBreathe() {
+  breatheRunning = true;
+  breatheStep = 0; breatheCurrentRound = 0; breatheSecLeft = breatheSteps[0].dur;
+  document.getElementById('breathe-btn').innerHTML = 'Stop <div class="arr"><svg width="16" height="16" viewBox="0 0 16 16"><rect x="4" y="4" width="8" height="8" rx="1" fill="white"/></svg></div>';
+  runBreatheStep();
+}
+function stopBreathe() {
+  breatheRunning = false;
+  if (breatheTimer) clearInterval(breatheTimer);
+  document.getElementById('breathe-phase').textContent = 'Ready';
+  document.getElementById('breathe-count').textContent = '4';
+  document.getElementById('breathe-instr').textContent = 'Take a breath';
+  document.getElementById('breathe-prog').style.width = '0%';
+  document.getElementById('breathe-btn').innerHTML = 'Start Exercise <div class="arr"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M6 4l6 4-6 4z" fill="white"/></svg></div>';
+  const orb = document.getElementById('breathe-orb');
+  orb.style.transform = ''; orb.style.background = '';
+}
+function runBreatheStep() {
+  if (!breatheRunning) return;
+  const step = breatheSteps[breatheStep];
+  document.getElementById('breathe-phase').textContent = step.phase;
+  document.getElementById('breathe-instr').textContent = step.instr;
+  breatheSecLeft = step.dur;
+  document.getElementById('breathe-count').textContent = breatheSecLeft;
+  const orb = document.getElementById('breathe-orb');
+  if (step.phase === 'Inhale') orb.style.transform = 'scale(1.3)';
+  else if (step.phase === 'Hold') orb.style.transform = 'scale(1.3)';
+  else orb.style.transform = 'scale(0.85)';
+  orb.style.transition = `transform ${step.dur}s ease-in-out`;
+  if (breatheTimer) clearInterval(breatheTimer);
+  breatheTimer = setInterval(() => {
+    breatheSecLeft--;
+    document.getElementById('breathe-count').textContent = Math.max(0, breatheSecLeft);
+    const totalSecs = breatheSteps.reduce((a,s) => a+s.dur, 0);
+    const doneInRound = breatheSteps.slice(0, breatheStep).reduce((a,s) => a+s.dur, 0) + (step.dur - breatheSecLeft);
+    const totalDone = breatheCurrentRound * totalSecs + doneInRound;
+    const grandTotal = breatheTotalRounds * totalSecs;
+    document.getElementById('breathe-prog').style.width = Math.min(100, (totalDone/grandTotal)*100) + '%';
+    if (breatheSecLeft <= 0) {
+      clearInterval(breatheTimer);
+      breatheStep = (breatheStep + 1) % breatheSteps.length;
+      if (breatheStep === 0) {
+        breatheCurrentRound++;
+        if (breatheCurrentRound >= breatheTotalRounds) {
+          stopBreathe();
+          showToast('✨ Exercise complete! Craving should pass');
+          coins += 20; updateCoins();
+          return;
+        }
+      }
+      setTimeout(runBreatheStep, 500);
+    }
+  }, 1000);
+}
+
+// ── COINS ──
+function updateCoins() { const el = document.getElementById('coin-count'); if(el) el.textContent = coins; }
+
+// ── REWARDS ──
+function redeemReward(el, cost, name) {
+  if (coins >= cost) {
+    coins -= cost; updateCoins();
+    el.style.opacity = '0.5';
+    el.querySelector('.rcard-cl').textContent = '✓ Redeemed';
+    showToast(`🎁 ${name} redeemed!`);
+  } else {
+    showToast('Not enough coins yet');
+  }
+}
+
+// ── CHAT ──
+const chatReplies = ['You got this! 💪','Stay strong, we believe in you!','Call me if you need to talk 📞','Remember why you started ✨','One hour at a time — you can do this','I went through the same thing, it passes 🙏'];
+let replyIdx = 0;
+function sendMsg() {
+  const inp = document.getElementById('chat-input');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  const msgs = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className = 'msg mine';
+  div.innerHTML = `<div class="msg-bub">${txt}</div><div class="msg-time">Just now</div>`;
+  msgs.appendChild(div);
+  inp.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+  setTimeout(() => {
+    const reply = document.createElement('div');
+    reply.className = 'msg theirs';
+    reply.innerHTML = `<div class="msg-sender">JAY K.</div><div class="msg-bub">${chatReplies[replyIdx++ % chatReplies.length]}</div><div class="msg-time">Just now</div>`;
+    msgs.appendChild(reply);
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 1000 + Math.random()*800);
+}
+function respondSOS() {
+  document.getElementById('sos-banner').style.display = 'none';
+  const msgs = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className = 'msg mine';
+  div.innerHTML = '<div class="msg-bub">Sam, I\'m here! Let\'s talk 📞</div><div class="msg-time">Just now</div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  showToast('Sam has been notified ✓');
+}
+
+// ── TASKS ──
+function toggleTask(el) {
+  const wasDone = el.classList.contains('done');
+  el.classList.toggle('done');
+  if (!wasDone) { showToast('+' + el.querySelector('.tcard-pts').textContent.split('+')[1]); const pts = parseInt(el.querySelector('.tcard-pts').textContent); coins += pts || 0; updateCoins(); }
+}
+
+// ── RSVP ──
+function rsvp(btn) {
+  if (btn.classList.contains('going')) { btn.textContent = 'RSVP'; btn.classList.remove('going'); showToast('RSVP cancelled'); }
+  else { btn.textContent = '✓ Going'; btn.classList.add('going'); showToast('🎉 RSVP confirmed! +10 🪙'); coins += 10; updateCoins(); }
+}
+
+// ── CLOCK ──
+function updateTime() {
+  const now = new Date();
+  const t = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  document.querySelectorAll('.status-time').forEach(el => el.textContent = t);
+}
+updateTime(); setInterval(updateTime, 10000);
+</script>
+</body>
+</html>

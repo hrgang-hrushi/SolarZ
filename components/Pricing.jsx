@@ -7,43 +7,43 @@ export default function Pricing() {
 
   const plans = [
     {
-      name: 'Basic Plan',
-      price: '$49.00',
-      period: 'Per Month',
-      description: 'Ideal for early-stage projects or small businesses looking for reliable features, security, and foundational support—delivering maximum value without hidden fees or complexity.',
+      name: 'Starter Investor',
+      price: '₹10k min',
+      period: 'Per project ticket',
+      description: 'Dip your toes with smaller tickets into curated solar assets. Great for first-time investors exploring the platform.',
       features: [
-        { label: 'Unlimited User Licenses', included: false },
-        { label: 'Dedicated Support Team', included: false },
-        { label: 'Custom Solutions & Integrations', included: true },
-        { label: 'Advanced Security Features', included: true },
-        { label: 'Onboarding & Training Sessions', included: true },
+        { label: 'Access to open solar projects', included: true },
+        { label: 'Standard payouts (quarterly)', included: true },
+        { label: 'Live performance dashboard', included: true },
+        { label: 'Email support', included: true },
+        { label: 'Priority liquidity support', included: false },
       ],
     },
     {
-      name: 'Professional Plan',
-      price: '$99.00',
-      period: 'Per Month',
+      name: 'Growth Investor',
+      price: '₹50k min',
+      period: 'Per project ticket',
       popular: true,
-      description: 'Perfect for growing companies that need advanced customization, dedicated support, and scalable infrastructure to handle increasing demands with confidence.',
+      description: 'Build a diversified solar portfolio with faster support and enhanced reporting for payouts and tax readiness.',
       features: [
-        { label: 'Unlimited User Licenses', included: true },
-        { label: 'Dedicated Support Team', included: true },
-        { label: 'Custom Solutions & Integrations', included: true },
-        { label: 'Advanced Security Features', included: true },
-        { label: 'Onboarding & Training Sessions', included: true },
+        { label: 'All Starter benefits', included: true },
+        { label: 'Priority KYC & onboarding', included: true },
+        { label: 'Enhanced payout statements', included: true },
+        { label: 'Portfolio diversification guidance', included: true },
+        { label: 'Dedicated CSM', included: false },
       ],
     },
     {
-      name: 'Premium Plan',
-      price: '$149.00',
-      period: 'Per Month',
-      description: 'Built for large-scale enterprises or ambitious teams that require comprehensive solutions, premium integrations, and white-glove support for mission-critical operations.',
+      name: 'Institutional',
+      price: '₹5L+ commits',
+      period: 'Custom mandates',
+      description: 'For family offices and funds needing structured allocations, custom reporting, and white-glove operations.',
       features: [
-        { label: 'Unlimited User Licenses', included: true },
-        { label: 'Dedicated Support Team', included: true },
-        { label: 'Custom Solutions & Integrations', included: true },
-        { label: 'Advanced Security Features', included: true },
-        { label: 'Onboarding & Training Sessions', included: true },
+        { label: 'All Growth benefits', included: true },
+        { label: 'Custom mandates & allocations', included: true },
+        { label: 'Dedicated CSM & SLA', included: true },
+        { label: 'Bank/escrow integrations', included: true },
+        { label: 'API/export for reporting', included: true },
       ],
     },
   ]
@@ -54,8 +54,8 @@ export default function Pricing() {
         <div className="container">
           <div className="pricing__layout">
             <div className="pricing__left">
-              <span className="section-label">Best Pricing Plans</span>
-              <ClarifyTitle text="Flexible best pricing plans for you" />
+              <span className="section-label">Investment tiers</span>
+              <ClarifyTitle text="Pick the ticket size that fits your strategy" />
               <div className="pricing__buttons">
                 <Link href="/contact" className="btn btn-lime btn-arrow">
                   Get in touch

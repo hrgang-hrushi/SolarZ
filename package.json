@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+  "dev": "PORT=${PORT:-3001} next dev -p $PORT",
     "build": "prisma generate && next build",
     "start": "next start -p 3001",
     "db:generate": "prisma generate",
@@ -13,13 +13,13 @@
     "db:seed": "node prisma/seed.js"
   },
   "dependencies": {
-    "@prisma/client": "^7.4.2",
+    "@prisma/client": "^5.21.0",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.3.1",
     "jsonwebtoken": "^9.0.3",
     "next": "13.4.7",
     "pg": "^8.20.0",
-    "prisma": "^7.4.2",
+    "prisma": "^5.21.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   }

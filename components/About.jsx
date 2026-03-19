@@ -3,12 +3,12 @@ import ClarifyTitle from './ClarifyTitle'
 
 export default function About() {
   const solutions = [
-    'Solar inverter setup',
-    'Battery storage solutions',
-    'Solar material financing',
-    'Proven track record',
-    'Customer-centric approach',
-    '24 X 7 Call & chat support',
+    'Curated, diligence-backed solar projects',
+    'Transparent payout schedules and contracts',
+    'Bank-verified escrow and settlements',
+    'Live generation + revenue dashboards',
+    'Compliance-first KYC/AML and audit trail',
+    'Dedicated investor success support',
   ]
 
   return (
@@ -17,16 +17,16 @@ export default function About() {
         <div className="container">
           <div className="about__grid">
             <div className="about__left">
-              <span className="section-label">About Company</span>
-              <ClarifyTitle text="Innovative solar energy solutions for sustainable living" />
+              <span className="section-label">About Solar Z</span>
+              <ClarifyTitle text="Fractional solar investing built for real returns" />
               <p className="about__desc">
-                At Solar Z, we help homes and businesses switch to clean, reliable solar energy—reducing costs, increasing energy independence, and supporting a more sustainable future.
+                Solar Z curates revenue-generating solar projects and makes them investable in fractional units. Investors get transparent yield, live performance dashboards, and compliant custody—without managing hardware, land, or maintenance.
               </p>
               <div className="about__funding">
                 <span className="about__funding-badge">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6c0-1.5 1-4 6-4s6 2.5 6 4h1.5a2.5 2.5 0 0 1 0 5H18" /><path d="M9 14v7M15 14v7M9 21h6" /><path d="M10 9a2 2 0 1 0 4 0" /></svg>
                 </span>
-                <span>We helped to get companies with <strong>$15M+</strong> funding</span>
+                <span>Backed by <strong>real PPAs</strong> and <strong>audited payouts</strong></span>
               </div>
             </div>
 
@@ -37,7 +37,7 @@ export default function About() {
                 </div>
               </div>
               <div className="about__solutions">
-                <h3 className="about__solutions-title">Comprehensive solar energy solutions</h3>
+                <h3 className="about__solutions-title">What investors get</h3>
                 <ul className="about__solutions-list">
                   {solutions.map((s, i) => (
                     <li key={i} className="about__solutions-item">

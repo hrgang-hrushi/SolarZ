@@ -1,4 +1,4 @@
-import prisma from '../../../lib/db'
+import { getPrisma } from '../../../lib/db'
 import { hashPassword, generateToken } from '../../../lib/auth'
 
 export default async function handler(req, res) {
@@ -8,10 +8,18 @@ export default async function handler(req, res) {
 
   try {
     const { email, password, name, phone } = req.body
+    const prisma = getPrisma()
+
+    const normalizedEmail = (email || '').trim().toLowerCase()
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
     // Validation
-    if (!email || !password || !name) {
+    if (!normalizedEmail || !password || !name) {
       return res.status(400).json({ error: 'Email, password, and name are required' })
+    }
+
+    if (!emailRegex.test(normalizedEmail)) {
+      return res.status(400).json({ error: 'Please provide a valid email address' })
     }
 
     if (password.length < 8) {
@@ -20,7 +28,7 @@ export default async function handler(req, res) {
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
-      where: { email }
+      where: { email: normalizedEmail }
     })
 
     if (existingUser) {
@@ -32,7 +40,7 @@ export default async function handler(req, res) {
     
     const user = await prisma.user.create({
       data: {
-        email,
+        email: normalizedEmail,
         password: hashedPassword,
         name,
         phone: phone || null,
@@ -62,6 +70,15 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Registration error:', error)
+    if (error?.code === 'P2002') {
+      return res.status(400).json({ error: 'User with this email already exists' })
+    }
+    if (error?.message?.includes('DATABASE_URL')) {
+      return res.status(500).json({ error: 'Database is not configured. Set DATABASE_URL in .env.local.' })
+    }
+    if (error?.code === 'P1001') {
+      return res.status(500).json({ error: 'Cannot reach the database. Is Postgres running and DATABASE_URL correct?' })
+    }
     res.status(500).json({ error: 'Internal server error' })
   }
 }
