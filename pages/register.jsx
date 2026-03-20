@@ -16,6 +16,8 @@ export default function Register() {
   const { register } = useAuth()
   const router = useRouter()
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
@@ -24,21 +26,37 @@ export default function Register() {
     e.preventDefault()
     setError('')
 
+    const name = formData.name.trim()
+    const email = formData.email.trim().toLowerCase()
+    const phone = formData.phone.trim()
+    const password = formData.password.trim()
+    const confirmPassword = formData.confirmPassword.trim()
+
     // Validation
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match')
+    if (!name) {
+      setError('Name is required')
       return
     }
 
-    if (formData.password.length < 8) {
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address')
+      return
+    }
+
+    if (password.length < 8) {
       setError('Password must be at least 8 characters')
+      return
+    }
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match')
       return
     }
 
     setLoading(true)
 
     try {
-      await register(formData.name, formData.email, formData.password, formData.phone)
+      await register(name, email, password, phone)
       router.push('/dashboard')
     } catch (err) {
       setError(err.message)
@@ -81,6 +99,7 @@ export default function Register() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="John Doe"
+                autoComplete="name"
                 required
               />
             </div>
@@ -94,6 +113,7 @@ export default function Register() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
+                autoComplete="email"
                 required
               />
             </div>
@@ -107,6 +127,7 @@ export default function Register() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="+91 98765 43210"
+                autoComplete="tel"
               />
             </div>
 
@@ -122,6 +143,7 @@ export default function Register() {
                   placeholder="••••••••"
                   required
                   minLength={8}
+                  autoComplete="new-password"
                 />
               </div>
 
@@ -135,6 +157,7 @@ export default function Register() {
                   onChange={handleChange}
                   placeholder="••••••••"
                   required
+                  autoComplete="new-password"
                 />
               </div>
             </div>

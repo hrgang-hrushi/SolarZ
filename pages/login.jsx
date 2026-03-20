@@ -11,13 +11,29 @@ export default function Login() {
   const { login } = useAuth()
   const router = useRouter()
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+
+    const trimmedEmail = email.trim().toLowerCase()
+    const trimmedPassword = password.trim()
+
+    if (!trimmedEmail || !trimmedPassword) {
+      setError('Email and password are required')
+      return
+    }
+
+    if (!emailRegex.test(trimmedEmail)) {
+      setError('Please enter a valid email address')
+      return
+    }
+
     setLoading(true)
 
     try {
-      await login(email, password)
+      await login(trimmedEmail, trimmedPassword)
       const redirect = router.query.redirect || '/dashboard'
       router.push(redirect)
     } catch (err) {
@@ -60,6 +76,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
+                autoComplete="email"
                 required
               />
             </div>
@@ -77,6 +94,7 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
+                autoComplete="current-password"
                 required
               />
             </div>

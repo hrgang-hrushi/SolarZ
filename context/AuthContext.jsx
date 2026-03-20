@@ -7,6 +7,14 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
+  const demoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
+
+  const demoUser = {
+    id: 'demo-admin',
+    name: 'Demo Admin',
+    email: 'demo@solarify.local',
+    role: 'admin',
+  }
 
   // Check for existing session on mount
   useEffect(() => {
@@ -14,6 +22,12 @@ export function AuthProvider({ children }) {
   }, [])
 
   const checkAuth = async () => {
+    if (demoMode) {
+      setUser(demoUser)
+      setLoading(false)
+      return
+    }
+
     const token = localStorage.getItem('token')
     if (!token) {
       setLoading(false)
@@ -42,6 +56,11 @@ export function AuthProvider({ children }) {
   }
 
   const login = async (email, password) => {
+    if (demoMode) {
+      setUser(demoUser)
+      return { token: 'demo-token', user: demoUser }
+    }
+
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -59,6 +78,11 @@ export function AuthProvider({ children }) {
   }
 
   const register = async (name, email, password, phone) => {
+    if (demoMode) {
+      setUser({ ...demoUser, name: name || demoUser.name, email })
+      return { token: 'demo-token', user: { ...demoUser, name: name || demoUser.name, email } }
+    }
+
     const res = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
