@@ -1,270 +1,352 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useAuth } from '../context/AuthContext'
 import { useMemo } from 'react'
+import { useAuth } from '../context/AuthContext'
 
 export default function DashboardLayout({ children }) {
   const router = useRouter()
   const { user, logout } = useAuth()
 
-  const navItems = useMemo(() => ([
-    { label: 'Overview', href: '/dashboard' },
-    { label: 'Investments', href: '/dashboard/investments' },
-    { label: 'Portfolio', href: '/dashboard/portfolio' },
-    { label: 'Settings', href: '/dashboard/settings' },
-    { label: 'Support', href: '/dashboard/support' },
-  ]), [])
+  const navItems = useMemo(
+    () => [
+      { label: 'Overview', href: '/dashboard' },
+      { label: 'Portfolio', href: '/dashboard/portfolio' },
+      { label: 'Marketplace', href: '/dashboard/marketplace' },
+      { label: 'Wallet', href: '/dashboard/wallet' },
+      { label: 'Impact', href: '/dashboard/impact' },
+    ],
+    []
+  )
+
+  const secondaryNav = useMemo(
+    () => [
+      { label: 'Support', href: '/dashboard/support' },
+      { label: 'Settings', href: '/dashboard/settings' },
+    ],
+    []
+  )
 
   const isActive = (href) => {
-    if (href === '/dashboard' && router.pathname === '/dashboard') return true
-    return router.pathname.startsWith(href) && href !== '/dashboard'
+    if (href === '/dashboard') return router.pathname === '/dashboard'
+    return router.pathname.startsWith(href)
   }
 
   const initials = user?.name?.split(' ').map((n) => n[0]).slice(0, 2).join('') || 'SZ'
 
   return (
-    <div className="dashboard-shell">
-      <aside className="dashboard-sidebar">
-        <div className="sidebar-brand">
-          <div className="brand-mark">☀️</div>
+    <div className="shell">
+      <aside className="sidebar">
+        <div className="brand">
+          <div className="brand-mark" aria-hidden>☀️</div>
           <div>
-            <div className="brand-name">Solarify</div>
-            <div className="brand-tag">User Portal</div>
+            <div className="brand-name">Solar Z</div>
+            <div className="brand-tag">Investor Dashboard</div>
           </div>
         </div>
 
-        <nav className="sidebar-nav">
+        <nav className="nav">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className={`nav-link${isActive(item.href) ? ' active' : ''}`}>
+            <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? 'active' : ''}`}>
+              <span className="dot" />
               <span>{item.label}</span>
             </Link>
           ))}
         </nav>
 
-        <div className="sidebar-footer">
-          <div className="user-chip">
-            <div className="avatar">{initials}</div>
-            <div>
-              <div className="user-name">{user?.name || 'Your account'}</div>
-              <div className="user-email">{user?.email || 'Signed in'}</div>
-            </div>
+        <div className="nav secondary">
+          {secondaryNav.map((item) => (
+            <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? 'active subtle' : 'subtle'}`}>
+              <span className="dot muted" />
+              <span>{item.label}</span>
+            </Link>
+          ))}
+          <button className="nav-link subtle" onClick={logout}>
+            <span className="dot muted" />
+            <span>Logout</span>
+          </button>
+        </div>
+
+        <div className="profile">
+          <div className="avatar">{initials}</div>
+          <div>
+            <div className="user-name">{user?.name || 'Investor'}</div>
+            <div className="user-meta">{user?.email || 'Signed in'}</div>
           </div>
-          <button className="logout-btn" onClick={logout}>Log out</button>
         </div>
       </aside>
 
-      <main className="dashboard-main">
-        <header className="dashboard-topbar">
-          <div className="topbar-left">
-            <h1>Dashboard</h1>
-            <p>Track your solar investments and performance</p>
+      <div className="main">
+        <header className="topbar">
+          <div className="search">
+            <span aria-hidden className="material">search</span>
+            <input placeholder="Search assets, projects, reports..." />
           </div>
-          <div className="topbar-right">
-            <div className="top-pill">Lime plan</div>
-            <div className="top-pill success">Active</div>
+          <div className="top-actions">
+            <button className="icon-btn" aria-label="Notifications">
+              <span className="material">notifications</span>
+            </button>
+            <button className="icon-btn" aria-label="Settings">
+              <span className="material">settings</span>
+            </button>
+            <div className="chip">
+              <span className="status" />
+              <span>Live Net Impact</span>
+            </div>
           </div>
         </header>
 
-        <div className="dashboard-content">
-          {children}
-        </div>
-      </main>
+        <main className="content">{children}</main>
+      </div>
+
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500;600;700&display=swap');
+      `}</style>
 
       <style jsx>{`
-        .dashboard-shell {
-          display: grid;
-          grid-template-columns: 280px 1fr;
+        .shell {
           min-height: 100vh;
-          background: #0f0f0f;
-          color: #f5f7f2;
+          display: grid;
+          grid-template-columns: 260px 1fr;
+          background: #f5f7ed;
+          color: #2c3029;
         }
 
-        .dashboard-sidebar {
-          background: #111;
-          border-right: 1px solid rgba(255,255,255,0.05);
-          padding: 24px 20px;
+        .sidebar {
+          position: sticky;
+          top: 0;
+          align-self: start;
+          height: 100vh;
           display: flex;
           flex-direction: column;
-          gap: 24px;
+          gap: 18px;
+          padding: 28px 22px 24px;
+          background: #f5f7ed;
+          border-right: 1px solid #e6e9de;
         }
 
-        .sidebar-brand {
+        .brand {
           display: flex;
-          align-items: center;
           gap: 12px;
+          align-items: center;
+          margin-bottom: 12px;
         }
 
         .brand-mark {
-          width: 42px;
-          height: 42px;
+          width: 44px;
+          height: 44px;
           border-radius: 12px;
-          background: linear-gradient(135deg, #d4ed31 0%, #c1d92a 100%);
           display: grid;
           place-items: center;
-          font-size: 22px;
-          box-shadow: 0 10px 30px rgba(212, 237, 49, 0.2);
+          background: #def83d;
+          font-weight: 800;
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
         }
 
         .brand-name {
+          font-family: 'Space Grotesk', var(--font-heading);
           font-weight: 800;
-          letter-spacing: -0.01em;
+          letter-spacing: -0.02em;
         }
 
         .brand-tag {
-          color: rgba(255,255,255,0.65);
-          font-size: 13px;
+          font-size: 12px;
+          color: #595d55;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          font-weight: 700;
         }
 
-        .sidebar-nav {
+        .nav {
           display: flex;
           flex-direction: column;
           gap: 8px;
         }
 
         .nav-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
           padding: 12px 14px;
-          border-radius: 12px;
-          color: rgba(255,255,255,0.78);
-          font-weight: 600;
-          transition: all 0.2s ease;
-          background: transparent;
+          border-radius: 14px;
+          font-weight: 700;
           border: 1px solid transparent;
+          background: transparent;
+          color: #2c3029;
+          transition: all 0.2s ease;
+          text-align: left;
         }
 
         .nav-link:hover {
-          background: rgba(255,255,255,0.04);
-          border-color: rgba(255,255,255,0.08);
+          background: #eff2e7;
+          border-color: #e6e9de;
         }
 
         .nav-link.active {
-          background: linear-gradient(135deg, rgba(212,237,49,0.16), rgba(212,237,49,0.28));
-          border-color: rgba(212,237,49,0.4);
-          color: #d4ed31;
+          background: #def83d;
+          border-color: #d0e92d;
+          color: #515c00;
+          box-shadow: 0 10px 30px rgba(85, 97, 0, 0.15);
         }
 
-        .sidebar-footer {
+        .nav-link.subtle {
+          color: #595d55;
+          font-weight: 600;
+        }
+
+        .dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 999px;
+          background: #d4ed31;
+        }
+
+        .dot.muted {
+          background: #cdd2c3;
+        }
+
+        .profile {
           margin-top: auto;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .user-chip {
           display: flex;
           gap: 10px;
           align-items: center;
           padding: 12px;
-          border-radius: 14px;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 16px;
+          background: #eff2e7;
+          border: 1px solid #e6e9de;
         }
 
         .avatar {
           width: 42px;
           height: 42px;
           border-radius: 12px;
-          background: rgba(212,237,49,0.2);
-          color: #d4ed31;
+          background: #556100;
+          color: #e7ff57;
           display: grid;
           place-items: center;
           font-weight: 800;
-          letter-spacing: 0.02em;
+          letter-spacing: 0.04em;
         }
 
         .user-name {
           font-weight: 700;
         }
 
-        .user-email {
-          color: rgba(255,255,255,0.65);
-          font-size: 13px;
-        }
-
-        .logout-btn {
-          width: 100%;
-          padding: 12px;
-          border-radius: 10px;
-          background: rgba(255,255,255,0.06);
-          color: #f9fafb;
+        .user-meta {
+          color: #595d55;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
           font-weight: 700;
-          border: 1px solid rgba(255,255,255,0.08);
-          transition: all 0.2s ease;
         }
 
-        .logout-btn:hover {
-          background: rgba(212,237,49,0.18);
-          color: #111;
-          border-color: rgba(212,237,49,0.35);
+        .main {
+          background: #f5f7ed;
+          min-height: 100vh;
+          padding: 24px 32px 48px;
         }
 
-        .dashboard-main {
-          padding: 28px 32px 48px;
-          background: radial-gradient(circle at 20% 20%, rgba(212,237,49,0.08), transparent 35%),
-                      radial-gradient(circle at 80% 10%, rgba(255,255,255,0.06), transparent 30%),
-                      #0f0f0f;
-        }
-
-        .dashboard-topbar {
+        .topbar {
+          position: sticky;
+          top: 0;
+          z-index: 10;
           display: flex;
-          align-items: center;
           justify-content: space-between;
           gap: 16px;
-          margin-bottom: 24px;
+          align-items: center;
+          padding: 12px 0;
+          backdrop-filter: blur(12px);
         }
 
-        .dashboard-topbar h1 {
-          margin: 0;
-          font-size: 26px;
-          letter-spacing: -0.01em;
-        }
-
-        .dashboard-topbar p {
-          margin: 6px 0 0;
-          color: rgba(255,255,255,0.72);
-        }
-
-        .topbar-right {
+        .search {
+          flex: 1;
           display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 12px 14px;
+          border-radius: 16px;
+          background: #eff2e7;
+          border: 1px solid #e0e4d8;
+        }
+
+        .search input {
+          border: none;
+          background: transparent;
+          outline: none;
+          width: 100%;
+          font-size: 14px;
+          color: #2c3029;
+        }
+
+        .material {
+          font-family: 'Material Symbols Outlined';
+          font-size: 20px;
+          color: #595d55;
+          line-height: 1;
+        }
+
+        .top-actions {
+          display: flex;
+          align-items: center;
           gap: 10px;
         }
 
-        .top-pill {
-          padding: 10px 14px;
-          border-radius: 999px;
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.08);
+        .icon-btn {
+          width: 42px;
+          height: 42px;
+          border-radius: 12px;
+          border: 1px solid #e0e4d8;
+          background: #ffffff;
+          display: grid;
+          place-items: center;
+          transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+
+        .icon-btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+        }
+
+        .chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 12px;
+          border-radius: 14px;
+          background: #111111;
+          color: #def83d;
           font-weight: 700;
-          font-size: 14px;
+          letter-spacing: 0.02em;
+          box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
         }
 
-        .top-pill.success {
-          background: rgba(76, 175, 80, 0.16);
-          border-color: rgba(76, 175, 80, 0.35);
-          color: #d4ed31;
+        .status {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #8bc34a;
+          box-shadow: 0 0 0 6px rgba(139,195,74,0.18);
         }
 
-        .dashboard-content {
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
+        .content {
+          margin-top: 16px;
         }
 
-        @media (max-width: 1080px) {
-          .dashboard-shell {
+        @media (max-width: 1100px) {
+          .shell {
             grid-template-columns: 1fr;
           }
-          .dashboard-sidebar {
-            flex-direction: row;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+          .sidebar {
+            height: auto;
+            position: relative;
+            border-right: none;
+            border-bottom: 1px solid #e6e9de;
           }
-          .sidebar-nav {
-            flex-direction: row;
-            flex-wrap: wrap;
+          .main {
+            padding: 20px;
           }
-          .sidebar-footer {
-            width: 100%;
+          .topbar {
+            position: sticky;
+            top: 0;
           }
         }
       `}</style>

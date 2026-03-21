@@ -42,321 +42,532 @@ export default function DashboardPage() {
     )
   }
 
+  const summary = [
+    { label: 'Total invested', value: '$512,430.00', change: '+12.5% vs last month' },
+    { label: 'Active projects', value: '14', change: '3 pending due diligence' },
+    { label: 'Projected yield', value: '9.4%', change: 'Weighted avg IRR' },
+    { label: 'Lifetime returns', value: '$82,190', change: 'Realized across exits' },
+  ]
+
+  const projects = [
+    { name: 'Kigali Solar Park', region: 'Rwanda', impact: '1.12M kg CO₂', progress: 82, invested: '$210,000' },
+    { name: 'Lagos Rooftop Microgrid', region: 'Nigeria', impact: '640k kg CO₂', progress: 65, invested: '$140,000' },
+    { name: 'Mombasa Industrial Solar', region: 'Kenya', impact: '420k kg CO₂', progress: 44, invested: '$96,000' },
+    { name: 'Lusaka Community Solar', region: 'Zambia', impact: '310k kg CO₂', progress: 31, invested: '$66,430' },
+  ]
+
+  const upcoming = [
+    { title: 'Kigali Park construction drawdown', date: 'Dec 18', type: 'Milestone', status: 'Ready' },
+    { title: 'Audit packet sign-off', date: 'Dec 21', type: 'Compliance', status: 'Pending' },
+    { title: 'Disbursement to Lagos Phase 2', date: 'Jan 04', type: 'Funding', status: 'Scheduled' },
+  ]
+
   return (
-    <div className="solar-dashboard">
-      {/* Header */}
-      <header className="topbar">
-        <div className="topbar-left">
-          <button className="icon-btn" aria-label="Menu">☰</button>
-          <div className="logo-circle">☀️</div>
-          <div>
-            <div className="top-title">Solar Dashboard</div>
-            <div className="top-sub">Portfolio overview</div>
+    <div className="overview">
+      <section className="hero">
+        <div>
+          <p className="eyebrow">Investor overview · Solar Z</p>
+          <h1>Track performance, deployment and impact in one view</h1>
+          <p className="lede">Monitor positions, cashflows, pipeline diligence and measurable ESG outcomes across the Solar Z portfolio.</p>
+          <div className="hero-actions">
+            <button className="cta primary">View projects</button>
+            <button className="cta ghost">Download ESG report</button>
           </div>
         </div>
-        <div className="topbar-right">
-          <div className="search">
-            <span>🔍</span>
-            <input placeholder="Search" />
+        <div className="hero-card">
+          <div className="chip">Live net impact</div>
+          <div className="hero-metric">23.5M kg CO₂</div>
+          <p className="muted">Equivalent to removing 5,100 cars from the road</p>
+          <div className="progress">
+            <div className="progress-bar" style={{ width: '78%' }} />
           </div>
-          <div className="user-block">
-            <img src="https://i.pravatar.cc/80?img=5" alt="User" />
+          <div className="small-grid">
             <div>
-              <div className="user-name">User Name</div>
-              <div className="user-role">Solar Investor</div>
+              <p className="label">Regions</p>
+              <p className="value">8</p>
+            </div>
+            <div>
+              <p className="label">Communities reached</p>
+              <p className="value">112k</p>
+            </div>
+            <div>
+              <p className="label">Active capacity</p>
+              <p className="value">68 MW</p>
             </div>
           </div>
-        </div>
-      </header>
-
-      {/* Hero */}
-      <section className="hero">
-        <div className="hero-left">
-          <div className="date-circle">
-            <div className="date-day">19</div>
-            <div className="date-month">Tue, December</div>
-          </div>
-          <div className="hero-actions">
-            <button className="cta">Show my Tasks →</button>
-            <div className="icon-pill">📅</div>
-          </div>
-        </div>
-        <div className="hero-right">
-          <div className="hero-text">Hey, Need help?👋</div>
-          <div className="hero-sub">Let’s get your solar investments organized.</div>
-          <div className="mic">🎤</div>
         </div>
       </section>
 
-      <section className="grid-3">
-        {/* Left column */}
-        <div className="col">
-          <div className="card account">
-            <div className="card-top">
-              <span className="visa">VISA</span>
-              <button className="dropdown">Direct Debits ▾</button>
-            </div>
-            <div className="acct-num">**** 2719</div>
-            <div className="income">$12,430.90</div>
-            <div className="pill-row">
-              <button className="pill-btn active">Receive</button>
-              <button className="pill-btn">Send</button>
-            </div>
-            <div className="row">
-              <div>
-                <p className="label">Monthly fee</p>
-                <p className="value">$29.00</p>
-                <a className="link lime" href="#">Edit cards limitation</a>
-              </div>
-              <div>
-                <p className="label">Total paid</p>
-                <p className="value">$8,320.40</p>
-                <a className="link lime" href="#">View on chart mode</a>
-              </div>
-            </div>
+      <section className="grid summary">
+        {summary.map((item) => (
+          <div className="card" key={item.label}>
+            <p className="label">{item.label}</p>
+            <p className="value">{item.value}</p>
+            <p className="muted">{item.change}</p>
           </div>
+        ))}
+      </section>
 
-          <div className="card profits">
-            <div className="card-head">
-              <div>
-                <p className="label">Annual profits</p>
-                <h4>2023</h4>
+      <section className="grid two">
+        <div className="card chart">
+          <div className="card-head">
+            <div>
+              <p className="label">Performance</p>
+              <h3>Net asset growth</h3>
+            </div>
+            <button className="chip ghost">Last 12 months</button>
+          </div>
+          <div className="chart-bars">
+            {[46, 62, 58, 71, 76, 80, 92, 88, 95, 103, 108, 115].map((v, i) => (
+              <div key={i} className="bar-wrap">
+                <div className="bar" style={{ height: `${v}%` }} />
+                <span className="bar-label">{i + 1}</span>
               </div>
-              <button className="dropdown">2023 ▾</button>
-            </div>
-            <div className="rings">
-              <div className="ring r1">$4K</div>
-              <div className="ring r2">$6.8K</div>
-              <div className="ring r3">$9.3K</div>
-              <div className="ring r4">$14K</div>
-            </div>
+            ))}
+          </div>
+          <div className="legend">
+            <span className="dot" /> NAV growth
+            <span className="dot alt" /> Cash yield
           </div>
         </div>
 
-        {/* Middle column */}
-        <div className="col">
-          <div className="card activity">
-            <div className="card-head">
-              <h4>Activity manager</h4>
-              <button className="icon-btn">⚙️</button>
+        <div className="card portfolio">
+          <div className="card-head">
+            <div>
+              <p className="label">Portfolio</p>
+              <h3>Deployment progress</h3>
             </div>
-            <div className="search pills">
-              <span>🔍</span>
-              <input placeholder="Search" />
-              <div className="filters">
-                <span className="pill-filter active">Team</span>
-                <span className="pill-filter">Insights</span>
-                <span className="pill-filter">Today</span>
-              </div>
-            </div>
-            <div className="list">
-              <div className="list-item">
-                <div className="badge coral">1</div>
+            <button className="chip ghost">Monitor</button>
+          </div>
+          <div className="project-list">
+            {projects.map((p) => (
+              <div className="project" key={p.name}>
                 <div>
-                  <div className="item-title">Business plans</div>
-                  <div className="item-sub">$ 43.20 USD</div>
+                  <div className="project-title">{p.name}</div>
+                  <div className="project-meta">{p.region} · Impact {p.impact}</div>
                 </div>
-                <div className="bars">
-                  <span className="bar coral" />
-                  <span className="bar lime" />
-                  <span className="bar coral" />
+                <div className="project-side">
+                  <div className="pill">{p.invested}</div>
+                  <div className="progress sm">
+                    <div className="progress-bar" style={{ width: `${p.progress}%` }} />
+                  </div>
+                  <span className="project-progress">{p.progress}%</span>
                 </div>
               </div>
-              <div className="list-item">
-                <div className="badge coral">2</div>
-                <div className="item-title">Bank loans</div>
-                <button className="dropdown ghost">▾</button>
-              </div>
-              <div className="list-item">
-                <div className="badge coral">3</div>
-                <div className="item-title">Accounting</div>
-              </div>
-              <div className="list-item">
-                <div className="badge coral">4</div>
-                <div className="item-title">HR management</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="card wallet">
-            <div className="sunburst">☼</div>
-            <h4>Wallet Verification</h4>
-            <p className="muted">Enable 2-step verification to secure your wallet and payouts.</p>
-            <button className="cta coral-btn">Enable</button>
+            ))}
           </div>
         </div>
+      </section>
 
-        {/* Right column */}
-        <div className="col">
-          <div className="card status">
-            <div className="row between">
-              <div className="lock">🔒</div>
-              <div className="label">System Lock</div>
+      <section className="grid three">
+        <div className="card impact">
+          <div className="card-head">
+            <div>
+              <p className="label">Impact</p>
+              <h3>ESG scorecard</h3>
             </div>
-            <div className="big">13 Days</div>
-            <div className="muted">Time remaining</div>
-            <div className="dots">
-              {[...Array(24)].map((_, i) => (
-                <span key={i} className={`dot ${i % 2 === 0 ? 'lime' : ''}`} />
-              ))}
+            <button className="chip ghost">View report</button>
+          </div>
+          <div className="impact-grid">
+            <div>
+              <p className="muted">CO₂ avoided</p>
+              <p className="value">23.5M kg</p>
             </div>
-            <div className="bars-mini">
-              <span className="mini coral" />
-              <span className="mini lime" />
-              <span className="mini coral" />
+            <div>
+              <p className="muted">Households powered</p>
+              <p className="value">58,200</p>
+            </div>
+            <div>
+              <p className="muted">Avg. tariff</p>
+              <p className="value">$0.07/kWh</p>
             </div>
           </div>
+          <div className="tagline">Aligned to UN SDG 7 · Third-party verified</div>
+        </div>
 
-          <div className="card stocks">
-            <div className="row between">
-              <h4>Main Stocks</h4>
-              <span className="pct">+9.3%</span>
+        <div className="card map">
+          <div className="card-head">
+            <div>
+              <p className="label">Geography</p>
+              <h3>Deployment footprint</h3>
             </div>
-            <div className="muted">Extended & Limited</div>
-            <div className="line-chart" />
-            <div className="amount">$16,073.49</div>
+            <button className="chip ghost">View map</button>
           </div>
+          <div className="map-visual">
+            <div className="pulse" />
+            <div className="pin" style={{ top: '48%', left: '58%' }} />
+            <div className="pin" style={{ top: '56%', left: '52%' }} />
+            <div className="pin" style={{ top: '60%', left: '50%' }} />
+            <div className="pin" style={{ top: '51%', left: '47%' }} />
+          </div>
+          <p className="muted">Concentrated across East & West Africa with growing MENA exposure.</p>
+        </div>
 
-          <div className="card review">
-            <h4>How is your business management going?</h4>
-            <div className="emoji-row">
-              {['😡','😕','😐','😊','🤩'].map((e) => <button key={e} className="emoji">{e}</button>)}
+        <div className="card tasks">
+          <div className="card-head">
+            <div>
+              <p className="label">Actions</p>
+              <h3>Upcoming milestones</h3>
             </div>
+            <button className="chip ghost">View all</button>
+          </div>
+          <div className="task-list">
+            {upcoming.map((item) => (
+              <div className="task" key={item.title}>
+                <div>
+                  <div className="task-title">{item.title}</div>
+                  <div className="task-meta">{item.type}</div>
+                </div>
+                <div className="task-right">
+                  <span className="pill subtle">{item.date}</span>
+                  <span className="status-dot" />
+                  <span className="task-status">{item.status}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       <style jsx>{`
-        :global(body) {
-          background: #f5f5f5;
-          color: #333;
-        }
-        .solar-dashboard {
+        .overview {
           display: flex;
           flex-direction: column;
-          gap: 24px;
-          padding: 24px;
-          font-family: 'Inter', system-ui, -apple-system, sans-serif;
+          gap: 20px;
+          color: #1f241a;
         }
-        .topbar {
+
+        .hero {
+          display: grid;
+          grid-template-columns: 1.2fr 1fr;
+          gap: 18px;
+          padding: 24px;
+          background: linear-gradient(135deg, #ffffff, #f6f9ec);
+          border: 1px solid #e6e9de;
+          border-radius: 24px;
+          box-shadow: 0 20px 70px rgba(39, 44, 20, 0.08);
+        }
+
+        .eyebrow {
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          font-size: 12px;
+          font-weight: 700;
+          color: #596246;
+          margin-bottom: 8px;
+        }
+
+        h1 {
+          margin: 0 0 10px;
+          font-family: 'Space Grotesk', var(--font-heading);
+          font-size: 30px;
+          line-height: 1.2;
+          color: #1f1f1f;
+        }
+
+        .lede {
+          color: #4a5140;
+          margin: 0 0 16px;
+          max-width: 600px;
+        }
+
+        .hero-actions {
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .cta {
+          border: 1px solid #d0e92d;
+          padding: 12px 16px;
+          border-radius: 14px;
+          font-weight: 800;
+          cursor: pointer;
+          transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+
+        .cta.primary {
+          background: #def83d;
+          color: #111;
+          box-shadow: 0 14px 36px rgba(85, 97, 0, 0.18);
+        }
+
+        .cta.ghost {
+          background: #f8faf2;
+          color: #303526;
+        }
+
+        .cta:hover { transform: translateY(-1px); }
+
+        .hero-card {
+          background: #111;
+          color: #eaff68;
+          border-radius: 18px;
+          padding: 20px;
+          box-shadow: 0 18px 46px rgba(0,0,0,0.22);
+          border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 12px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.08);
+          color: inherit;
+          border: 1px solid rgba(255,255,255,0.1);
+          font-weight: 700;
+        }
+
+        .hero-metric {
+          font-size: 34px;
+          font-weight: 800;
+          margin: 12px 0 4px;
+        }
+
+        .muted { color: #6c715f; }
+
+        .hero-card .muted { color: rgba(234,255,104,0.75); }
+
+        .progress {
+          background: #e7eadc;
+          border-radius: 999px;
+          height: 10px;
+          overflow: hidden;
+          margin: 12px 0;
+          position: relative;
+        }
+
+        .progress-bar {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, #def83d, #b5d216);
+          border-radius: 999px;
+        }
+
+        .progress.sm { height: 8px; }
+
+        .small-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          margin-top: 12px;
+        }
+
+        .label {
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          font-size: 12px;
+          color: #6d7563;
+          margin: 0 0 6px;
+          font-weight: 700;
+        }
+
+        .value {
+          margin: 0;
+          font-weight: 800;
+          font-size: 18px;
+          color: #1f241a;
+        }
+
+        .grid.summary {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 14px;
+        }
+
+        .card {
+          background: #fff;
+          border: 1px solid #e6e9de;
+          border-radius: 18px;
+          padding: 16px 16px 18px;
+          box-shadow: 0 10px 28px rgba(36, 43, 18, 0.06);
+        }
+
+        .grid.two {
+          display: grid;
+          grid-template-columns: 1.1fr 1fr;
+          gap: 16px;
+        }
+
+        .grid.three {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 16px;
+        }
+
+        .card-head {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          background: #fff;
-          border-radius: 16px;
-          padding: 16px 20px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+          margin-bottom: 12px;
         }
-        .topbar-left { display: flex; align-items: center; gap: 12px; }
-        .icon-btn {
-          width: 40px; height: 40px; border-radius: 12px; border: 1px solid #eee;
-          background: #fff; display: grid; place-items: center; font-size: 18px;
-        }
-        .logo-circle {
-          width: 44px; height: 44px; border-radius: 50%;
-          background: #111; color: #fff; display: grid; place-items: center;
-          font-size: 18px; font-weight: 700;
-        }
-        .top-title { font-weight: 800; font-size: 18px; }
-        .top-sub { color: #999; font-size: 13px; }
 
-        .topbar-right { display: flex; align-items: center; gap: 12px; }
-        .search {
-          display: flex; align-items: center; gap: 8px;
-          background: #f0f0f0; border-radius: 12px; padding: 8px 10px;
+        h3 {
+          margin: 4px 0 0;
+          font-size: 18px;
+          color: #222;
         }
-        .search input { border: none; background: transparent; outline: none; color: #333; }
-        .user-block { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: 12px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .user-block img { width: 40px; height: 40px; border-radius: 12px; }
-        .user-name { font-weight: 700; }
-        .user-role { color: #999; font-size: 12px; }
 
-        .hero {
-          display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px;
-          background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        .chip.ghost {
+          background: #f2f6e8;
+          color: #4a5140;
+          border-color: #dce3cc;
+        }
+
+        .chart-bars {
+          display: grid;
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          gap: 8px;
+          align-items: end;
+          height: 200px;
+          margin: 10px 0 6px;
+        }
+
+        .bar-wrap { display: grid; gap: 6px; justify-items: center; }
+
+        .bar {
+          width: 100%;
+          border-radius: 10px;
+          background: linear-gradient(180deg, #b7d11c, #5c6504);
+        }
+
+        .bar-label {
+          font-size: 11px;
+          color: #6d7563;
+        }
+
+        .legend {
+          display: flex;
+          gap: 8px;
           align-items: center;
+          color: #4a5140;
+          font-size: 13px;
         }
-        .hero-left { display: flex; align-items: center; gap: 16px; }
-        .date-circle { width: 120px; height: 120px; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: grid; place-items: center; text-align: center; }
-        .date-day { font-size: 32px; font-weight: 800; }
-        .date-month { color: #999; font-size: 13px; }
-        .hero-actions { display: flex; align-items: center; gap: 10px; }
-        .cta { background: #d4ed31; color: #111; border-radius: 24px; padding: 12px 18px; border: none; font-weight: 800; }
-        .cta:hover { background: #c1d92a; }
-        .icon-pill { width: 46px; height: 46px; border-radius: 14px; background: #f0f0f0; display: grid; place-items: center; }
-        .hero-right { position: relative; }
-        .hero-text { font-size: 26px; font-weight: 800; }
-        .hero-sub { color: #999; margin-top: 4px; }
-        .mic { position: absolute; right: -8px; top: 0; font-size: 22px; }
 
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        .card { background: #fff; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); color: #333; }
-        .card h4 { margin: 0; }
-        .label { color: #999; margin: 0 0 4px; font-size: 13px; }
-        .value { font-weight: 800; margin: 0 0 6px; }
-        .link { font-weight: 700; font-size: 13px; text-decoration: none; }
-        .lime { color: #d4ed31; }
+        .dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: #b7d11c;
+          display: inline-block;
+        }
 
-        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .visa { font-weight: 800; letter-spacing: 2px; }
-        .dropdown { border: 1px solid #eee; background: #f8f8f8; border-radius: 10px; padding: 8px 10px; color: #333; }
-        .acct-num { color: #999; margin-bottom: 6px; }
-        .income { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
-        .pill-row { display: flex; gap: 8px; margin-bottom: 12px; }
-        .pill-btn { flex: 1; padding: 10px; border-radius: 16px; border: 1px solid #eee; background: #f7f7f7; font-weight: 700; }
-        .pill-btn.active { background: #111; color: #fff; }
-        .row { display: flex; gap: 16px; justify-content: space-between; }
+        .dot.alt { background: #4c5341; }
 
-        .profits .card-head { display: flex; justify-content: space-between; align-items: center; }
-        .rings { position: relative; width: 220px; height: 220px; margin: 12px auto; }
-        .ring { position: absolute; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #333; }
-        .r1 { width: 90px; height: 90px; background: radial-gradient(circle at center, #e85d4f 0%, #f5f5f5 65%); top: 65px; left: 65px; }
-        .r2 { width: 130px; height: 130px; background: radial-gradient(circle at center, rgba(212,237,49,0.6), transparent 65%); top: 45px; left: 45px; }
-        .r3 { width: 170px; height: 170px; border: 2px solid #e85d4f; top: 25px; left: 25px; }
-        .r4 { width: 210px; height: 210px; border: 2px solid #d4ed31; top: 5px; left: 5px; }
+        .project-list { display: flex; flex-direction: column; gap: 12px; }
 
-        .activity .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .pills { gap: 8px; flex-wrap: wrap; }
-        .filters { display: flex; gap: 6px; }
-        .pill-filter { padding: 6px 10px; border-radius: 12px; background: #f0f0f0; color: #333; font-weight: 700; font-size: 12px; }
-        .pill-filter.active { background: #d4ed31; color: #111; }
-        .list { display: grid; gap: 10px; margin-top: 10px; }
-        .list-item { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; padding: 10px; border: 1px solid #eee; border-radius: 12px; }
-        .badge { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; }
-        .coral { background: #e85d4f; }
-        .bars { display: flex; gap: 4px; align-items: center; }
-        .bar { width: 24px; height: 6px; border-radius: 6px; background: #ccc; }
-        .bar.lime { background: #d4ed31; }
-        .bar.coral { background: #e85d4f; }
+        .project {
+          display: flex;
+          gap: 14px;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px;
+          border-radius: 14px;
+          background: #f7f9f1;
+          border: 1px solid #e6e9de;
+        }
 
-        .wallet { text-align: center; display: grid; gap: 10px; }
-        .sunburst { font-size: 28px; }
-        .coral-btn { background: #e85d4f; color: #fff; border-radius: 24px; padding: 12px 18px; font-weight: 800; border: none; }
-        .coral-btn:hover { background: #cf4f44; }
+        .project-title { font-weight: 800; color: #222; }
+        .project-meta { color: #6d7563; font-size: 13px; }
+        .project-side { display: grid; gap: 6px; min-width: 180px; }
+        .project-progress { color: #4a5140; font-weight: 700; font-size: 13px; }
+        .pill {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px 10px;
+          border-radius: 12px;
+          background: #111;
+          color: #eaff68;
+          font-weight: 800;
+          border: 1px solid #1d1d1d;
+        }
 
-        .status .row { display: flex; align-items: center; gap: 8px; }
-        .row.between { justify-content: space-between; }
-        .lock { font-size: 20px; }
-        .big { font-size: 26px; font-weight: 800; margin: 8px 0 2px; }
-        .dots { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin: 12px 0; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; }
-        .dot.lime { background: #d4ed31; }
-        .bars-mini { display: flex; gap: 6px; }
-        .mini { width: 24px; height: 6px; border-radius: 6px; background: #ccc; }
-        .mini.lime { background: #d4ed31; }
-        .mini.coral { background: #e85d4f; }
+        .pill.subtle {
+          background: #eef2e6;
+          color: #414638;
+          border-color: transparent;
+          font-weight: 700;
+        }
 
-        .stocks .pct { color: #d4ed31; font-weight: 800; }
-        .line-chart { height: 120px; border-radius: 12px; background: linear-gradient(135deg, rgba(232,93,79,0.2), rgba(212,237,49,0.25)); margin: 10px 0; position: relative; overflow: hidden; }
-        .line-chart::after { content: ''; position: absolute; inset: 20% 5%; border-left: 2px solid #e85d4f; border-bottom: 2px solid #e85d4f; transform: skew(-12deg); border-radius: 12px; }
-        .amount { font-size: 22px; font-weight: 800; }
+        .impact-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          margin: 12px 0 10px;
+        }
 
-        .review { text-align: center; display: grid; gap: 12px; }
-        .emoji-row { display: flex; justify-content: center; gap: 8px; }
-        .emoji { width: 44px; height: 44px; border-radius: 14px; border: 1px solid #eee; background: #f9f9f9; font-size: 20px; }
+        .tagline {
+          color: #4a5140;
+          font-weight: 700;
+        }
 
-        @media (max-width: 1100px) {
-          .grid-3 { grid-template-columns: 1fr; }
+        .map-visual {
+          position: relative;
+          background: radial-gradient(circle at 30% 40%, rgba(176, 207, 53, 0.35), transparent 35%),
+                      radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.8), transparent 30%),
+                      #0b1c12;
+          border-radius: 16px;
+          height: 200px;
+          overflow: hidden;
+          border: 1px solid #12281a;
+        }
+
+        .pin {
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #def83d;
+          box-shadow: 0 0 0 6px rgba(222, 248, 61, 0.15);
+        }
+
+        .pulse {
+          position: absolute;
+          top: 45%;
+          left: 50%;
+          width: 140px;
+          height: 140px;
+          margin-left: -70px;
+          margin-top: -70px;
+          background: radial-gradient(circle, rgba(222, 248, 61, 0.4), transparent 70%);
+          border-radius: 50%;
+          filter: blur(1px);
+        }
+
+        .task-list { display: flex; flex-direction: column; gap: 10px; }
+        .task {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 12px;
+          border-radius: 12px;
+          background: #f8faf2;
+          border: 1px solid #e6e9de;
+        }
+        .task-title { font-weight: 800; color: #252a1c; }
+        .task-meta { color: #6d7563; font-size: 13px; }
+        .task-right { display: inline-flex; align-items: center; gap: 8px; }
+        .status-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #8bc34a;
+          box-shadow: 0 0 0 5px rgba(139,195,74,0.16);
+        }
+        .task-status { font-weight: 700; color: #4a5140; }
+
+        @media (max-width: 1080px) {
+          .hero { grid-template-columns: 1fr; }
+          .grid.two { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 720px) {
+          .small-grid, .impact-grid { grid-template-columns: repeat(2, 1fr); }
+          .project { flex-direction: column; align-items: flex-start; }
+          .project-side { width: 100%; }
         }
       `}</style>
     </div>
