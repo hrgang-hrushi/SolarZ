@@ -2,6 +2,9 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import AdminLayout from '../../components/AdminLayout'
 import { useAuth } from '../../context/AuthContext'
+import RecentInvestments from '../../components/admin/RecentInvestments'
+import QuickActions from '../../components/admin/QuickActions'
+import MetricCard from '../../components/admin/MetricCard'
 
 const kpis = [
   { label: 'Total funded', value: '₹8.4 Cr', delta: '+6.2% MoM' },
@@ -33,13 +36,9 @@ export default function AdminHome() {
 
   return (
     <div className="admin-page">
-      <section className="grid">
+      <section className="kpis-grid">
         {kpis.map((kpi) => (
-          <div key={kpi.label} className="card kpi">
-            <p className="kpi-label">{kpi.label}</p>
-            <div className="kpi-value">{kpi.value}</div>
-            <p className="kpi-delta">{kpi.delta}</p>
-          </div>
+          <MetricCard key={kpi.label} label={kpi.label} value={kpi.value} delta={kpi.delta} />
         ))}
       </section>
 
@@ -81,30 +80,47 @@ export default function AdminHome() {
         </div>
       </section>
 
-      <style jsx>{`
-        .admin-page { display: flex; flex-direction: column; gap: 18px; }
-        .admin-loader { color: #f5f7f2; padding: 40px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-        .split { display: grid; grid-template-columns: 1.3fr 1fr; gap: 12px; }
-        .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-        .kpi { padding: 18px; }
-        .kpi-label { color: rgba(255,255,255,0.7); margin: 0 0 6px; }
-        .kpi-value { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
-        .kpi-delta { color: #d4ed31; font-weight: 700; margin: 0; }
-        .card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        .eyebrow { color: rgba(255,255,255,0.65); font-size: 13px; margin: 0 0 4px; }
-        h3 { margin: 0; }
-        .ghost { padding: 10px 12px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #f5f7f2; font-weight: 700; }
-        .stack { display: flex; flex-direction: column; gap: 10px; }
-        .alert { display: flex; justify-content: space-between; gap: 12px; padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); }
-        .alert.red { border-color: rgba(255,77,77,0.4); background: rgba(255,77,77,0.08); }
-        .alert.amber { border-color: rgba(255,193,7,0.35); background: rgba(255,193,7,0.08); }
-        .alert-title { font-weight: 700; }
-        .alert-desc { color: rgba(255,255,255,0.75); font-size: 14px; }
-        .link-btn { background: transparent; border: none; color: #d4ed31; font-weight: 700; }
-        .tasks { margin: 0; padding-left: 18px; color: rgba(255,255,255,0.85); display: grid; gap: 8px; }
-        @media (max-width: 960px) { .split { grid-template-columns: 1fr; } }
-      `}</style>
+      <section className="split">
+        <div>
+          <RecentInvestments rows={[
+            { investor: 'Asha R.', project: 'Project Aurora', amount: '₹12,000', date: '2026-03-22', status: 'settled' },
+            { investor: 'Ravi K.', project: 'Coastal Wind', amount: '₹50,000', date: '2026-03-21', status: 'pending' },
+            { investor: 'GreenFund', project: 'Solar Farm Beta', amount: '₹1,20,000', date: '2026-03-20', status: 'settled' },
+            { investor: 'Meera P.', project: 'Hydro Micro', amount: '₹7,500', date: '2026-03-19', status: 'failed' },
+          ]} />
+        </div>
+
+        <div>
+          <QuickActions actions={[
+            { label: 'Approve pending KYC (38)', onClick: () => alert('Approve KYC clicked') },
+            { label: 'Trigger payout run', onClick: () => alert('Trigger payouts clicked') },
+            { label: 'Create new project', onClick: () => alert('Create project clicked') },
+          ]} />
+        </div>
+      </section>
+
+  <style jsx>{`
+    .admin-page { display: flex; flex-direction: column; gap: 22px; }
+    .admin-loader { color: var(--color-dark); padding: 40px; }
+    .kpis-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .kpis-grid > :global(.metric-card) { min-height: 88px; }
+    .split { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; }
+  /* rely on global .card for card visuals; only tweak small card-head spacing */
+  .card { /* intentionally blank to use global .card */ }
+    .card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .eyebrow { color: var(--admin-muted); font-size: 13px; margin: 0 0 4px; }
+    h3 { margin: 0; }
+    .ghost { padding: 8px 10px; border-radius: 10px; background: transparent; border: 1px solid var(--admin-border); color: var(--admin-text); font-weight: 700; }
+    .stack { display: flex; flex-direction: column; gap: 10px; }
+  .alert { display: flex; justify-content: space-between; gap: 12px; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.02); background: rgba(255,255,255,0.01); }
+    .alert.red { border-color: rgba(255,77,77,0.08); background: rgba(255,77,77,0.02); }
+    .alert.amber { border-color: rgba(255,193,7,0.08); background: rgba(255,193,7,0.02); }
+    .alert-title { font-weight: 700; }
+    .alert-desc { color: var(--admin-muted); font-size: 14px; }
+    .link-btn { background: transparent; border: none; color: var(--admin-accent); font-weight: 700; }
+    .tasks { margin: 0; padding-left: 18px; color: var(--admin-text); display: grid; gap: 8px; }
+    @media (max-width: 960px) { .split { grid-template-columns: 1fr; } .kpis-grid { grid-template-columns: repeat(2, 1fr); } }
+  `}</style>
     </div>
   )
 }

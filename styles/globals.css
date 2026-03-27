@@ -6,6 +6,11 @@
 
 /* ---------- CSS Variables ---------- */
 :root {
+  --bg:#e9eaf0;
+  --card:#ffffff;
+  --muted:#9ea3aa;
+  --accent:#f7e9b7;
+  --dark:#1f1f1f;
   /* Brand Colors */
   --color-lime: #D4ED31;
   --color-lime-dark: #c1d92a;
@@ -24,6 +29,15 @@
   --color-dark: #0f0f0f;
   --color-dark-card: #1a1a1a;
   --color-dark-footer: #111111;
+
+  /* Admin (dark) theme variables */
+  --admin-bg: #0b0b0b;
+  --admin-card: #111316; /* slightly lighter than bg for cards */
+  --admin-text: #f5f7f2;
+  --admin-muted: rgba(255,255,255,0.65);
+  --admin-border: rgba(255,255,255,0.04);
+  --admin-accent: #d4ed31; /* lime */
+  --admin-accent-2: #c1d92a;
 
   /* Typography */
   --font-inter: 'Inter', sans-serif;
@@ -313,6 +327,22 @@ h6,
   stroke: var(--color-dark) !important;
 }
 
+/* Ghost / small outline button used across admin */
+.ghost {
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  background: var(--color-gray-50);
+  color: var(--color-dark);
+  border: 1px solid var(--color-gray-100);
+  font-weight: 700;
+}
+
+.ghost:hover {
+  background: var(--color-lime);
+  color: var(--color-dark);
+  border-color: var(--color-lime-dark);
+}
+
 .btn-sm {
   padding: 10px 20px;
   font-size: var(--font-size-xs);
@@ -354,18 +384,27 @@ h6,
   transform: translateX(4px);
 }
 
-/* ---------- Cards ---------- */
+/* ---------- Cards (landing/hero style) ---------- */
 .card {
-  background: var(--color-white);
+  /* Use the landing page card surface: subtle off-white with soft shadow */
+  background: var(--color-gray-50);
   border: 1px solid var(--color-gray-100);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   padding: 32px;
   transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
 }
 
 .card:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-6px);
+}
+
+/* Utility modifier when a tighter card is needed (use on admin KPI small cards) */
+.card--compact {
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
 }
 
 /* ---------- Animations ---------- */
