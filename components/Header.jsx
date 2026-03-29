@@ -133,21 +133,29 @@ export default function Header() {
                 {userMenuOpen && (
                   <div className="header__dropdown">
                     <Link href="/dashboard" className="header__dropdown-item" onClick={() => setUserMenuOpen(false)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                      Dashboard
+                      <span style={{ flexShrink: 0, display: 'flex' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                      </span>
+                      <span>Dashboard</span>
                     </Link>
                     <Link href="/dashboard/portfolio" className="header__dropdown-item" onClick={() => setUserMenuOpen(false)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
-                      Portfolio
+                      <span style={{ flexShrink: 0, display: 'flex' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+                      </span>
+                      <span>Portfolio</span>
                     </Link>
                     <Link href="/dashboard/settings" className="header__dropdown-item" onClick={() => setUserMenuOpen(false)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                      Settings
+                      <span style={{ flexShrink: 0, display: 'flex' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                      </span>
+                      <span>Settings</span>
                     </Link>
                     <div className="header__dropdown-divider" />
                     <button className="header__dropdown-item header__dropdown-item--danger" onClick={() => { logout(); setUserMenuOpen(false); }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                      Sign out
+                      <span style={{ flexShrink: 0, display: 'flex' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                      </span>
+                      <span>Sign out</span>
                     </button>
                   </div>
                 )}
@@ -443,58 +451,76 @@ export default function Header() {
 
         .header__dropdown {
           position: absolute;
-          top: calc(100% + 8px);
+          top: calc(100% + 12px);
           right: 0;
-          min-width: 200px;
-          background: white;
-          border-radius: 12px;
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+          min-width: 220px;
+          background: rgba(255, 255, 255, 0.12);
+          backdrop-filter: blur(50px);
+          -webkit-backdrop-filter: blur(50px);
+          border-radius: 16px;
+          box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.08);
           padding: 8px;
           z-index: 1001;
-          animation: dropdownFade 0.2s ease;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          animation: dropdownFade 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         @keyframes dropdownFade {
           from {
             opacity: 0;
-            transform: translateY(-8px);
+            transform: translateY(-10px) scale(0.97);
           }
           to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
           }
         }
 
-        .header__dropdown-item {
+        .header__dropdown :global(.header__dropdown-item) {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
           width: 100%;
-          padding: 10px 12px;
+          padding: 11px 14px;
           background: none;
           border: none;
-          border-radius: 8px;
+          border-radius: 10px;
           font-size: 14px;
           font-weight: 500;
-          color: var(--color-dark);
+          color: #ffffff;
           text-decoration: none;
           cursor: pointer;
-          transition: background 0.2s;
+          transition: all 0.2s ease;
+          letter-spacing: 0.01em;
         }
-        .header__dropdown-item:hover {
-          background: #f5f5f5;
+        .header__dropdown :global(.header__dropdown-item:hover) {
+          background: #c8ee44;
+          color: #1a1a1a;
+          transform: translateX(2px) scale(1.03);
         }
-        .header__dropdown-item--danger {
-          color: #dc2626;
+        .header__dropdown :global(.header__dropdown-item) svg {
+          opacity: 0.6;
+          transition: opacity 0.2s;
+          flex-shrink: 0;
         }
-        .header__dropdown-item--danger:hover {
-          background: #fef2f2;
+        .header__dropdown :global(.header__dropdown-item:hover) svg {
+          opacity: 1;
+        }
+        .header__dropdown :global(.header__dropdown-item--danger) {
+          color: #ff6b6b;
+        }
+        .header__dropdown :global(.header__dropdown-item--danger:hover) {
+          background: #dc2626;
+          color: #ffffff;
         }
 
         .header__dropdown-divider {
           height: 1px;
-          background: #e5e5e5;
-          margin: 8px 0;
+          background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+          margin: 6px 8px;
         }
       `}</style>
     </>
