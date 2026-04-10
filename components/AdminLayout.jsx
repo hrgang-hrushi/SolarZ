@@ -28,7 +28,7 @@ export default function AdminLayout({ children, title = 'Admin', subtitle = 'Con
     <div className="admin-shell">
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <div className="brand-mark">☀️</div>
+          <div className="brand-mark"></div>
           <div>
             <div className="brand-name">SolarZ Admin</div>
               <div className="brand-tag">Controls & Operations</div>
@@ -74,7 +74,7 @@ export default function AdminLayout({ children, title = 'Admin', subtitle = 'Con
     .admin-shell { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; background: var(--admin-bg); color: var(--admin-text); }
     .sidebar { background: var(--admin-card); border-right: 1px solid var(--admin-border); padding: 20px 18px; display: flex; flex-direction: column; gap: 18px; }
     .sidebar-brand { display: flex; gap: 12px; align-items: center; }
-  .brand-mark { width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg, var(--admin-accent), var(--admin-accent-2)); display: grid; place-items: center; font-size: 20px; box-shadow: 0 8px 24px rgba(212, 237, 49, 0.12); }
+  .brand-mark { width: 44px; height: 44px; border-radius: 10px; display: grid; place-items: center; font-size: 20px; }
   .brand-name { font-weight: 800; letter-spacing: -0.01em; color: var(--admin-text); }
   .brand-tag { color: var(--admin-muted); font-size: 13px; }
     .sidebar-nav { display: flex; flex-direction: column; gap: 8px; }

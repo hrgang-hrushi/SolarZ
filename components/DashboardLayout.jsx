@@ -37,7 +37,7 @@ export default function DashboardLayout({ children }) {
     <div className="shell">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-mark" aria-hidden>☀️</div>
+          
           <div>
             <div className="brand-name">Solar Z</div>
             <div className="brand-tag">Investor Dashboard</div>
@@ -126,8 +126,9 @@ export default function DashboardLayout({ children }) {
 
         .brand {
           display: flex;
+          flex-direction: column;
           gap: 12px;
-          align-items: center;
+          align-items: flex-start;
           margin-bottom: 12px;
         }
 
@@ -137,9 +138,7 @@ export default function DashboardLayout({ children }) {
           border-radius: 12px;
           display: grid;
           place-items: center;
-          background: #def83d;
           font-weight: 800;
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
         }
 
         .brand-name {
@@ -163,7 +162,7 @@ export default function DashboardLayout({ children }) {
         }
 
         .nav-link {
-          display: inline-flex;
+          display: flex;
           align-items: center;
           gap: 10px;
           padding: 12px 14px;

@@ -54,14 +54,14 @@ export default function Header() {
     <>
       <header className={`header${scrolled ? ' header--scrolled' : ''}`}>
         <div className="header__inner container">
-          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', textDecoration: 'none', zIndex: 1001, marginLeft: '-90px' }}>
+          <Link href="/" className="header__logo">
             <span className="header__logo-icon">
               <svg width="44" height="44" viewBox="0 0 36 36" fill="none">
                 <circle cx="18" cy="18" r="18" fill="var(--logo-circle-bg, var(--color-lime))" />
                 <path d="M18 10l5 10h-3v6l-6-9h4V10z" fill="var(--logo-path-color, var(--color-dark))" />
               </svg>
             </span>
-            <span style={{ fontSize: '22px', fontWeight: 800, color: '#ffffffff', lineHeight: 1 }}>Solar <span style={{ color: '#c8ee44' }}>Z</span></span>
+            <span className="header__logo-text">Solar <span style={{ color: '#c8ee44' }}>Z</span></span>
           </Link>
 
           <nav className="header__nav-capsule" ref={navRef} onMouseLeave={handleNavLeave} style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
@@ -117,10 +117,10 @@ export default function Header() {
             >
               <span /><span />
             </button>
-            
+
             {isAuthenticated ? (
               <div className="header__user-menu">
-                <button 
+                <button
                   className="header__user-btn"
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                 >
@@ -134,26 +134,26 @@ export default function Header() {
                   <div className="header__dropdown">
                     <Link href="/dashboard" className="header__dropdown-item" onClick={() => setUserMenuOpen(false)}>
                       <span style={{ flexShrink: 0, display: 'flex' }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
                       </span>
                       <span>Dashboard</span>
                     </Link>
                     <Link href="/dashboard/portfolio" className="header__dropdown-item" onClick={() => setUserMenuOpen(false)}>
                       <span style={{ flexShrink: 0, display: 'flex' }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" /><path d="M3 5v14a2 2 0 0 0 2 2h16v-5" /><path d="M18 12a2 2 0 0 0 0 4h4v-4Z" /></svg>
                       </span>
                       <span>Portfolio</span>
                     </Link>
                     <Link href="/dashboard/settings" className="header__dropdown-item" onClick={() => setUserMenuOpen(false)}>
                       <span style={{ flexShrink: 0, display: 'flex' }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
                       </span>
                       <span>Settings</span>
                     </Link>
                     <div className="header__dropdown-divider" />
                     <button className="header__dropdown-item header__dropdown-item--danger" onClick={() => { logout(); setUserMenuOpen(false); }}>
                       <span style={{ flexShrink: 0, display: 'flex' }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
                       </span>
                       <span>Sign out</span>
                     </button>
