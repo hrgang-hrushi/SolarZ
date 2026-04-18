@@ -229,7 +229,7 @@ export default function Header() {
         .header__logo {
           position: absolute;
           top: 0;
-          left: 40px;
+          left: 64px;
           transform: none;
           display: flex;
           align-items: center;
@@ -407,7 +407,7 @@ export default function Header() {
           }
           .header__logo {
             top: 50%;
-            left: 18px;
+            left: 42px;
             transform: translateY(-50%);
             gap: 10px;
           }
