@@ -148,7 +148,7 @@ export default function Hero() {
           color: var(--color-white);
           margin-left: 0;
           padding-left: 40px;
-          padding-right: 0px;
+          padding-right: 24px;
           max-width: 100%;
           width: 100%;
           height: 100%;
@@ -386,12 +386,20 @@ export default function Hero() {
         }
         @media (max-width: 768px) {
           .hero {
-            min-height: 85vh;
-            padding-bottom: 60px;
+            min-height: 92vh;
+            padding-bottom: 28px;
+          }
+          .hero__content {
+            padding-left: 18px;
+            padding-right: 18px;
+            padding-bottom: 28px;
           }
           .hero__title { 
-            font-size: 3.5rem; 
-            margin-bottom: 24px;
+            font-size: clamp(2.35rem, 14vw, 3.25rem);
+            line-height: 0.94;
+            letter-spacing: -0.03em;
+            margin-bottom: 18px;
+            max-width: 100%;
           }
           .hero__bg-text-track {
             font-size: 100px;
@@ -402,12 +410,33 @@ export default function Hero() {
           .hero__content-bottom {
             flex-direction: column;
             align-items: flex-start;
-            gap: 24px;
+            gap: 16px;
           }
-          .hero__subtitle { font-size: var(--font-size-sm); }
-          .hero__actions { 
+          .hero__subtitle-col {
+            max-width: 100%;
+          }
+          .hero__subtitle {
+            font-size: 18px;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.86);
+          }
+          .hero__actions-col {
             width: 100%;
-            justify-content: space-between;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 14px;
+          }
+          .hero__explore-wrap {
+            padding: 5px 5px 5px 18px;
+          }
+          .hero__reviews {
+            margin-right: 0;
+            padding-bottom: 0;
+          }
+          .hero__avatar {
+            width: 34px;
+            height: 34px;
+            margin-left: -10px;
           }
           .hero__framer-badge {
             display: none;

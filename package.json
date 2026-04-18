@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "PORT=${PORT:-3001} next dev -p $PORT",
+    "dev": "next dev -p ${PORT:-3001}",
     "build": "prisma generate && next build",
     "start": "next start -p 3001",
     "db:generate": "prisma generate",
@@ -18,7 +18,7 @@
     "dotenv": "^17.3.1",
     "gsap": "^3.14.2",
     "jsonwebtoken": "^9.0.3",
-    "next": "13.4.7",
+    "next": "^15.5.15",
     "pg": "^8.20.0",
     "prisma": "^5.21.0",
     "react": "18.2.0",

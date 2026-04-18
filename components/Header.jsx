@@ -61,10 +61,13 @@ export default function Header() {
                 <path d="M18 10l5 10h-3v6l-6-9h4V10z" fill="var(--logo-path-color, var(--color-dark))" />
               </svg>
             </span>
-            <span className="header__logo-text">Solar <span style={{ color: '#c8ee44' }}>Z</span></span>
+            <span className="header__logo-text">
+              <span className="header__logo-text-solar">Solar </span>
+              <span className="header__logo-text-z">Z</span>
+            </span>
           </Link>
 
-          <nav className="header__nav-capsule" ref={navRef} onMouseLeave={handleNavLeave} style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+          <nav className="header__nav-capsule" ref={navRef} onMouseLeave={handleNavLeave} style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }}>
             {/* Sliding pill highlight */}
             <div style={{
               position: 'absolute',
@@ -115,7 +118,7 @@ export default function Header() {
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle menu"
             >
-              <span /><span />
+              <span /><span /><span />
             </button>
 
             {isAuthenticated ? (
@@ -218,18 +221,23 @@ export default function Header() {
           --logo-path-color: var(--color-lime);
         }
         .header__inner {
+          position: relative;
           display: flex;
           align-items: center;
           justify-content: space-between;
         }
         .header__logo {
+          position: absolute;
+          top: 0;
+          left: 0;
+          transform: none;
           display: flex;
           align-items: center;
           gap: 12px;
           text-decoration: none;
           color: var(--color-white);
           z-index: 1001;
-          margin-left: -25px;
+          margin-left: 0;
         }
         .header--scrolled .header__logo {
           color: var(--color-dark);
@@ -240,6 +248,12 @@ export default function Header() {
         .header__logo-text {
           font-size: 22px;
           font-weight: 800;
+        }
+        .header__logo-text-solar {
+          color: #ffffff !important;
+        }
+        .header__logo-text-z {
+          color: #c8ee44;
         }
 
         .header__nav-capsule {
@@ -288,49 +302,49 @@ export default function Header() {
         .header__right {
           display: flex;
           align-items: center;
-          gap: 32px;
+          gap: 20px;
         }
-        .header__search-btn {
-          width: 24px;
-          height: 24px;
-          display: flex;
+        .header__hamburger {
+          display: none;
+          width: 44px;
+          height: 44px;
+          padding: 10px;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          border-radius: 12px;
+          cursor: pointer;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
-          color: var(--color-white);
-          background: none;
-          border: none;
-          cursor: pointer;
-          opacity: 0.8;
-          transition: opacity var(--transition-fast);
+          gap: 5px;
+          transition: all 0.2s ease;
         }
-        /* search button removed */
-          }
+        .header__hamburger:hover {
+          background: rgba(255, 255, 255, 0.16);
+        }
+        .header--scrolled .header__hamburger {
+          background: rgba(0, 0, 0, 0.04);
+          border-color: rgba(0, 0, 0, 0.12);
         }
         .header__hamburger span {
           display: block;
+          width: 22px;
           height: 1.5px;
           background: var(--color-white);
           border-radius: 2px;
           transition: all var(--transition-base);
         }
-        .header__hamburger span:last-child {
-          width: 60%;
-          margin-left: auto;
-        }
-        .header--scrolled .header__hamburger span {
-          background: var(--color-dark);
-        }
         .header--scrolled .header__hamburger span {
           background: var(--color-dark);
         }
         .header__hamburger.open span:nth-child(1) {
-          transform: translateY(7px) rotate(45deg);
+          transform: translateY(6.5px) rotate(45deg);
         }
         .header__hamburger.open span:nth-child(2) {
           opacity: 0;
         }
         .header__hamburger.open span:nth-child(3) {
-          transform: translateY(-7px) rotate(-45deg);
+          transform: translateY(-6.5px) rotate(-45deg);
         }
 
         .mobile-menu {
@@ -371,16 +385,54 @@ export default function Header() {
         }
 
         @media (max-width: 1100px) {
+          .header {
+            padding: 16px 0;
+          }
+          .header__inner {
+            min-height: 48px;
+          }
           .header__nav-capsule {
             display: none;
           }
           .header__hamburger {
             display: flex;
           }
+          .header__login-btn {
+            display: none;
+          }
         }
         @media (max-width: 768px) {
+          .header {
+            padding: 12px 0;
+          }
+          .header__inner {
+            min-height: 44px;
+          }
+          .header__logo {
+            top: 50%;
+            transform: translateY(-50%);
+            gap: 10px;
+          }
+          .header__logo-icon :global(svg) {
+            width: 40px;
+            height: 40px;
+          }
+          .header__logo-text {
+            font-size: 20px;
+            line-height: 1;
+          }
           .header__cta {
             display: none;
+          }
+          .header__right {
+            gap: 12px;
+          }
+          .mobile-menu {
+            background: rgba(10, 10, 10, 0.9);
+          }
+          .mobile-menu__link {
+            color: #ffffff;
+            font-size: 30px;
           }
         }
 
