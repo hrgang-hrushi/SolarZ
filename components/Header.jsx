@@ -229,7 +229,7 @@ export default function Header() {
         .header__logo {
           position: absolute;
           top: 0;
-          left: 0;
+          left: 40px;
           transform: none;
           display: flex;
           align-items: center;
@@ -240,10 +240,7 @@ export default function Header() {
           margin-left: 0;
         }
         .header--scrolled .header__logo {
-          color: var(--color-dark);
-        }
-        .header--scrolled .header__logo .header__logo-text {
-          color: var(--color-dark) !important;
+          color: var(--color-white);
         }
         .header__logo-text {
           font-size: 22px;
@@ -410,6 +407,7 @@ export default function Header() {
           }
           .header__logo {
             top: 50%;
+            left: 18px;
             transform: translateY(-50%);
             gap: 10px;
           }
