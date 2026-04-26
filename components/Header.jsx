@@ -229,7 +229,7 @@ export default function Header() {
         .header__logo {
           position: absolute;
           top: 0;
-          left: 64px;
+          left: 36px;
           transform: none;
           display: flex;
           align-items: center;
@@ -243,7 +243,7 @@ export default function Header() {
           color: var(--color-white);
         }
         .header__logo-text {
-          font-size: 22px;
+          font-size: 24px;
           font-weight: 800;
         }
         .header__logo-text-solar {
@@ -407,7 +407,7 @@ export default function Header() {
           }
           .header__logo {
             top: 50%;
-            left: 42px;
+            left: 14px;
             transform: translateY(-50%);
             gap: 10px;
           }
