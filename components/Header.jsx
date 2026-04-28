@@ -57,8 +57,7 @@ export default function Header() {
           <Link href="/" className="header__logo">
             <span className="header__logo-icon">
               <svg width="44" height="44" viewBox="0 0 36 36" fill="none">
-                <circle cx="18" cy="18" r="18" fill="var(--logo-circle-bg, var(--color-lime))" />
-                <path d="M18 10l5 10h-3v6l-6-9h4V10z" fill="var(--logo-path-color, var(--color-dark))" />
+                <path d="M 6 4 H 30 V 9 L 6 23 Z M 30 32 H 6 V 27 L 30 13 Z" fill="var(--logo-circle-bg, var(--color-lime))" />
               </svg>
             </span>
             <span className="header__logo-text">
@@ -229,7 +228,7 @@ export default function Header() {
         .header__logo {
           position: absolute;
           top: 0;
-          left: 36px;
+          left: 40px;
           transform: none;
           display: flex;
           align-items: center;
