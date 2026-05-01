@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { signInWithGooglePopup } from '../lib/firebase-client'
 
 const AuthContext = createContext({})
 
@@ -77,6 +78,35 @@ export function AuthProvider({ children }) {
     return data
   }
 
+  const loginWithGoogle = async () => {
+    if (demoMode) {
+      setUser(demoUser)
+      return { token: 'demo-token', user: demoUser }
+    }
+
+    const credential = await signInWithGooglePopup()
+    const idToken = await credential.user.getIdToken()
+
+    const res = await fetch('/api/auth/firebase-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        idToken,
+        name: credential.user.displayName,
+        phone: credential.user.phoneNumber,
+      })
+    })
+    const data = await safeJson(res)
+
+    if (!res.ok) {
+      throw new Error(data?.error || 'Google sign-in failed')
+    }
+
+    localStorage.setItem('token', data.token)
+    setUser(data.user)
+    return data
+  }
+
   const register = async (name, email, password, phone) => {
     if (demoMode) {
       setUser({ ...demoUser, name: name || demoUser.name, email })
@@ -114,6 +144,7 @@ export function AuthProvider({ children }) {
       user,
       loading,
       login,
+      loginWithGoogle,
       register,
       logout,
       getToken,
@@ -155,9 +186,9 @@ export function withAuth(Component) {
     if (loading) {
       return (
         <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
           minHeight: '60vh' 
         }}>
           <div className="loading-spinner" />

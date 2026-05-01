@@ -1,5 +1,4 @@
-import { getPrisma } from '../../../lib/db'
-import { hashPassword, generateToken } from '../../../lib/auth'
+import { firebaseSignUpWithEmailAndPassword, firebaseUpdateDisplayName, issueAppSessionFromFirebaseToken } from '../../../lib/firebase-auth'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -8,8 +7,6 @@ export default async function handler(req, res) {
 
   try {
     const { email, password, name, phone } = req.body
-    const prisma = getPrisma()
-
     const normalizedEmail = (email || '').trim().toLowerCase()
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -26,58 +23,30 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Password must be at least 8 characters' })
     }
 
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email: normalizedEmail }
-    })
-
-    if (existingUser) {
-      return res.status(400).json({ error: 'User with this email already exists' })
-    }
-
-    // Hash password and create user
-    const hashedPassword = await hashPassword(password)
-    
-    const user = await prisma.user.create({
-      data: {
-        email: normalizedEmail,
-        password: hashedPassword,
-        name,
-        phone: phone || null,
-        kycStatus: 'PENDING',
-        walletBalance: 0,
-        role: 'USER'
-      }
-    })
-
-    // Generate JWT token
-    const token = generateToken({
-      userId: user.id,
-      email: user.email,
-      role: user.role
+    const firebaseResponse = await firebaseSignUpWithEmailAndPassword(normalizedEmail, password)
+    await firebaseUpdateDisplayName(firebaseResponse.idToken, name)
+    const session = await issueAppSessionFromFirebaseToken({
+      idToken: firebaseResponse.idToken,
+      fallbackName: name,
+      fallbackPhone: phone || null,
     })
 
     res.status(201).json({
       message: 'User registered successfully',
-      token,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        kycStatus: user.kycStatus
-      }
+      token: session.token,
+      user: session.user,
     })
 
   } catch (error) {
     console.error('Registration error:', error)
-    if (error?.code === 'P2002') {
-      return res.status(400).json({ error: 'User with this email already exists' })
+    if (error?.message?.includes('Firebase API key')) {
+      return res.status(500).json({ error: 'Firebase is not configured. Set FIREBASE_API_KEY in your environment.' })
     }
-    if (error?.message?.includes('DATABASE_URL')) {
-      return res.status(500).json({ error: 'Database is not configured. Set DATABASE_URL in .env.local.' })
+    if (error?.message?.includes('Firebase Admin credentials')) {
+      return res.status(500).json({ error: 'Firebase Admin is not configured. Set FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY.' })
     }
-    if (error?.code === 'P1001') {
-      return res.status(500).json({ error: 'Cannot reach the database. Is Postgres running and DATABASE_URL correct?' })
+    if (error?.message) {
+      return res.status(400).json({ error: error.message })
     }
     res.status(500).json({ error: 'Internal server error' })
   }

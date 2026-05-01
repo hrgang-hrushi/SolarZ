@@ -1,5 +1,4 @@
-import { getPrisma } from '../../../lib/db'
-import { verifyPassword, generateToken } from '../../../lib/auth'
+import { firebaseSignInWithEmailAndPassword, issueAppSessionFromFirebaseToken } from '../../../lib/firebase-auth'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -20,50 +19,31 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Please provide a valid email address' })
     }
 
-    const prisma = getPrisma()
-
-    // Find user
-    const user = await prisma.user.findUnique({
-      where: { email: normalizedEmail }
-    })
-
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' })
-    }
-
-    // Verify password
-    const isValid = await verifyPassword(password, user.password)
-
-    if (!isValid) {
-      return res.status(401).json({ error: 'Invalid credentials' })
-    }
-
-    // Generate JWT token
-    const token = generateToken({
-      userId: user.id,
-      email: user.email,
-      role: user.role
+    const firebaseResponse = await firebaseSignInWithEmailAndPassword(normalizedEmail, password)
+    const session = await issueAppSessionFromFirebaseToken({
+      idToken: firebaseResponse.idToken,
+      fallbackName: firebaseResponse.displayName,
     })
 
     res.status(200).json({
       message: 'Login successful',
-      token,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        kycStatus: user.kycStatus,
-        role: user.role
-      }
+      token: session.token,
+      user: session.user,
     })
 
   } catch (error) {
     console.error('Login error:', error)
-    if (error?.message?.includes('DATABASE_URL')) {
-      return res.status(500).json({ error: 'Database is not configured. Set DATABASE_URL in .env.local.' })
+    if (error?.message?.includes('Firebase API key')) {
+      return res.status(500).json({ error: 'Firebase is not configured. Set FIREBASE_API_KEY in your environment.' })
+    }
+    if (error?.message?.includes('Firebase Admin credentials')) {
+      return res.status(500).json({ error: 'Firebase Admin is not configured. Set FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY.' })
     }
     if (error?.code === 'P1001') {
       return res.status(500).json({ error: 'Cannot reach the database. Is Postgres running and DATABASE_URL correct?' })
+    }
+    if (error?.message) {
+      return res.status(401).json({ error: error.message })
     }
     res.status(500).json({ error: 'Internal server error' })
   }
