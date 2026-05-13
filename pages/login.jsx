@@ -9,7 +9,7 @@ export default function Login() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
-  const { login, loginWithGoogle } = useAuth()
+  const { login, loginWithGoogle, canUseGoogleAuth } = useAuth()
   const router = useRouter()
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -133,7 +133,8 @@ export default function Login() {
                   setGoogleLoading(false)
                 }
               }}
-              disabled={googleLoading || loading}
+              disabled={googleLoading || loading || !canUseGoogleAuth}
+              title={!canUseGoogleAuth ? 'Google sign-in is unavailable right now' : undefined}
             >
               {googleLoading ? (
                 <span className="btn-loading btn-loading--social">

@@ -14,7 +14,7 @@ export default function Register() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
-  const { register, loginWithGoogle } = useAuth()
+  const { register, loginWithGoogle, canUseGoogleAuth } = useAuth()
   const router = useRouter()
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -204,7 +204,8 @@ export default function Register() {
                   setGoogleLoading(false)
                 }
               }}
-              disabled={googleLoading || loading}
+              disabled={googleLoading || loading || !canUseGoogleAuth}
+              title={!canUseGoogleAuth ? 'Google sign-in is unavailable right now' : undefined}
             >
               {googleLoading ? (
                 <span className="btn-loading btn-loading--social">

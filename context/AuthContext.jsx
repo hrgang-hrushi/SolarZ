@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { signInWithGooglePopup } from '../lib/firebase-client'
+import { hasFirebaseClientConfig, signInWithGooglePopup } from '../lib/firebase-client'
 
 const AuthContext = createContext({})
 
@@ -9,6 +9,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const demoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true'
+  const canUseGoogleAuth = demoMode || hasFirebaseClientConfig()
 
   const demoUser = {
     id: 'demo-admin',
@@ -84,6 +85,10 @@ export function AuthProvider({ children }) {
       return { token: 'demo-token', user: demoUser }
     }
 
+    if (!canUseGoogleAuth) {
+      throw new Error('Google sign-in is unavailable until NEXT_PUBLIC_FIREBASE_API_KEY, NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN, and NEXT_PUBLIC_FIREBASE_PROJECT_ID are set.')
+    }
+
     const credential = await signInWithGooglePopup()
     const idToken = await credential.user.getIdToken()
 
@@ -148,6 +153,7 @@ export function AuthProvider({ children }) {
       register,
       logout,
       getToken,
+      canUseGoogleAuth,
       isAuthenticated: !!user
     }}>
       {children}
