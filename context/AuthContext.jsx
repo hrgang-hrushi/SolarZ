@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { getGoogleRedirectCredential, hasFirebaseClientConfig, signInWithGoogleRedirect } from '../lib/firebase-client'
+import { getCurrentFirebaseUser, getGoogleRedirectCredential, hasFirebaseClientConfig, signInWithGoogleRedirect } from '../lib/firebase-client'
 
 const AuthContext = createContext({})
 
@@ -34,7 +34,15 @@ export function AuthProvider({ children }) {
       try {
         const credential = await getGoogleRedirectCredential()
         if (credential?.user) {
-          await issueGoogleSession(credential)
+          await issueGoogleSession(credential.user)
+          setLoading(false)
+          router.replace('/dashboard')
+          return
+        }
+
+        const firebaseUser = await getCurrentFirebaseUser()
+        if (firebaseUser && !localStorage.getItem('token')) {
+          await issueGoogleSession(firebaseUser)
           setLoading(false)
           router.replace('/dashboard')
           return
@@ -115,16 +123,16 @@ export function AuthProvider({ children }) {
     }
   }
 
-  const issueGoogleSession = async (credential) => {
-    const idToken = await credential.user.getIdToken()
+  const issueGoogleSession = async (firebaseUser) => {
+    const idToken = await firebaseUser.getIdToken()
 
     const res = await fetch('/api/auth/firebase-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         idToken,
-        name: credential.user.displayName,
-        phone: credential.user.phoneNumber,
+        name: firebaseUser.displayName,
+        phone: firebaseUser.phoneNumber,
       })
     })
     const data = await safeJson(res)
