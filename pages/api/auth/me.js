@@ -1,5 +1,6 @@
 import prisma from '../../../lib/db'
 import { withAuth } from '../../../lib/auth'
+import { isDatabaseUnavailable } from '../../../lib/firebase-auth'
 
 async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -29,6 +30,20 @@ async function handler(req, res) {
 
   } catch (error) {
     console.error('Get user error:', error)
+    if (isDatabaseUnavailable(error)) {
+      return res.status(200).json({
+        user: {
+          id: req.user.userId,
+          email: req.user.email,
+          name: req.user.email?.split('@')[0] || 'User',
+          phone: null,
+          kycStatus: 'PENDING',
+          walletBalance: 0,
+          role: req.user.role || 'USER',
+        },
+      })
+    }
+
     res.status(500).json({ error: 'Internal server error' })
   }
 }
