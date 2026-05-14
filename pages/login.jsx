@@ -124,9 +124,11 @@ export default function Login() {
                 setError('')
                 setGoogleLoading(true)
                 try {
-                  await loginWithGoogle()
-                  const redirect = router.query.redirect || '/dashboard'
-                  router.push(redirect)
+                  const result = await loginWithGoogle()
+                  if (!result?.redirecting) {
+                    const redirect = router.query.redirect || '/dashboard'
+                    router.push(redirect)
+                  }
                 } catch (err) {
                   setError(err.message)
                 } finally {

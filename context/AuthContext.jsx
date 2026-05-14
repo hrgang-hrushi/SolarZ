@@ -35,6 +35,7 @@ export function AuthProvider({ children }) {
         const credential = await getGoogleRedirectCredential()
         if (credential?.user) {
           await issueGoogleSession(credential)
+          setLoading(false)
           router.replace('/dashboard')
           return
         }

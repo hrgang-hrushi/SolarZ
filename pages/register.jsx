@@ -196,8 +196,10 @@ export default function Register() {
                 setError('')
                 setGoogleLoading(true)
                 try {
-                  await loginWithGoogle()
-                  router.push('/dashboard')
+                  const result = await loginWithGoogle()
+                  if (!result?.redirecting) {
+                    router.push('/dashboard')
+                  }
                 } catch (err) {
                   setError(err.message)
                 } finally {
