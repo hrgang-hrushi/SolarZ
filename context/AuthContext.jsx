@@ -41,7 +41,7 @@ export function AuthProvider({ children }) {
         }
 
         const firebaseUser = await getCurrentFirebaseUser()
-        if (firebaseUser && !localStorage.getItem('token')) {
+        if (firebaseUser) {
           await issueGoogleSession(firebaseUser)
           setLoading(false)
           router.replace('/dashboard')
@@ -116,6 +116,7 @@ export function AuthProvider({ children }) {
     }
 
     try {
+      localStorage.removeItem('token')
       await signInWithGoogleRedirect()
       return { redirecting: true }
     } catch (error) {
