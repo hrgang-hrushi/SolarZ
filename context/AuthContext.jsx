@@ -167,7 +167,16 @@ async function safeJson(res) {
   if (contentType.includes('application/json')) {
     return res.json()
   }
+
+  if (contentType.includes('text/html')) {
+    return { error: 'Server error. Please try again in a moment.' }
+  }
+
   const text = await res.text()
+  if (text.trim().startsWith('<!DOCTYPE html') || text.trim().startsWith('<html')) {
+    return { error: 'Server error. Please try again in a moment.' }
+  }
+
   try {
     return JSON.parse(text)
   } catch (e) {
