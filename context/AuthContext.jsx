@@ -20,8 +20,9 @@ export function AuthProvider({ children }) {
 
   // Check for existing session on mount
   useEffect(() => {
+    if (!router.isReady) return
     initializeAuth()
-  }, [])
+  }, [router.isReady])
 
   const initializeAuth = async () => {
     if (demoMode) {
@@ -30,7 +31,9 @@ export function AuthProvider({ children }) {
       return
     }
 
-    if (canUseGoogleAuth) {
+    const isAuthPage = router.pathname === '/login' || router.pathname === '/register'
+
+    if (canUseGoogleAuth && isAuthPage) {
       try {
         const credential = await getGoogleRedirectCredential()
         if (credential?.user) {
