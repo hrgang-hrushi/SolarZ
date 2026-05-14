@@ -249,6 +249,7 @@ export default function Register() {
           padding: 40px;
           width: 100%;
           max-width: 480px;
+          box-sizing: border-box;
           box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
         }
 
@@ -299,6 +300,10 @@ export default function Register() {
           font-size: 14px;
         }
 
+        .auth-error svg {
+          flex: 0 0 auto;
+        }
+
         .auth-form {
           display: flex;
           flex-direction: column;
@@ -309,6 +314,7 @@ export default function Register() {
           display: flex;
           flex-direction: column;
           gap: 6px;
+          min-width: 0;
         }
 
         .form-group label {
@@ -318,6 +324,8 @@ export default function Register() {
         }
 
         .form-group input {
+          width: 100%;
+          box-sizing: border-box;
           padding: 12px 16px;
           border: 1px solid #e2e8f0;
           border-radius: 8px;
@@ -333,7 +341,7 @@ export default function Register() {
 
         .form-row {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
           gap: 12px;
         }
 

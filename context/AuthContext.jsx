@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { hasFirebaseClientConfig, signInWithGooglePopup } from '../lib/firebase-client'
+import { getGoogleRedirectCredential, hasFirebaseClientConfig, signInWithGoogleRedirect } from '../lib/firebase-client'
 
 const AuthContext = createContext({})
 
@@ -20,16 +20,33 @@ export function AuthProvider({ children }) {
 
   // Check for existing session on mount
   useEffect(() => {
-    checkAuth()
+    initializeAuth()
   }, [])
 
-  const checkAuth = async () => {
+  const initializeAuth = async () => {
     if (demoMode) {
       setUser(demoUser)
       setLoading(false)
       return
     }
 
+    if (canUseGoogleAuth) {
+      try {
+        const credential = await getGoogleRedirectCredential()
+        if (credential?.user) {
+          await issueGoogleSession(credential)
+          router.replace('/dashboard')
+          return
+        }
+      } catch (error) {
+        console.error('Google redirect sign-in failed:', error)
+      }
+    }
+
+    await checkAuth()
+  }
+
+  const checkAuth = async () => {
     const token = localStorage.getItem('token')
     if (!token) {
       setLoading(false)
@@ -86,10 +103,18 @@ export function AuthProvider({ children }) {
     }
 
     if (!canUseGoogleAuth) {
-      throw new Error('Google sign-in is unavailable until NEXT_PUBLIC_FIREBASE_API_KEY, NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN, and NEXT_PUBLIC_FIREBASE_PROJECT_ID are set.')
+      throw new Error('Google sign-in is unavailable right now.')
     }
 
-    const credential = await signInWithGooglePopup()
+    try {
+      await signInWithGoogleRedirect()
+      return { redirecting: true }
+    } catch (error) {
+      throw new Error(getFriendlyAuthError(error))
+    }
+  }
+
+  const issueGoogleSession = async (credential) => {
     const idToken = await credential.user.getIdToken()
 
     const res = await fetch('/api/auth/firebase-session', {
@@ -181,6 +206,20 @@ async function safeJson(res) {
     return JSON.parse(text)
   } catch (e) {
     return { error: text || 'Unexpected response' }
+  }
+}
+
+function getFriendlyAuthError(error) {
+  switch (error?.code) {
+    case 'auth/popup-blocked':
+    case 'auth/cancelled-popup-request':
+      return 'Google sign-in was blocked. Please try again.'
+    case 'auth/popup-closed-by-user':
+      return 'Google sign-in was closed before it finished.'
+    case 'auth/unauthorized-domain':
+      return 'Google sign-in is not enabled for this website yet.'
+    default:
+      return error?.message || 'Google sign-in failed. Please try again.'
   }
 }
 
