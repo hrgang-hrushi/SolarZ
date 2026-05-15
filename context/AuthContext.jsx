@@ -1,6 +1,12 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { getCurrentFirebaseUser, getGoogleRedirectCredential, hasFirebaseClientConfig, signInWithGoogleRedirect } from '../lib/firebase-client'
+import {
+  getCurrentFirebaseUser,
+  getGoogleRedirectCredential,
+  hasFirebaseClientConfig,
+  signInWithGooglePopup,
+  signInWithGoogleRedirect,
+} from '../lib/firebase-client'
 
 const AuthContext = createContext({})
 const GOOGLE_PENDING_KEY = 'solarz_google_sign_in_pending'
@@ -131,6 +137,20 @@ export function AuthProvider({ children }) {
       localStorage.removeItem('token')
       setSessionItem(GOOGLE_PENDING_KEY, 'true')
       setSessionItem(GOOGLE_REDIRECT_KEY, getSafeRedirectPath(router.query.redirect))
+
+      try {
+        const credential = await signInWithGooglePopup()
+        if (credential?.user) {
+          clearGoogleRedirectState()
+          return issueGoogleSession(credential.user)
+        }
+      } catch (popupError) {
+        if (!isPopupFallbackError(popupError)) {
+          clearGoogleRedirectState()
+          throw popupError
+        }
+      }
+
       await signInWithGoogleRedirect()
       return { redirecting: true }
     } catch (error) {
@@ -246,6 +266,14 @@ function getFriendlyAuthError(error) {
     default:
       return error?.message || 'Google sign-in failed. Please try again.'
   }
+}
+
+function isPopupFallbackError(error) {
+  return [
+    'auth/popup-blocked',
+    'auth/cancelled-popup-request',
+    'auth/popup-closed-by-user',
+  ].includes(error?.code)
 }
 
 function getSessionItem(key) {
