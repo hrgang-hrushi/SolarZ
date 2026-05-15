@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import { getCurrentFirebaseUser, getGoogleRedirectCredential, hasFirebaseClientConfig, signInWithGoogleRedirect } from '../lib/firebase-client'
 
 const AuthContext = createContext({})
+const GOOGLE_PENDING_KEY = 'solarz_google_sign_in_pending'
+const GOOGLE_REDIRECT_KEY = 'solarz_google_redirect_after'
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
@@ -33,25 +35,32 @@ export function AuthProvider({ children }) {
 
     const isAuthPage = router.pathname === '/login' || router.pathname === '/register'
 
-    if (canUseGoogleAuth && isAuthPage) {
+    const pendingGoogleSignIn = getSessionItem(GOOGLE_PENDING_KEY) === 'true'
+
+    if (canUseGoogleAuth && isAuthPage && pendingGoogleSignIn) {
       try {
         const credential = await getGoogleRedirectCredential()
         if (credential?.user) {
           await issueGoogleSession(credential.user)
+          const redirectAfterLogin = getSessionItem(GOOGLE_REDIRECT_KEY) || '/dashboard'
+          clearGoogleRedirectState()
           setLoading(false)
-          router.replace('/dashboard')
+          router.replace(redirectAfterLogin)
           return
         }
 
         const firebaseUser = await getCurrentFirebaseUser()
         if (firebaseUser) {
           await issueGoogleSession(firebaseUser)
+          const redirectAfterLogin = getSessionItem(GOOGLE_REDIRECT_KEY) || '/dashboard'
+          clearGoogleRedirectState()
           setLoading(false)
-          router.replace('/dashboard')
+          router.replace(redirectAfterLogin)
           return
         }
       } catch (error) {
         console.error('Google redirect sign-in failed:', error)
+        clearGoogleRedirectState()
       }
     }
 
@@ -120,9 +129,12 @@ export function AuthProvider({ children }) {
 
     try {
       localStorage.removeItem('token')
+      setSessionItem(GOOGLE_PENDING_KEY, 'true')
+      setSessionItem(GOOGLE_REDIRECT_KEY, getSafeRedirectPath(router.query.redirect))
       await signInWithGoogleRedirect()
       return { redirecting: true }
     } catch (error) {
+      clearGoogleRedirectState()
       throw new Error(getFriendlyAuthError(error))
     }
   }
@@ -234,6 +246,39 @@ function getFriendlyAuthError(error) {
     default:
       return error?.message || 'Google sign-in failed. Please try again.'
   }
+}
+
+function getSessionItem(key) {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  return window.sessionStorage.getItem(key)
+}
+
+function setSessionItem(key, value) {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  window.sessionStorage.setItem(key, value)
+}
+
+function clearGoogleRedirectState() {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  window.sessionStorage.removeItem(GOOGLE_PENDING_KEY)
+  window.sessionStorage.removeItem(GOOGLE_REDIRECT_KEY)
+}
+
+function getSafeRedirectPath(value) {
+  if (typeof value !== 'string' || !value.startsWith('/') || value.startsWith('//')) {
+    return '/dashboard'
+  }
+
+  return value
 }
 
 export const useAuth = () => useContext(AuthContext)
